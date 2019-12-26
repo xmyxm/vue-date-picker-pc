@@ -22,7 +22,6 @@ export default {
   },
   methods: {
     selected(e) {
-      e.stopPropagation();
       if (this.initData && this.initData.tapClick) {
         this.initData.tapClick(e);
       }

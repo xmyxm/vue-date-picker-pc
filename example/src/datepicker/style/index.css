@@ -221,19 +221,7 @@
 .normalList {
     background: #fff;
 }
-.normalCell,
-.weeknormalDisabledCell,
-.weeknormalActiveCell,
-.normalActiveCell,
-.normalDisabledCell,
-.normalCurrentCell {
-    width: 25%;
-    margin-bottom: 10px;
-    padding: 5px 0;
-    text-align: center;
-    line-height: 1em;
-    cursor: pointer;
-}
+
 .normalActiveCell {
     color: #fff;
     background-color: #118bfb;
@@ -442,17 +430,7 @@
 .monthRightHandleBtn {
     float: right;
 }
-.weeknormalListInner {
-    height: 6rem;
-    overflow: scroll;
-}
-.weekdateRande {
-    width: 100%;
-    transform: scale(0.8);
-    white-space: nowrap;
-    padding: 0 !important;
-    margin: 0;
-}
+
 .holidayItemWrap {
     display: inline-block;
     text-align: center;
@@ -486,6 +464,24 @@
     border: none;
 }
 
+.header,.weekList, .dayList, .commonHandle {
+    background: #fff;
+    position: relative;
+    z-index: 15;
+    font-size: 12px;
+}
+
+
+/**节假日选择**/
+.holidaynormalListInner{
+    text-align: left;
+}
+/****/
+
+
+
+
+/**********************************  week  ********************************/
 .weeknormalList {
     margin: 15px 8px;
 }
@@ -493,12 +489,13 @@
     margin-bottom: -10px;
 }
 .weeknormalListInner {
-    height: 350px;
+    height: 330px;
     overflow: scroll;
+    text-align: left;
 }
 
 .weeknormalListInner .normalCell{
-    font-size: 13px; 
+    font-size: 12px; 
 }
 
 .weekdateRande {
@@ -534,16 +531,16 @@
 .weeknormalActiveCell:hover {
     background-color: #3dd5b0;
 }
-.header,.weekList, .dayList, .commonHandle {
-    background: #fff;
-    position: relative;
-    z-index: 15;
-    font-size: 12px;
+.normalCell,
+.weeknormalDisabledCell,
+.weeknormalActiveCell,
+.normalActiveCell,
+.normalDisabledCell,
+.normalCurrentCell {
+    width: 25%;
+    padding: 5px 0;
+    text-align: center;
+    line-height: 1em;
+    cursor: pointer;
 }
-
-
-/**节假日选择**/
-.holidaynormalListInner{
-    text-align: left;
-}
-/****/
+/***************************************************************************/

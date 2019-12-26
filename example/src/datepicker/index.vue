@@ -84,10 +84,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    showKeyList: {
-      type: Array,
-      default() { return ['day', 'week', 'month', 'quarter', 'year', 'festival', 'optional']; },
-    },
     buttonKey: {
       type: String,
       default: 'day',

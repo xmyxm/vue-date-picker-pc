@@ -8,25 +8,29 @@
       </header>
     </div>
     <div
-      @click="onOff"
-      ref="timebox"
+      @click="onOff(dateConfig)"
       class="datetext"
     >
       <div class="attr">日期选择: </div>
       <div class="ipt">
         {{dateText}}
-        <date-picker v-bind="timeData"></date-picker>
+        <date-picker v-bind="dateConfig"></date-picker>
       </div>
-      <i :class="timeData.open ? 'open top' : 'open'"></i>
-
+      <i :class="dateConfig.open ? 'open top' : 'open'"></i>
+    </div>
+    <div
+      @click="onOff(weekConfig)"
+      class="datetext">
+        <div class="attr">自然周选择: </div>
+        <div class="ipt">
+          {{dateText}}
+          <date-picker v-bind="weekConfig"></date-picker>
+        </div>
+        <i :class="weekConfig.open ? 'open top' : 'open'"></i>
     </div>
      <!-- <div class="datetext">
-        自然周选择: {{dateText}}
-      <i :class="timeData.open ? 'open top' : 'open'"></i>
-     </div>
-     <div class="datetext">
         业务周选择: {{dateText}}
-      <i :class="timeData.open ? 'open top' : 'open'"></i>
+      <i :class="dateConfig.open ? 'open top' : 'open'"></i>
      </div> -->
   </div>
 </template>
@@ -44,8 +48,38 @@ export default {
     return {
       title: '日历组件',
       dateText: this.getDate(),
-      timeData: {
-        showKeyList: ['day', 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
+      dateConfig: {
+        buttonKey: 'day', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
+        open: false,
+        top: 0,
+        year: 2019,
+        quarter: 3,
+        month: 9,
+        week: 32,
+        endDate: new Date(),
+        title: '国庆',
+        dateRange: { startDate: new Date('2019-10-1'), endDate: new Date('2019-10-5') },
+        value: this.getYearMonthDay(),
+        onSus: this.onSusFun,
+      },
+
+      weekConfig: {
+        buttonKey: 'week', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
+        open: false,
+        top: 0,
+        year: 2019,
+        quarter: 3,
+        month: 9,
+        week: 32,
+        endDate: new Date(),
+        title: '国庆',
+        dateRange: { startDate: new Date('2019-10-1'), endDate: new Date('2019-10-5') },
+        value: this.getYearMonthDay(),
+        onSus: this.onSusFun,
+      },
+
+      optionWeekConfig: {
+        buttonKey: 'optionWeek', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
         open: false,
         top: 0,
         year: 2019,
@@ -71,39 +105,34 @@ export default {
     getYearMonthDay() {
       return new Date(this.getDate());
     },
-    onOff() {
-      this.timeData.open = !this.timeData.open;
-      if (this.timeData.open) {
-        const timebox = this.$refs.timebox;
-        const timeboxPosition = timebox.getBoundingClientRect();
-        const height = timeboxPosition.y + timeboxPosition.height;
-        this.timeData.top = height;
-      }
+    onOff(data) {
+      // @ts-ignore
+      data.open = !data.open;
     },
     onSusFun(data) {
-      this.timeData.open = false;
+      this.dateConfig.open = false;
       this.dateText = data.fetchDate;
       if (data.year) {
-        this.timeData.year = data.year;
+        this.dateConfig.year = data.year;
       }
       switch (data.key) {
         case 'day':
-          this.timeData.value = data.value;
+          this.dateConfig.value = data.value;
           break;
         case 'week':
-          this.timeData.week = data.week;
+          this.dateConfig.week = data.week;
           break;
         case 'month':
-          this.timeData.month = data.month;
+          this.dateConfig.month = data.month;
           break;
         case 'quarter':
-          this.timeData.quarter = data.quarter;
+          this.dateConfig.quarter = data.quarter;
           break;
         case 'festival':
-          this.timeData.title = data.navName;
+          this.dateConfig.title = data.navName;
           break;
         case 'optional':
-          this.timeData.dateRange = { startDate: data.startDate, endDate: data.endDate };
+          this.dateConfig.dateRange = { startDate: data.startDate, endDate: data.endDate };
           break;
       }
       console.log(data.key, data);
@@ -177,11 +206,14 @@ export default {
   justify-content: flex-start;
   align-items: center;
   font-size: 14px;
-  padding-left: 500px;
+  padding-left: 50px;
+  margin-bottom: 20px;
 }
 
 .datetext .attr {
   color: #000;
+  width: 80px;
+  text-align: left;
 }
 
 .datetext .ipt {
