@@ -1,5 +1,5 @@
 <template>
-  <el-mask v-if="openNext" :top="topNext" :on-cancel="onClose" >
+  <el-mask v-if="openNext" :top="topNext" :on-cancel="onClose">
     <Calendar v-if="buttonKeyNext == 'day'" v-bind="dayConfig" :disabled="disabledWeek" ></Calendar>
     <Month v-if="buttonKeyNext == 'month'" v-bind="monthConfig" :disabled="disabledWeek"></Month>
     <Week v-if="buttonKeyNext == 'week'" v-bind="weekConfig" :disabled="disabledWeek"></Week>

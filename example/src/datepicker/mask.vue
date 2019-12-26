@@ -1,5 +1,5 @@
 <template>
-  <div class="mask" v-bind:style="{top: topHeight + 'px'}" @click="close($event)" >
+  <div class="mask" v-bind:style="{top: topHeight + 'px'}" @click="eventStop($event)" >
     <div class="maskInner">
       <slot></slot>
     </div>
@@ -27,10 +27,8 @@ export default {
     },
   },
   methods: {
-    close(event) {
-      if (event.target && event.target.className == 'mask') {
-        this.onCancel();
-      }
+    eventStop(event) {
+      event.stopPropagation();
     },
   },
 };
@@ -42,11 +40,12 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     bottom: 0;
-    width: 230px;
-    min-height: 350px;
-    background-color: rgba(153, 153, 153, 0.8);
+    width: 280px;
+    min-height: 330px;
     z-index: 10;
     overflow: hidden;
+    border: 1px solid #e4e7ed;
+    border-radius: 4px;
 }
 
 .mask .maskInner {

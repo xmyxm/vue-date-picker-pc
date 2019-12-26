@@ -6,7 +6,7 @@
           <div
             :title="locale.lang[lang].btns[0]"
             class="btn"
-            @touchend="handleDateCalc('-1', 'year')"
+            @click="handleDateCalc('-1', 'year')"
           >
             <div class="iconBtn">
               <Icon :type="btnsNext.BTN_MINUS_YEAR" />
@@ -15,7 +15,7 @@
           <div
             :title="locale.lang[lang].btns[1]"
             class="btn"
-            @touchend="handleDateCalc('-1', 'month')"
+            @click="handleDateCalc('-1', 'month')"
           >
             <div class="iconBtn">
               <Icon :type="btnsNext.BTN_MINUS_MONTH" />
@@ -30,7 +30,7 @@
           <div
             :title="locale.lang[lang].btns[2]"
             class="rightBtn"
-            @touchend="handleDateCalc('+1', 'month')"
+            @click="handleDateCalc('+1', 'month')"
           >
             <div class="iconBtn">
               <Icon :type="btnsNext.BTN_PLUS_MONTH" />
@@ -39,7 +39,7 @@
           <div
             :title="locale.lang[lang].btns[3]"
             class="rightBtn"
-            @touchend="handleDateCalc('+1', 'year')"
+            @click="handleDateCalc('+1', 'year')"
           >
             <div class="iconBtn">
               <Icon :type="btnsNext.BTN_PLUS_YEAR" />
@@ -60,52 +60,33 @@
 
       <!-- 日期单元 -->
       <div class="dayList">
-        <Tap
+        <div
           v-for="dayData in dayListData"
-          :class="dayData.status"
-          :init-data="dayData"
           :key="`${dayData.year}${dayData.month}${dayData.val}`"
+          :class="dayData.status"
+          @click="handleChooseDay(dayData)"
         >
           <span class="dayItemVal">{{dayData.val}}</span>
           <p class="vicationWrap" :title="dayData.lDay">{{dayData.lDay}}</p>
           <p v-if="dayData.holiday" class="holidayWrap">假</p>
           <p v-if="dayData.work" class="workWrap">班</p>
-        </Tap>
+        </div>
       </div>
 
-      <!-- 渲染日历脚(clock相关) -->
-      <div v-if="enableClock" class="footer">
-        <Clock
-          v-bind="maskSpec"
-          :time="startDate"
-          disable-clock="handleDisableClockFun"
-          on-change="handleClockChangedFun"
-        />
-      </div>
-
-      <common-handle v-if="delayChange" />
     </div>
 </template>
 
 <script>
 import absoluteCalc from './lib/absolute-calc';
-import { dayConverters, cloneClockToDate } from './lib/day-converters';
+import { dayConverters } from './lib/day-converters';
 import tools from './lib/tools';
 import conf from './lib/config';
-import Clock from './clock';
 import Icon from './icon';
-import Swipe from './swipe';
-import Tap from './tap';
-import CommonHandle from './commonhandle';
 
 export default {
   name: 'Calendar',
   components: {
-    Clock,
-    Swipe,
     Icon,
-    Tap,
-    'common-handle': CommonHandle,
   },
   props: {
     // 多语言，'zh' 或 'en'
@@ -129,11 +110,6 @@ export default {
     },
     // 范围模式
     enableRange: {
-      type: Boolean,
-      default: false,
-    },
-    // 启用时钟
-    enableClock: {
       type: Boolean,
       default: false,
     },
@@ -166,11 +142,6 @@ export default {
     lunar: {
       type: Boolean,
       default: false,
-    },
-    // 是否点击后直接回调
-    delayChange: {
-      type: Boolean,
-      default: true,
     },
     // 展示的日期
     displayDate: {
@@ -231,12 +202,6 @@ export default {
       validCache: false,
       // disabledCheck: null,
       startDate: null,
-      handleClockChangedFun(clockObj) {
-        this.handleClockChanged(clockObj);
-      },
-      handleDisableClockFun(hour, minute) {
-        this.handleDisableClock(hour, minute);
-      },
       handleCancelMaskFun() {
         this.handleCancelMask();
       },
@@ -270,9 +235,6 @@ export default {
     disabledNext() {
       return this.parseDisabledParam();
     },
-    disabledCheckNext() {
-      return tools.disabledCheckCreator(this.disabledNext);
-    },
     maskSpec() {
       return {
         lang: this.lang,
@@ -285,7 +247,6 @@ export default {
       const { displayDateNext, enableRange, startDate, endDate, disabled, validCache, cache, enablefix, lunar } = this;
       const dateVal = tools.parseDate(displayDateNext);
       const _endDate = enableRange ? (endDate || startDate) : startDate;
-
       const dayList = dayConverters(
         {
           month: dateVal.month,
@@ -300,9 +261,6 @@ export default {
         enablefix,
         lunar,
       );
-      dayList.forEach((item) => {
-        item.tapClick = this.handleChooseDay.bind(this, item);
-      });
       return dayList;
     },
   },
@@ -496,18 +454,16 @@ export default {
         this.startDate = targetDate;
       }
       this.displayDateNext = new Date(targetDate.toGMTString());
-      if (!this.delayChange) {
-        if (this.onSelected) {
-          const choosedDateStr = tools.dateFormat(this.format, targetDate);
-          this.onSelected(
-            tools.cloneDate(targetDate),
-            choosedDateStr,
-          );
-        }
-        this.$nextTick(function () {
-          this.triggerChangeEvt();
-        });
+      if (this.onSelected) {
+        const choosedDateStr = tools.dateFormat(this.format, targetDate);
+        this.onSelected(
+          tools.cloneDate(targetDate),
+          choosedDateStr,
+        );
       }
+      this.$nextTick(function () {
+        this.triggerChangeEvt();
+      });
     },
 
     prevChange() {
@@ -523,22 +479,6 @@ export default {
 
     handleCancelMask() {
       this.tmpStatus = this.MODE.CALENDAR;
-    },
-
-    handleDisableClock(hour, minute) {
-      let { startDate, endDate, enableRange } = this;
-      if (startDate) {
-        startDate = cloneClockToDate(startDate, { hour, minute, second: 0, milliseconds: 0 });
-      }
-      if (endDate) {
-        endDate = cloneClockToDate(endDate, { hour, minute, second: 0, milliseconds: 0 });
-      }
-      if (enableRange) {
-        const startFlag = startDate ? this.disabledCheckNext(startDate) : false;
-        const endFlag = endDate ? this.disabledCheckNext(endDate) : false;
-        return startFlag || endFlag;
-      }
-      return startDate ? this.disabledCheckNext(startDate) : false;
     },
 
     // 时间的更改
@@ -563,22 +503,6 @@ export default {
         });
       }
     },
-
-    onCancel() {
-      this.onClose();
-    },
-
-    onSure() {
-      if (this.onSelected) {
-        const choosedDateStr = tools.dateFormat(this.format, this.startDate);
-        this.onSelected(
-          tools.cloneDate(this.startDate),
-          choosedDateStr,
-        );
-      }
-      this.triggerChangeEvt();
-    },
   },
 };
 </script>
-
