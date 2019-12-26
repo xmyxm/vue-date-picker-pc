@@ -205,18 +205,15 @@ export default {
     handleChooseWeek(data, e) {
       if (data.disabled) return;
 
-      const target = e.currentTarget;
-      const week = parseInt(target.getAttribute('data-week'), 10);
+      const week = data.number;
       const { showYear } = this;
       if (this.selectWeek !== week || this.selectYear !== showYear) {
-        const monday = target.getAttribute('data-monday');
-        const sunday = target.getAttribute('data-sunday');
         this.selectWeek = week;
         this.selectYear = this.showYear;
         this.value = {
           week: this.selectWeek,
-          monday,
-          sunday,
+          monday: data.monday,
+          sunday: data.sunday,
         };
         this.onChange(this.value);
       }
