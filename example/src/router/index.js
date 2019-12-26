@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Calendar from '@/components/Calendar';
+import index from '@/components/index';
 
 Vue.use(Router);
 
@@ -9,7 +9,7 @@ export default new Router({
     {
       path: '/',
       name: 'Calendar',
-      component: Calendar,
+      component: index,
     },
   ],
 });

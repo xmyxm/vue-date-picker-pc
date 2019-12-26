@@ -1,5 +1,5 @@
 <template>
-  <div class="mask" v-bind:style="{top: topHeight + 'px'}" @click="eventStop($event)" >
+  <div class="mask" ref="mask" @click="eventStop($event)" >
     <div class="maskInner">
       <slot></slot>
     </div>
@@ -26,6 +26,26 @@ export default {
       return this.top;
     },
   },
+  mounted() {
+    const maskEle = this.$refs.mask;
+    const parentPosition = maskEle.parentElement.getBoundingClientRect();
+    const maskPosition = maskEle.getBoundingClientRect();
+    const winWidth = window.innerWidth;
+    const winHeight = window.innerHeight;
+    if (winWidth - parentPosition.left >= maskPosition.width) {
+      maskEle.style.left = 0;
+    } else if (parentPosition.left - parentPosition.width >= maskPosition.width) {
+      maskEle.style.right = 0;
+    } else {
+      maskEle.style.left = '50%';
+      maskEle.style.transform = 'translateX(-50%)';
+    }
+    if (winHeight - parentPosition.height - parentPosition.top >= maskPosition.height || parentPosition.top < maskPosition.height) {
+      maskEle.style.top = parentPosition.height;
+    } else {
+      maskEle.style.bottom = -230;
+    }
+  },
   methods: {
     eventStop(event) {
       event.stopPropagation();
@@ -37,9 +57,6 @@ export default {
 <style scoped>
 .mask {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 0;
     width: 280px;
     min-height: 330px;
     z-index: 10;

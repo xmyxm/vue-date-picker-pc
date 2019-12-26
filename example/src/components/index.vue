@@ -12,10 +12,22 @@
       ref="timebox"
       class="datetext"
     >
-      {{dateText}}
+      <div class="attr">日期选择: </div>
+      <div class="ipt">
+        {{dateText}}
+        <date-picker v-bind="timeData"></date-picker>
+      </div>
       <i :class="timeData.open ? 'open top' : 'open'"></i>
-      <date-picker v-bind="timeData"></date-picker>
+
     </div>
+     <!-- <div class="datetext">
+        自然周选择: {{dateText}}
+      <i :class="timeData.open ? 'open top' : 'open'"></i>
+     </div>
+     <div class="datetext">
+        业务周选择: {{dateText}}
+      <i :class="timeData.open ? 'open top' : 'open'"></i>
+     </div> -->
   </div>
 </template>
 
@@ -141,18 +153,14 @@ export default {
   height: 44px;
 }
 
-.calendar-box .mask {
-  top: 44px;
-}
-
 .open {
   display: inline-block;
   width: 0;
   height: 0;
   border: none;
   border-top: 4px solid #117AF4;
-  border-left: 2px solid #fff;
-  border-right: 2px solid #fff;
+  border-left: 4px solid #fff;
+  border-right: 4px solid #fff;
   vertical-align: middle;
   margin-left: 3px;
   transform-origin:center center;
@@ -165,7 +173,23 @@ export default {
 
 .datetext {
   position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 14px;
+  padding-left: 500px;
 }
 
+.datetext .attr {
+  color: #000;
+}
+
+.datetext .ipt {
+  border: 1px solid #dcdfe6;
+  position: relative;
+  line-height: 22px;
+  width: 120px;
+  margin-left: 5px;
+}
 
 </style>
