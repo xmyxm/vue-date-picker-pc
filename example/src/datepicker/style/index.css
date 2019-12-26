@@ -79,6 +79,7 @@
     box-sizing: border-box;
 }
 
+.dayPrev .dayItemVal,
 .dayDisabled .dayItemVal,
 .todayDisabled .dayItemVal,
 .dayRegion .dayItemVal, 
