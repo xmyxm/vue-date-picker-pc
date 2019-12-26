@@ -387,14 +387,6 @@
     color: #fff;
 }
 
-.workWrap {
-    background: #969799;
-}
-
-.dayDisabled .workWrap {
-    background: rgba(150, 151, 153, 0.5);
-}
-
 .specialDayWrap:before {
     content: " ";
     position: absolute;
@@ -406,22 +398,31 @@
     border-right: 2.5em solid transparent;
     z-index: -999;
 }
-.holidayWrap:before {
+.holidayWrap:before, .workWrap:before {
     content: " ";
     position: absolute;
     top: 0px;
     left: 0px;
     width: 0;
     height: 0;
-    border-top: 2.5em solid #118bfb;
     border-right: 2.5em solid transparent;
     z-index: -999;
-    border-top: 2.5em solid #ff6459;
     border-right: 2.5em solid transparent;
+}
+.holidayWrap:before {
+    border-top: 2.5em solid #ff6459;
+}
+
+.workWrap:before {
+    border-top: 2.5em solid #118bfb;
 }
 
 .dayDisabled .holidayWrap:before {
     border-top: 2.5em solid rgba(255, 100, 89, 0.5);
+}
+
+.dayDisabled .workWrap:before {
+    border-top: 2.5em solid rgba(17, 139, 251, 0.5);
 }
 
 .handleBtn {
