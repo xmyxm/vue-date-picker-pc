@@ -1,5 +1,5 @@
 {
-  "name": "@dp/date-picker",
+  "name": "@dp/date-picker-pc",
   "version": "0.0.1",
   "description": "日期选择组件",
   "main": "index.js",
@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "date-picker"
+    "date-picker-pc"
   ],
   "author": "xmyxm",
   "license": "ISC",
@@ -19,4 +19,3 @@
     "element-ui": "^2.12.0"
   }
 }
-

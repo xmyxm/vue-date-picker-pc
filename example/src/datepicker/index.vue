@@ -1,17 +1,5 @@
 <template>
   <el-mask v-if="openNext" :top="topNext" :on-cancel="onClose" >
-    <div v-if="selectKeyList" class="selectButtons">
-        <div
-        v-for="item in selectKeyList"
-        :class="item.boxClassName"
-        :key="item.key"
-        @click="buttonEventClick(item)"
-        >
-            <div :class="item.buttonClassName">
-                <div class="text">{{item.name}}</div>
-            </div>
-        </div>
-    </div>
     <Calendar v-if="buttonKeyNext == 'day'" v-bind="dayConfig" :disabled="disabledWeek" ></Calendar>
     <Month v-if="buttonKeyNext == 'month'" v-bind="monthConfig" :disabled="disabledWeek"></Month>
     <Week v-if="buttonKeyNext == 'week'" v-bind="weekConfig" :disabled="disabledWeek"></Week>
@@ -259,50 +247,9 @@ export default {
       this.festivalConfig.title = newtitle;
     },
   },
-  computed: {
-    selectKeyList() {
-      if (this.showKeyList) {
-        const keyList = [
-          { name: '按日', key: 'day', navName: false },
-          { name: '按周', key: 'week', navName: false },
-          { name: '按月', key: 'month', navName: false },
-          { name: '季度', key: 'quarter', navName: false },
-          { name: '按年', key: 'year', navName: false },
-          { name: '节假日', key: 'festival', navName: false },
-          { name: '自定义', key: 'optional', navName: false },
-        ];
-        let boxClassName = 'buttonItemWrapper4';
-        if (this.showKeyList.length < 4) {
-          switch (this.showKeyList.length) {
-            case 3: boxClassName = 'buttonItemWrapper3'; break;
-            case 2: boxClassName = 'buttonItemWrapper2'; break;
-            case 1: boxClassName = 'buttonItemWrapper1'; break;
-          }
-        }
-        const showList = keyList.filter((item) => {
-          if (this.showKeyList.indexOf(item.key) > -1) {
-            if (item.key == this.buttonKeyNext) {
-              item.buttonClassName = 'buttonItem buttonActive';
-            } else {
-              item.buttonClassName = 'buttonItem';
-            }
-            item.boxClassName = boxClassName;
-            return item;
-          }
-        });
-        return showList;
-      }
-    },
-  },
   methods: {
     preventEvent(e) {
       e.preventDefault();
-    },
-
-    buttonEventClick(item) {
-      if (item.key !== this.buttonKeyNext) {
-        this.buttonKeyNext = item.key;
-      }
     },
 
     disabledWeek(date) {

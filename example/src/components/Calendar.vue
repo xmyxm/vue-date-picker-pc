@@ -7,8 +7,15 @@
         <div class="next"></div>
       </header>
     </div>
-    <div @click="onOff" ref="timebox" class="datetext">{{dateText}}<i :class="timeData.open ? 'open top' : 'open'"></i> </div>
-    <date-picker v-bind="timeData"></date-picker>
+    <div
+      @click="onOff"
+      ref="timebox"
+      class="datetext"
+    >
+      {{dateText}}
+      <i :class="timeData.open ? 'open top' : 'open'"></i>
+      <date-picker v-bind="timeData"></date-picker>
+    </div>
   </div>
 </template>
 
@@ -155,5 +162,10 @@ export default {
 .open.top{
   transform: rotate(180deg);
 }
+
+.datetext {
+  position: relative;
+}
+
 
 </style>

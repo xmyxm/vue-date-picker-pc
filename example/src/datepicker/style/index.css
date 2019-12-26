@@ -38,6 +38,7 @@
     clear: both;
 }
 .weekList {
+    font-size: 14px;
     padding: 5px 0;
 }
 .weekList:after {
@@ -47,16 +48,15 @@
     clear: both;
 }
 .header {
-    height: 40px;
-    line-height: 40px;
-    vertical-align: middle;
     background: #fff;
-    color: #118bfb;
     text-align: center;
 }
 .headerInner {
-    display: inline-block;
-    vertical-align: middle;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 .dayItem,
 .twoRowCell,
@@ -169,10 +169,7 @@
 
 .btn,
 .disableLeftBtn,
-.centerBtn,
-.rightBtn,
 .rightHandleBtn,
-.disableRightBtn,
 .monthRightHandleBtn,
 .monthHandleBtn,
 .handleBtn {
@@ -192,16 +189,15 @@
 }
 .centerBtn {
     text-align: center;
-    font-size: 15px;
+    font-size: 12px;
+    flex: 1;
 }
 .centerBtn .dateSplitLine {
     display: inline-block;
     margin: 0 10px;
 }
 
-.rightBtn,
-.rightHandleBtn,
-.disableRightBtn{
+.rightHandleBtn {
     text-align: right;
 }
 .disableRightBtn {
@@ -213,7 +209,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #EEF7FF;
     border-radius: 20px;
 }
 .pannel {
@@ -526,78 +521,8 @@
     background: #fff;
     position: relative;
     z-index: 15;
-}
-
-
-
-/**按周选择**/
-.selectButtons {
-    padding: 15px 10px 0;
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    position: relative;
-    z-index: 15;
-    background-color: #fff;
-}
-
-.buttonItemWrapper4{
-    min-width: 25%;
-}
-
-.buttonItemWrapper3{
-    min-width: 33%;
-}
-
-.buttonItemWrapper2{
-    min-width: 50%;
-}
-
-.buttonItemWrapper1{
-    width: 100%;
-}
-
-.buttonItemWrapper4,
-.buttonItemWrapper3,
-.buttonItemWrapper2,
-.buttonItemWrapper1 {
-    box-sizing: border-box;
-    margin-bottom: 10px;
-}
-
-.buttonItemWrapper4 .buttonItem,
-.buttonItemWrapper3 .buttonItem,
-.buttonItemWrapper2 .buttonItem,
-.buttonItemWrapper1 .buttonItem {
     font-size: 12px;
-    line-height: 20px;
-    color: #118BFB;
-    text-align: center;
-    background-color: #FFFFFF;
-    padding: 0 13px;
-    height: 30px;
-    line-height:30px;
-    position: relative;
-    border-radius: 10px;
 }
-
-.buttonItemWrapper4 .buttonActive, 
-.buttonItemWrapper3 .buttonActive, 
-.buttonItemWrapper2 .buttonActive, 
-.buttonItemWrapper1 .buttonActive {
-    border-color: #458ef0;
-    background-color: #EEF7FF;
-}
-/****/
-
-/**月份选择**/
-.normalListInner .normalCell,
-.normalListInner .normalActiveCell{
-    font-size: 13px;
-}
-/****/
 
 
 /**节假日选择**/

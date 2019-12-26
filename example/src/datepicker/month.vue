@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- 月份列表 -->
         <Swipe class-name="normalList" >
             <div class="normalListInner">
@@ -39,48 +39,48 @@ import Tap from './tap';
 import CommonHandle from './commonhandle';
 
 export default {
-    name: 'Month',
-    components: {
-        'common-handle': CommonHandle,
-        Swipe,
-        Icon,
-        Tap
+  name: 'Month',
+  components: {
+    'common-handle': CommonHandle,
+    Swipe,
+    Icon,
+    Tap,
+  },
+  props: {
+    locale: {
+      type: Object,
+      default(){ return conf.locale },
     },
-    props: {
-        locale: {
-             type: Object,
-             default: function(){ return conf.locale }
-         },
-        lang: {
-            type: String,
-            default: 'zh'
-        },
-        disabled: {
-            type: [Function, Boolean],
-            default: false
-        },
-        delayChange: {
-            type: Boolean,
-            default: true
-        },
-        year: {
-            type: Number,
-            default: tools.getDateYearNum()
-        },
-        month: {
-            type: Number,
-            default: tools.getDateMonthNum()
-        },
-        onChange: {
-            type: Function,
-            default: function(){}
-        },
-        onClose: {
-            type: Function,
-            default: function(){}
-        }
+    lang: {
+      type: String,
+      default: 'zh',
     },
-    data: function(){
+    disabled: {
+      type: [Function, Boolean],
+      default: false,
+    },
+    delayChange: {
+      type: Boolean,
+      default: true,
+    },
+    year: {
+      type: Number,
+      default: tools.getDateYearNum(),
+    },
+    month: {
+      type: Number,
+      default: tools.getDateMonthNum(),
+    },
+    onChange: {
+      type: Function,
+      default(){},
+    },
+    onClose: {
+      type: Function,
+      default(){},
+    },
+  },
+  data(){
         return {
             showYear: this.year,
             selectYear: this.year,
@@ -89,8 +89,8 @@ export default {
             touchInfo: {}
         }
     },
-    computed: {
-        monthList: function() {
+  computed: {
+    monthList() {
             let langMap = (this.locale.lang[this.lang || 'zh'] || {}).month;
             let list = [];
             let disabledCheck = tools.disabledCheckCreator(this.disabled);
@@ -113,19 +113,19 @@ export default {
                 list.push(data);
             }
             return list
-        }
-    },
-    watch: {
-        year(newYear) {
-            this.selectYear = newYear
         },
-        month(newMonth) {
-            this.selectMonth = newMonth
-        }
+  },
+  watch: {
+    year(newYear) {
+      this.selectYear = newYear;
     },
-    methods: {
-        // 选中
-        handleChooseMonth: function(data, e) {
+    month(newMonth) {
+      this.selectMonth = newMonth;
+    },
+  },
+  methods: {
+    // 选中
+    handleChooseMonth(data, e) {
             if (data.disabled) return
             let month = parseInt(e.target.getAttribute('data-month'), 10);
             if (this.selectMonth !== month || this.selectYear !== this.showYear) {
@@ -133,19 +133,19 @@ export default {
                 this.selectYear = this.showYear;
             }
         },
-        // 改变年
-        prevChange: function() {
+    // 改变年
+    prevChange() {
             this.showYear = this.showYear - 1
         },
-        nextChange: function() {
+    nextChange() {
             this.showYear = this.showYear + 1
         },
-        onCancel:function() {
+    onCancel() {
             this.onClose();
         },
-        onSure: function() {
+    onSure() {
             this.onChange(this.selectMonth, this.selectYear);
-        }
-    }
+        },
+  },
 };
 </script>
