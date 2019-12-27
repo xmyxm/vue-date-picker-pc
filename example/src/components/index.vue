@@ -8,22 +8,22 @@
       </header>
     </div>
     <div
-      @click="onOff(dateConfig)"
+      @click="onOff(0)"
       class="datetext"
     >
       <div class="attr">日期选择: </div>
       <div class="ipt">
-        {{dateText}}
+        {{dayText}}
         <date-picker v-bind="dateConfig"></date-picker>
       </div>
       <i :class="dateConfig.open ? 'open top' : 'open'"></i>
     </div>
     <div
-      @click="onOff(weekConfig)"
+      @click="onOff(1)"
       class="datetext">
         <div class="attr">自然周选择: </div>
         <div class="ipt">
-          {{dateText}}
+          {{weekText}}
           <date-picker v-bind="weekConfig"></date-picker>
         </div>
         <i :class="weekConfig.open ? 'open top' : 'open'"></i>
@@ -47,7 +47,8 @@ export default {
   data() {
     return {
       title: '日历组件',
-      dateText: this.getDate(),
+      dayText: this.getDate(),
+      weekText: '',
       dateConfig: {
         buttonKey: 'day', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
         open: false,
@@ -60,7 +61,7 @@ export default {
         title: '国庆',
         dateRange: { startDate: new Date('2019-10-1'), endDate: new Date('2019-10-5') },
         value: this.getYearMonthDay(),
-        onSus: this.onSusFun,
+        onSus: this.onSusDayFun,
       },
 
       weekConfig: {
@@ -75,7 +76,7 @@ export default {
         title: '国庆',
         dateRange: { startDate: new Date('2019-10-1'), endDate: new Date('2019-10-5') },
         value: this.getYearMonthDay(),
-        onSus: this.onSusFun,
+        onSus: this.onSusWeekFun,
       },
 
       optionWeekConfig: {
@@ -105,38 +106,31 @@ export default {
     getYearMonthDay() {
       return new Date(this.getDate());
     },
-    onOff(data) {
-      // @ts-ignore
-      data.open = !data.open;
+    onOff(sum) {
+      const configList = [this.dateConfig, this.weekConfig];
+      configList.forEach((item, index) => {
+        if (index === sum) {
+          item.open = !item.open;
+        } else {
+          item.open = false;
+        }
+      });
     },
-    onSusFun(data) {
-      this.dateConfig.open = false;
+    onSusDayFun(data) {
       this.dateText = data.fetchDate;
-      if (data.year) {
-        this.dateConfig.year = data.year;
-      }
-      switch (data.key) {
-        case 'day':
-          this.dateConfig.value = data.value;
-          break;
-        case 'week':
-          this.dateConfig.week = data.week;
-          break;
-        case 'month':
-          this.dateConfig.month = data.month;
-          break;
-        case 'quarter':
-          this.dateConfig.quarter = data.quarter;
-          break;
-        case 'festival':
-          this.dateConfig.title = data.navName;
-          break;
-        case 'optional':
-          this.dateConfig.dateRange = { startDate: data.startDate, endDate: data.endDate };
-          break;
-      }
-      console.log(data.key, data);
+      this.dateConfig.open = false;
+      this.dateConfig.year = data.year;
+      this.dateConfig.value = data.value;
+      console.log(data.key, data.fetchDate);
     },
+    onSusWeekFun(data) {
+      this.weekText = data.fetchDate;
+      this.dateConfig.open = false;
+      this.dateConfig.year = data.year;
+      this.dateConfig.week = data.week;
+      console.log(data.key, data.fetchDate);
+    },
+
   },
 };
 </script>
@@ -217,11 +211,21 @@ export default {
 }
 
 .datetext .ipt {
-  border: 1px solid #dcdfe6;
   position: relative;
-  line-height: 22px;
-  width: 120px;
+  width: 160px;
   margin-left: 5px;
+  height: 24px;
+}
+
+.datetext .ipt::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
 }
 
 </style>

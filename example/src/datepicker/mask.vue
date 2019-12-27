@@ -41,9 +41,9 @@ export default {
       maskEle.style.transform = 'translateX(-50%)';
     }
     if (winHeight - parentPosition.height - parentPosition.top >= maskPosition.height || parentPosition.top < maskPosition.height) {
-      maskEle.style.top = parentPosition.height;
+      maskEle.style.top = `${parentPosition.height}px`;
     } else {
-      maskEle.style.bottom = -230;
+      maskEle.style.bottom = `${parentPosition.height}px`;
     }
   },
   methods: {
