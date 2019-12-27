@@ -499,6 +499,7 @@
 }
 
 .weekdateRande {
+    margin-top: 4px;
     width: 100%;
     transform: scale(0.8);
     white-space: nowrap;
@@ -544,3 +545,5 @@
     cursor: pointer;
 }
 /***************************************************************************/
+
+
