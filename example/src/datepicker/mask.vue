@@ -69,4 +69,6 @@ export default {
     position: relative;
     background: #fff;
 }
+
+
 </style>

@@ -125,9 +125,9 @@ export default {
     },
     onSusWeekFun(data) {
       this.weekText = data.fetchDate;
-      this.dateConfig.open = false;
-      this.dateConfig.year = data.year;
-      this.dateConfig.week = data.week;
+      this.weekConfig.open = false;
+      this.weekConfig.year = data.year;
+      this.weekConfig.week = data.week;
       console.log(data.key, data.fetchDate);
     },
 

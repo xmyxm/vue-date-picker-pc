@@ -1,9 +1,9 @@
 <template>
   <el-mask v-if="openNext" :top="topNext" :on-cancel="onClose">
-    <Calendar v-if="buttonKeyNext == 'day'" v-bind="dayConfig" :disabled="disabledWeek" ></Calendar>
+    <Day v-if="buttonKeyNext == 'day'" v-bind="dayConfig" :disabled="disabledWeek" ></Day>
     <Month v-if="buttonKeyNext == 'month'" v-bind="monthConfig" :disabled="disabledWeek"></Month>
     <Week v-if="buttonKeyNext == 'week'" v-bind="weekConfig" :disabled="disabledWeek"></Week>
-    <Calendar v-if="buttonKeyNext == 'optional'" v-bind="optionalConfig" :disabled="disabledWeek"></Calendar>
+    <Day v-if="buttonKeyNext == 'optional'" v-bind="optionalConfig" :disabled="disabledWeek"></Day>
     <Quarter v-if="buttonKeyNext == 'quarter'" v-bind="quarterConfig"  :disabled="disabledWeek"></Quarter>
     <Year v-if="buttonKeyNext == 'year'" v-bind="yearConfig" :disabled="disabledYear"></Year>
     <Holiday v-if="buttonKeyNext == 'festival'" v-bind="festivalConfig" :disabled="disabledWeek"></Holiday>
@@ -23,7 +23,7 @@ import Swipe from './swipe';
 import Tap from './tap';
 import Quarter from './quarter';
 import Holiday from './holiday';
-import Calendar from './calendar';
+import Day from './day';
 
 export default {
   name: 'DatePicker',
@@ -34,7 +34,7 @@ export default {
     Swipe,
     Tap,
     Quarter,
-    Calendar,
+    Day,
     Holiday,
     'el-mask': Mask,
   },

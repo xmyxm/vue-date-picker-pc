@@ -84,7 +84,7 @@ import conf from './lib/config';
 import Icon from './icon';
 
 export default {
-  name: 'Calendar',
+  name: 'Day',
   components: {
     Icon,
   },
@@ -187,24 +187,13 @@ export default {
       valueNext: this.value,
       displayDateNext: this.displayDate,
       date: null,
-      MODE: {
-        CALENDAR: 'calendar',
-        YEAR: 'year',
-        MONTH: 'month',
-        CLOCK: 'clock',
-      },
-      status: 'calendar',
-      tmpStatus: 'calendar',
+      status: 'day',
       touchStatus: null,
       touchInfo: {},
       cache: {},
       injectStatus: false,
       validCache: false,
-      // disabledCheck: null,
       startDate: null,
-      handleCancelMaskFun() {
-        this.handleCancelMask();
-      },
     };
   },
   created() {
@@ -475,10 +464,6 @@ export default {
     // date的翻页操作
     handleDateCalc(offset, type) {
       this.displayDateNext = absoluteCalc(offset + type, this.displayDateNext);
-    },
-
-    handleCancelMask() {
-      this.tmpStatus = this.MODE.CALENDAR;
     },
 
     // 时间的更改
