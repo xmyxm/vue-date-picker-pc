@@ -1,38 +1,34 @@
 <template>
-  <div class="normal weekWrap">
-        <div class="header">
-                <div class="headerInner">
-                    <div class="btn" @click="prevChange">
-                        <div class="iconBtn">
-                            <Icon type="angleLeft" />
-                        </div>
-                    </div>
-                    <div class="centerBtn">
-                        <span class="dateSplitLine">{{showYear}}</span>
-                    </div>
-                    <div class="rightBtn" @click="nextChange">
-                        <div class="iconBtn">
-                            <Icon type="angleRight" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <div class="normalList">
-            <div class="weeknormalListInner" ref="list">
-                <div
-                    v-for="item in weekList"
-                    :key="item.index"
-                    :class="item.className"
-                    @click="handleChooseWeek(item, $event)"
-                >
-                    <span>W{{item.number}}</span>
-                    <p class="weekdateRande">
-                        {{item.content}}
-                    </p>
-                </div>
-            </div>
+  <div class="week-wrap">
+    <div class="header">
+      <div class="headerInner">
+        <div class="btn" @click="prevChange">
+          <div class="iconBtn">
+            <Icon type="angleLeft" />
+          </div>
         </div>
+        <div class="centerBtn">
+          <span class="dateSplitLine">{{showYear}}</span>
+        </div>
+        <div class="rightBtn" @click="nextChange">
+          <div class="iconBtn">
+            <Icon type="angleRight" />
+          </div>
+        </div>
+      </div>
     </div>
+    <div class="week-List" ref="list">
+      <div
+        v-for="item in weekList"
+        :key="item.index"
+        :class="item.className"
+        @click="handleChooseWeek(item, $event)"
+      >
+        <span>W{{item.number}}</span>
+        <p class="week-date-rande">{{item.content}}</p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -74,9 +70,7 @@ export default {
       touchInfo: {},
     };
   },
-  created() {
-
-  },
+  created() {},
   computed: {
     // 周列表
     weekList() {
@@ -86,9 +80,12 @@ export default {
       const endData = `${this.showYear}-12-31`;
       const weekListDate = this.gerWeekList(startDate, endData, disabledCheck);
       const dataList = weekListDate.map((item, index) => {
-        let className = 'normalCell';
-        if (index === (this.selectWeek - 1) && this.selectYear === this.showYear) {
-          className = 'normalActiveCell';
+        let className = 'week-item';
+        if (
+          index === this.selectWeek - 1 &&
+          this.selectYear === this.showYear
+        ) {
+          className = 'week-item-active';
           // 默认值
           if (!this.value.monday) {
             this.value.monday = item.monday;
@@ -104,7 +101,9 @@ export default {
           monday: item.monday,
           sunday: item.sunday,
           className,
-          content: `${item.mondayStr}${item.sundayStr ? `-${item.sundayStr}` : ''}`,
+          content: `${item.mondayStr}${
+            item.sundayStr ? `-${item.sundayStr}` : ''
+          }`,
         };
         return data;
       });
@@ -139,7 +138,7 @@ export default {
       const sundayCount = (7 - firstDay + 1) % 7;
       let tempWeek = 1;
       const dateList = [];
-      for (let count = 1; count < (sum + 1); count++) {
+      for (let count = 1; count < sum + 1; count++) {
         if (count === 1) {
           const referenceDate = new Date(startDate.toGMTString());
           let firstDate = null;
@@ -147,7 +146,9 @@ export default {
             number: tempWeek,
             disabled: disabledCheck(firstDate),
             monday: firstDate,
-            mondayStr: `${month > 9 ? '' : '0'}${month}${date > 9 ? '' : '0'}${date}`,
+            mondayStr: `${month > 9 ? '' : '0'}${month}${
+              date > 9 ? '' : '0'
+            }${date}`,
           };
           if (firstDay === 1) {
             firstDate = startDate;
@@ -157,7 +158,9 @@ export default {
             const sundayMonth = startDate.getMonth() + 1;
             const sundayDate = startDate.getDate();
             weekObj.sunday = startDate;
-            weekObj.sundayStr = `${sundayMonth > 9 ? '' : '0'}${sundayMonth}${sundayDate > 9 ? '' : '0'}${sundayDate}`;
+            weekObj.sundayStr = `${sundayMonth > 9 ? '' : '0'}${sundayMonth}${
+              sundayDate > 9 ? '' : '0'
+            }${sundayDate}`;
           } else {
             firstDate = new Date(referenceDate.setDate(-(firstDay - 2)));
           }
@@ -166,7 +169,9 @@ export default {
           weekObj = Object.assign({}, weekObj, {
             disabled: disabledCheck(firstDate),
             monday: firstDate,
-            mondayStr: `${month > 9 ? '' : '0'}${month}${date > 9 ? '' : '0'}${date}`,
+            mondayStr: `${month > 9 ? '' : '0'}${month}${
+              date > 9 ? '' : '0'
+            }${date}`,
           });
           dateList.push(weekObj);
         } else if (count % 7 === mondayCount) {
@@ -174,26 +179,33 @@ export default {
             continue;
           }
           const referenceDate = new Date(startDate.toGMTString());
-          const firstDate = count === 0 ? referenceDate : new Date(referenceDate.setDate(count));
+          const firstDate =
+            count === 0
+              ? referenceDate
+              : new Date(referenceDate.setDate(count));
           const month = firstDate.getMonth() + 1;
           const date = firstDate.getDate();
           dateList.push({
             number: tempWeek,
             disabled: disabledCheck(firstDate),
             monday: firstDate,
-            mondayStr: `${month > 9 ? '' : '0'}${month}${date > 9 ? '' : '0'}${date}`,
+            mondayStr: `${month > 9 ? '' : '0'}${month}${
+              date > 9 ? '' : '0'
+            }${date}`,
           });
-        } else if ((count % 7 === sundayCount) || (count === sum)) {
+        } else if (count % 7 === sundayCount || count === sum) {
           const referenceDate = new Date(startDate.toGMTString());
           const lastDate = new Date(referenceDate.setDate(count));
-          if ((count === sum) && (lastDate.getDay() !== 0)) {
+          if (count === sum && lastDate.getDay() !== 0) {
             dateList.pop();
           } else {
             const month = lastDate.getMonth() + 1;
             const date = lastDate.getDate();
             const lastWeek = dateList[dateList.length - 1];
             lastWeek.sunday = lastDate;
-            lastWeek.sundayStr = `${month > 9 ? '' : '0'}${month}${date > 9 ? '' : '0'}${date}`;
+            lastWeek.sundayStr = `${month > 9 ? '' : '0'}${month}${
+              date > 9 ? '' : '0'
+            }${date}`;
             lastWeek.disabled = lastWeek.disabled || disabledCheck(lastDate);
             tempWeek += 1;
           }
@@ -231,5 +243,4 @@ export default {
 </script>
 
 <style scope>
-
 </style>

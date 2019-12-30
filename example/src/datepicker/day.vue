@@ -67,7 +67,7 @@
           @click="handleChooseDay(dayData)"
         >
           <span class="dayItemVal">{{dayData.val}}</span>
-          <p class="vicationWrap" :title="dayData.lDay">{{dayData.lDay}}</p>
+          <p class="vication-wrap" :title="dayData.lDay">{{dayData.lDay}}</p>
           <p v-if="dayData.holiday" class="holidayWrap">假</p>
           <p v-if="dayData.work" class="workWrap">班</p>
         </div>

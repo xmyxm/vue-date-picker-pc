@@ -7,10 +7,10 @@
 export default {
   name: 'Icon',
   props: {
-      type: {
-        type: String,
-        required: true,
-      },
+    type: {
+      type: String,
+      required: true,
+    },
   },
 };
 </script>
@@ -54,6 +54,15 @@ export default {
     width: 20px;
     height: 20px;
     background-size: 10px 10px;
+    cursor: pointer;
+}
+
+.angleDoubleLeft:hover,
+.angleLeft:hover,
+.angleRight:hover,
+.angleDoubleRight:hover {
+    border-radius: 50%;
+    background-color: #f7f7f7;
 }
 
 

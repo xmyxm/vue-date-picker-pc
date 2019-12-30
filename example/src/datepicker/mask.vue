@@ -63,11 +63,12 @@ export default {
 <style scoped>
 .date-picker-mask {
     position: absolute;
-    width: 280px;
-    min-height: 330px;
+    width: 250px;
+    height: 300px;
     z-index: 10;
     border: 1px solid #e4e7ed;
     border-radius: 4px;
+    line-height: 20px;
 }
 
 .mask-top-left::before,
@@ -189,6 +190,7 @@ export default {
 .mask-inner {
     position: relative;
     background: #fff;
+    height: 100%;
 }
 
 </style>
