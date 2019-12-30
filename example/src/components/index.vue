@@ -28,10 +28,16 @@
         </div>
         <i :class="weekConfig.open ? 'open top' : 'open'"></i>
     </div>
-     <!-- <div class="date-box-item">
-        业务周选择: {{date-box-item}}
-      <i :class="dateConfig.open ? 'open top' : 'open'"></i>
-     </div> -->
+    <div
+      @click="onOff(2)"
+      class="date-box-item">
+        <div class="attr">业务周选择: </div>
+        <div class="ipt">
+           <span class="text">{{customWeekText}}</span>
+          <date-picker v-bind="customWeekConfig"></date-picker>
+        </div>
+        <i :class="customWeekConfig.open ? 'open top' : 'open'"></i>
+    </div>
   </div>
 </template>
 
@@ -49,6 +55,7 @@ export default {
       title: '日历组件',
       dayText: this.getDate(),
       weekText: '',
+      customWeekText: '',
       dateConfig: {
         buttonKey: 'day', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
         open: false,
@@ -58,8 +65,6 @@ export default {
         month: 9,
         week: 32,
         endDate: new Date(),
-        title: '国庆',
-        dateRange: { startDate: new Date('2019-10-1'), endDate: new Date('2019-10-5') },
         value: this.getYearMonthDay(),
         onSus: this.onSusDayFun,
       },
@@ -73,14 +78,12 @@ export default {
         month: 9,
         week: 32,
         endDate: new Date(),
-        title: '国庆',
-        dateRange: { startDate: new Date('2019-10-1'), endDate: new Date('2019-10-5') },
         value: this.getYearMonthDay(),
         onSus: this.onSusWeekFun,
       },
 
-      optionWeekConfig: {
-        buttonKey: 'optionWeek', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
+      customWeekConfig: {
+        buttonKey: 'customWeek', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
         open: false,
         top: 0,
         year: 2019,
@@ -88,10 +91,8 @@ export default {
         month: 9,
         week: 32,
         endDate: new Date(),
-        title: '国庆',
-        dateRange: { startDate: new Date('2019-10-1'), endDate: new Date('2019-10-5') },
         value: this.getYearMonthDay(),
-        onSus: this.onSusFun,
+        onSus: this.onSusCustomWeekFun,
       },
     };
   },
@@ -107,7 +108,7 @@ export default {
       return new Date(this.getDate());
     },
     onOff(sum) {
-      const configList = [this.dateConfig, this.weekConfig];
+      const configList = [this.dateConfig, this.weekConfig, this.customWeekConfig];
       configList.forEach((item, index) => {
         if (index === sum) {
           item.open = !item.open;
@@ -128,6 +129,13 @@ export default {
       this.weekConfig.open = false;
       this.weekConfig.year = data.year;
       this.weekConfig.week = data.week;
+      console.log(data.key, data.fetchDate);
+    },
+    onSusCustomWeekFun(data) {
+      this.customWeekText = data.fetchDate;
+      this.customWeekConfig.open = false;
+      this.customWeekConfig.year = data.year;
+      this.customWeekConfig.week = data.week;
       console.log(data.key, data.fetchDate);
     },
 
@@ -197,11 +205,11 @@ export default {
 .date-box-item {
   position: relative;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   font-size: 14px;
   padding-left: 50px;
-  margin-bottom: 20px;
+  margin-top: 40px;
 }
 
 .date-box-item .attr {

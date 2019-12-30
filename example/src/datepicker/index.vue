@@ -1,12 +1,8 @@
 <template>
-  <el-mask v-if="openNext" :top="topNext" :on-cancel="onClose">
+  <el-mask v-if="openNext" :on-cancel="onClose">
     <Day v-if="buttonKeyNext == 'day'" v-bind="dayConfig" :disabled="disabledWeek" ></Day>
-    <Month v-if="buttonKeyNext == 'month'" v-bind="monthConfig" :disabled="disabledWeek"></Month>
     <Week v-if="buttonKeyNext == 'week'" v-bind="weekConfig" :disabled="disabledWeek"></Week>
-    <Day v-if="buttonKeyNext == 'optional'" v-bind="optionalConfig" :disabled="disabledWeek"></Day>
-    <Quarter v-if="buttonKeyNext == 'quarter'" v-bind="quarterConfig"  :disabled="disabledWeek"></Quarter>
-    <Year v-if="buttonKeyNext == 'year'" v-bind="yearConfig" :disabled="disabledYear"></Year>
-    <Holiday v-if="buttonKeyNext == 'festival'" v-bind="festivalConfig" :disabled="disabledWeek"></Holiday>
+    <custom-week v-if="buttonKeyNext == 'customWeek'" v-bind="customWeekConfig" :disabled="disabledWeek"></custom-week>
   </el-mask>
 </template>
 
@@ -15,27 +11,17 @@ import naturalCalc from './lib/natural-date-calc';
 import changecall from './lib/changecall';
 import { lastDate, lastDateRange, lastQuarter } from './lib/default-config';
 import tools from './lib/tools';
-import Year from './year';
-import Month from './month';
 import Week from './week';
 import Mask from './mask';
-import Swipe from './swipe';
-import Tap from './tap';
-import Quarter from './quarter';
-import Holiday from './holiday';
+import customWeek from './custom-week';
 import Day from './day';
 
 export default {
   name: 'DatePicker',
   components: {
-    Year,
-    Month,
-    Week,
-    Swipe,
-    Tap,
-    Quarter,
     Day,
-    Holiday,
+    Week,
+    'custom-week': customWeek,
     'el-mask': Mask,
   },
   props: {
@@ -68,17 +54,9 @@ export default {
       type: Number,
       default: tools.getDateWeekNum(new Date()),
     },
-    title: {
-      type: String,
-      default: '春节',
-    },
     dateRange: {
       type: Object,
       default() { return lastDateRange(); },
-    },
-    top: {
-      type: Number,
-      default: 0,
     },
     open: {
       type: Boolean,
@@ -120,69 +98,15 @@ export default {
         };
       },
     },
-    monthConfig: {
+    customWeekConfig: {
       type: Object,
       default() {
-        const { onSus, onClose, month, year } = this;
+        const { onSus, onClose, value } = this;
         return {
-          year,
-          month,
           onClose,
-          onChange(month, year) { onSus(changecall.handleMonthChange(month, year)); },
-        };
-      },
-    },
-    quarterConfig: {
-      type: Object,
-      default() {
-        const { onSus, onClose, quarter, year } = this;
-        return {
-          year,
-          quarter,
-          onClose,
-          enableRange: true,
           lunar: true,
-          onChange(quarter, year) { onSus(changecall.handleQuarterChange(quarter, year)); },
-        };
-      },
-    },
-    yearConfig: {
-      type: Object,
-      default() {
-        const { onSus, onClose, year } = this;
-        return {
-          year,
-          onClose,
-          enableRange: true,
-          lunar: true,
-          onChange(data) { onSus(changecall.handleYearChange(data)); },
-        };
-      },
-    },
-    festivalConfig: {
-      type: Object,
-      default() {
-        const { onSus, onClose, title, year } = this;
-        return {
-          title,
-          year,
-          onClose,
-          enableRange: true,
-          lunar: true,
-          onChange(data, year) { onSus(changecall.handleFestivalChange(data, year)); },
-        };
-      },
-    },
-    optionalConfig: {
-      type: Object,
-      default() {
-        const { onSus, onClose, dateRange } = this;
-        return {
-          value: dateRange,
-          onClose,
-          enableRange: true,
-          lunar: true,
-          onChange(data) { onSus(changecall.handleRangeChange(data)); },
+          value,
+          onChange(data) { onSus(changecall.handleDateChange(data)); },
         };
       },
     },
@@ -192,7 +116,6 @@ export default {
       startDateNext: this.startDate || naturalCalc('-0day', new Date('2017-06-01')),
       endDateNext: this.endDate || naturalCalc('-1day', new Date()),
       openNext: this.open,
-      topNext: this.top,
       buttonKeyNext: this.buttonKey,
     };
   },
@@ -212,20 +135,10 @@ export default {
         }
       });
     },
-    top(newTop) {
-      this.topNext = newTop;
-    },
     year(newYear) {
       this.yearConfig.year = newYear;
       this.weekConfig.year = newYear;
-      this.quarterConfig.year = newYear;
-      this.monthConfig.year = newYear;
-      this.weekConfig.year = newYear;
-      this.dayConfig.year = newYear;
-      this.festivalConfig.year = newYear;
-    },
-    quarter(newQuarter) {
-      this.quarterConfig.quarter = newQuarter;
+      this.customWeekConfig.year = newYear;
     },
     month(newMonth) {
       this.monthConfig.month = newMonth;
@@ -235,12 +148,6 @@ export default {
     },
     value(newValue) {
       this.dayConfig.value = newValue;
-    },
-    dateRange(newRange) {
-      this.optionalConfig.value = newRange;
-    },
-    title(newtitle) {
-      this.festivalConfig.title = newtitle;
     },
   },
   methods: {
@@ -263,15 +170,6 @@ export default {
       date = naturalCalc('-0day', date);
       // today = tools.buildNoTimesDate(yesterday);
       if (date < boundary || date > yesterday) {
-        return true;
-      }
-      return false;
-    },
-
-    disabledYear(date) {
-      const d = new Date();
-      const currentYear = d.getFullYear();
-      if (date < 2017 || date > currentYear) {
         return true;
       }
       return false;
