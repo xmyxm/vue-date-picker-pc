@@ -1,86 +1,29 @@
-
-
-.wrapper,
-.wrapperLarge,
-.monthWrapper,
-.yearWrapperMedium,
-.monthWrapperMedium,
-.weekWrapperMedium,
-.clockWrapperMedium,
-.weekWrapper,
-.clockWrapper
- {
-    position: relative;
-    background-color: #fff;
-    font-size: 14px;
-    color: #333;
-    width: 100%;
-}
-.wrapper.notLimitSize {
-    width: auto;
-}
-
-.unitWrapper,
-.yearWrapperMedium,
-.monthWrapper,
-.monthWrapperMedium,
-.weekWrapper,
-.weekWrapperMedium,
-.clockWrapper,
-.clockWrapperMedium {
-    border: 1px solid #ddd;
-    border-radius: 2px;
-}
-.dayList:after {
-    content: ' ';
-    display: block;
-    height: 0;
-    clear: both;
-}
-.weekList {
-    font-size: 14px;
-}
-.weekList:after {
-    content: ' ';
-    display: block;
-    height: 0;
-    clear: both;
-}
 .header {
     background: #fff;
-    text-align: center;
-    padding: 5px 0;
-}
-.headerInner {
+    padding: 5px 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-left: 15px;
-    padding-right: 15px;
 }
+
+.day-list {
+    background: #fff;
+    position: relative;
+    z-index: 15;
+    font-size: 12px;
+}
+
 .dayItem,
-.twoRowCell,
-.twoRowActiveCell,
-.towRowCurrentCell,
-.normalCell,
-.weeknormalDisabledCell,
-.weeknormalActiveCell,
-.normalActiveCell,
-.normalDisabledCell,
-.normalCurrentCell,
-.weekItem,
-.weekItemWeekend,
 .today,
 .dayPrev,
 .dayNext,
-.dayItemWeek,
 .dayActive,
 .dayRegion,
 .dayDisabled,
 .todayActive,
-.todayActiveDisabled,
 .todayRegion,
-.todayRegionDisabled  {
+.head-day-item,
+.head-day-opacity {
     position: relative;
     cursor: pointer;
     display: inline-block;
@@ -92,14 +35,15 @@
     box-sizing: border-box;
 }
 
+.dayItem .dayItemVal,
+.today .dayItemVal,
 .dayPrev .dayItemVal,
-.dayDisabled .dayItemVal,
-.dayRegion .dayItemVal, 
 .dayNext .dayItemVal, 
 .dayActive .dayItemVal, 
+.dayRegion .dayItemVal, 
+.dayDisabled .dayItemVal,
 .todayActive .dayItemVal,
-.dayItem .dayItemVal,
-.today .dayItemVal {
+.todayRegion .dayItemVal {
     display: inline-block;
     width: 2em;
     height: 2em;
@@ -109,24 +53,19 @@
     border-radius: 50%;
     cursor: pointer;
 }
+
 .dayItem .dayItemVal:hover {
     background-color: #f8f8f8;
 }
 
-.weekItemWeekend {
-    color: #ffb036;
-    opacity: .8;
-}
 .today .dayItemVal {
     color: #000;
     background-color: #f7f7f7;
 }
-.dayPrev {
+.dayPrev, .dayNext {
     color: #a6a6a6;
 }
-.dayNext {
-    color: #a6a6a6;
-}
+
 .dayActive .dayItemVal, .todayActive .dayItemVal{
     color: #fff;
     background-color: #118bfb;
@@ -156,11 +95,7 @@
 .monthHandleBtn,
 .handleBtn {
     display: inline-block;
-    text-align: left;
     cursor: pointer;
-    margin-right: .66rem;
-    vertical-align: middle;
-    font-size: .3rem;
 }
 
 .btn:last-child {
@@ -199,41 +134,6 @@
     text-align: center;
 }
 
-.normalActiveCell {
-    color: #fff;
-    background-color: #118bfb;
-    font-size: 13px;
-}
-.normalActiveCell:hover {
-    background-color: #118bfb;
-}
-.normalDisabledCell {
-    color: #cccccc;
-}
-.normalCurrentCell {
-    color: #000;
-    background-color: #f8f8f8;
-}
-.twoRowCell,
-.twoRowActiveCell,
-.towRowCurrentCell {
-    width: 50%;
-    cursor: pointer;
-}
-.twoRowCell:hover {
-    background-color: #f8f8f8;
-}
-.twoRowActiveCell {
-    color: #fff;
-    background-color: #118bfb;
-}
-.twoRowActiveCell:hover {
-    background-color: #118bfb;
-}
-.towRowCurrentCell {
-    color: #000;
-    background-color: #f8f8f8;
-}
 .normalHeader {
     color: #000;
 }
@@ -280,9 +180,6 @@
     background-color: #f8f8f8;
 }
 
-.clockWrapper {
-    position: relative;
-}
 .groupCell {
     display: inline-block;
     width: 33.3%;
@@ -313,10 +210,6 @@
     text-align: center;
     font-size: 1.5em;
     border: none;
-}
-.clockWrapperMedium .clockInput {
-    width: 2.5em;
-    height: 2.5em;
 }
 
 .specialDayWrap {
@@ -370,33 +263,6 @@
     font-size: 12px;
     line-height: 30px;
 }
-.commonHandle {
-    text-align: center;
-    padding: 15px 0 10px;
-}
-.commonHandleokBtn {
-    width: 105px;
-    height: 40px;
-    margin-left: 5px;
-    margin-right: 0;
-    color: #fff;
-    background-color: #118bfb;
-    border: none;
-}
-.commonHandlecancelBtn {
-    width: 105px;
-    height: 40px;
-    color: #666;
-    background-color: #e5e5e5;
-    border: none;
-}
-
-.header,.weekList, .dayList, .commonHandle {
-    background: #fff;
-    position: relative;
-    z-index: 15;
-    font-size: 12px;
-}
 
 .normalList {
     background: #fff;
@@ -419,50 +285,26 @@
     margin-bottom: -10px;
 }
 
-.weeknormalCell {
-    position: relative;
-    display: inline-block;
-    width: 14.2857%;
-    padding: 6px 3px;
-    border-radius: 2px;
-    width: 25%;
-    margin-bottom: 10px;
-    padding: 8px 0;
-    text-align: center;
-    line-height: 1em;
-    cursor: pointer;
-}
-.weeknormalCell:hover {
-    background-color: #f6f6f6;
-}
-.weeknormalDisabledCell {
-    color: #c4c4c4;
-}
-.weeknormalActiveCell {
-    color: #fff;
-    background-color: #3dd5b0;
-}
-.weeknormalActiveCell:hover {
-    background-color: #3dd5b0;
-}
-.normalCell,
-.weeknormalDisabledCell,
-.weeknormalActiveCell,
-.normalActiveCell,
-.normalDisabledCell,
-.normalCurrentCell {
-    width: 25%;
-    padding: 5px 0;
-    text-align: center;
-    line-height: 1em;
-    cursor: pointer;
-}
 /***************************************************************************/
 
+/************************************* 核心公共样式 start **************************************/
 
+
+/************************************* 核心公共样式 end **************************************/
 
 
 /************************************* 新已确认样式 day start **************************************/
+.head-day-list {
+    background: #fff;
+    position: relative;
+    z-index: 15;
+    font-size: 12px;
+}
+
+.head-day-opacity {
+    color: #ffb036;
+    opacity: .8;
+}
 
 .holidayWrap, .workWrap {
     position: absolute;
@@ -519,64 +361,12 @@
     margin: 0;
     padding: 0;
 }
-
 /************************************* 新已确认样式 day end **************************************/
 
 
 
 
 /************************************* 新已确认样式 week start **************************************/
-.week-wrap {
-    height: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
 
-.week-List {
-    flex: 1;
-    height: 330px;
-    overflow: scroll;
-    text-align: left;
-}
-
-.week-List :nth-child(4n) {
-    margin-right: 4%;
-}
-
-.week-List .week-item,
-.week-List .week-item-active {
-    font-size: 12px; 
-    width: 22%;
-    margin-left: 2%;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    text-align: center;
-    line-height: 1em;
-    cursor: pointer;
-    position: relative;
-    display: inline-block;
-    border-radius: 2px;
-    box-sizing: border-box;
-}
-
-.week-List .week-item:hover {
-    background: #f7f7f7;
-}
-
-.week-List .week-item-active {
-    color: #fff;
-    background-color: #118bfb;
-    font-size: 13px;
-}
-
-.week-date-rande {
-    margin-top: 2px;
-    margin-bottom: 0;
-    width: 100%;
-    font-size: 8px;
-    white-space: nowrap;
-}
 /************************************* 新已确认样式 week end **************************************/
 

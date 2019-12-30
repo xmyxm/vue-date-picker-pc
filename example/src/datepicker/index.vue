@@ -2,7 +2,7 @@
   <el-mask v-if="openNext" :on-cancel="onClose">
     <Day v-if="buttonKeyNext == 'day'" v-bind="dayConfig" :disabled="disabledWeek" ></Day>
     <Week v-if="buttonKeyNext == 'week'" v-bind="weekConfig" :disabled="disabledWeek"></Week>
-    <custom-week v-if="buttonKeyNext == 'customWeek'" v-bind="customWeekConfig" :disabled="disabledWeek"></custom-week>
+    <!-- <custom-week v-if="buttonKeyNext == 'customWeek'" v-bind="customWeekConfig" :disabled="disabledWeek"></custom-week> -->
   </el-mask>
 </template>
 
@@ -13,7 +13,7 @@ import { lastDate, lastDateRange, lastQuarter } from './lib/default-config';
 import tools from './lib/tools';
 import Week from './week';
 import Mask from './mask';
-import customWeek from './custom-week';
+// import customWeek from './custom-week';
 import Day from './day';
 
 export default {
@@ -21,7 +21,7 @@ export default {
   components: {
     Day,
     Week,
-    'custom-week': customWeek,
+    // 'custom-week': customWeek,
     'el-mask': Mask,
   },
   props: {

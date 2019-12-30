@@ -2,7 +2,6 @@
   <div :class="size + (sizeLimit ? '' : ' notLimitSize')">
       <!-- 日历头 -->
       <div class="header">
-        <div class="headerInner">
           <div
             :title="locale.lang[lang].btns[0]"
             class="btn"
@@ -45,21 +44,17 @@
               <Icon :type="btnsNext.BTN_PLUS_YEAR" />
             </div>
           </div>
-        </div>
       </div>
 
       <!-- 星期头 -->
-      <div class="weekList">
-        <span class="weekItemWeekend">
-          <span>{{locale.lang[lang]['week' + (isLong ? '' : 'Short')][6]}}</span>
-        </span>
-        <span v-for="i in [0,1,2,3,4,5]" :class="'weekItem' + (i < 5 ? '' : 'Weekend')" :key="i">
+      <div class="head-day-list">
+        <span v-for="i in [0,1,2,3,4,5,6]" :class="'head-day-' + (i === 0 || i === 6 ? 'opacity' : 'item')" :key="i">
           <span>{{locale.lang[lang]['week' + (isLong ? '' : 'Short')][i]}}</span>
         </span>
       </div>
 
       <!-- 日期单元 -->
-      <div class="dayList">
+      <div class="day-list">
         <div
           v-for="dayData in dayListData"
           :key="`${dayData.year}${dayData.month}${dayData.val}`"
@@ -491,3 +486,4 @@ export default {
   },
 };
 </script>
+

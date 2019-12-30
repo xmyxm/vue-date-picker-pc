@@ -1,7 +1,6 @@
 <template>
   <div class="week-wrap">
     <div class="header">
-      <div class="headerInner">
         <div class="btn" @click="prevChange">
           <div class="iconBtn">
             <Icon type="angleLeft" />
@@ -15,7 +14,6 @@
             <Icon type="angleRight" />
           </div>
         </div>
-      </div>
     </div>
     <div class="week-List" ref="list">
       <div
@@ -92,7 +90,7 @@ export default {
             this.value.sunday = item.sunday;
           }
         } else if (item.disabled) {
-          className = 'normalDisabledCell';
+          className = 'week-item-disabled';
         }
         const data = {
           index,
@@ -243,4 +241,61 @@ export default {
 </script>
 
 <style scope>
+.week-wrap {
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.week-List {
+    flex: 1;
+    height: 330px;
+    overflow: scroll;
+    text-align: left;
+}
+
+.week-List :nth-child(4n) {
+    margin-right: 4%;
+}
+
+.week-item,
+.week-item-active,
+.week-item-disabled {
+    font-size: 12px;
+    width: 22%;
+    margin-left: 2%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: center;
+    line-height: 1em;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+.week-item:hover {
+    background: #f7f7f7;
+}
+
+.week-item-active {
+    color: #fff;
+    background-color: #118bfb;
+    font-size: 13px;
+}
+
+.week-item-disabled {
+  color: #cccccc;
+}
+
+.week-date-rande {
+    margin-top: 2px;
+    margin-bottom: 0;
+    width: 100%;
+    font-size: 8px;
+    white-space: nowrap;
+}
 </style>
