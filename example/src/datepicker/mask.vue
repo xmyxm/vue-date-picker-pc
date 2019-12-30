@@ -65,6 +65,17 @@ export default {
     border-radius: 4px;
 }
 
+.mask::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 40px;
+  border-bottom: 4px solid red;
+  border-left: 4px solid red;
+  border-right: 4px solid red;
+  border-top: 4px solid transparent;
+}
+
 .mask .maskInner {
     position: relative;
     background: #fff;
