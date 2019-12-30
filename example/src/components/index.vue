@@ -9,27 +9,27 @@
     </div>
     <div
       @click="onOff(0)"
-      class="datetext"
+      class="date-box-item"
     >
       <div class="attr">日期选择: </div>
       <div class="ipt">
-        {{dayText}}
+        <span class="text">{{dayText}}</span>
         <date-picker v-bind="dateConfig"></date-picker>
       </div>
       <i :class="dateConfig.open ? 'open top' : 'open'"></i>
     </div>
     <div
       @click="onOff(1)"
-      class="datetext">
+      class="date-box-item">
         <div class="attr">自然周选择: </div>
         <div class="ipt">
-          {{weekText}}
+           <span class="text">{{weekText}}</span>
           <date-picker v-bind="weekConfig"></date-picker>
         </div>
         <i :class="weekConfig.open ? 'open top' : 'open'"></i>
     </div>
-     <!-- <div class="datetext">
-        业务周选择: {{dateText}}
+     <!-- <div class="date-box-item">
+        业务周选择: {{date-box-item}}
       <i :class="dateConfig.open ? 'open top' : 'open'"></i>
      </div> -->
   </div>
@@ -117,7 +117,7 @@ export default {
       });
     },
     onSusDayFun(data) {
-      this.dateText = data.fetchDate;
+      this.dayText = data.fetchDate;
       this.dateConfig.open = false;
       this.dateConfig.year = data.year;
       this.dateConfig.value = data.value;
@@ -194,7 +194,7 @@ export default {
   transform: rotate(180deg);
 }
 
-.datetext {
+.date-box-item {
   position: relative;
   display: flex;
   justify-content: flex-start;
@@ -204,20 +204,21 @@ export default {
   margin-bottom: 20px;
 }
 
-.datetext .attr {
+.date-box-item .attr {
   color: #000;
   width: 80px;
   text-align: left;
 }
 
-.datetext .ipt {
+.date-box-item .ipt {
   position: relative;
   width: 160px;
   margin-left: 5px;
   height: 24px;
+  line-height: 24px;
 }
 
-.datetext .ipt::before {
+.date-box-item .ipt::before {
   content: "";
   position: absolute;
   top: 0;
@@ -226,6 +227,10 @@ export default {
   bottom: 0;
   border: 1px solid #dcdfe6;
   border-radius: 4px;
+}
+
+.text {
+  vertical-align: middle;
 }
 
 </style>

@@ -1,6 +1,10 @@
 <template>
-  <div class="mask" ref="mask" @click="eventStop($event)" >
-    <div class="maskInner">
+  <div
+    ref="mask"
+    class="date-picker-mask"
+    @click="eventStop($event)"
+  >
+    <div class="mask-inner">
       <slot></slot>
     </div>
   </div>
@@ -32,18 +36,20 @@ export default {
     const maskPosition = maskEle.getBoundingClientRect();
     const winWidth = window.innerWidth;
     const winHeight = window.innerHeight;
-    if (winWidth - parentPosition.left >= maskPosition.width) {
-      maskEle.style.left = 0;
-    } else if (parentPosition.left - parentPosition.width >= maskPosition.width) {
-      maskEle.style.right = 0;
-    } else {
-      maskEle.style.left = '50%';
-      maskEle.style.transform = 'translateX(-50%)';
-    }
+    maskEle.className = 'date-picker-mask';
+    let classText = 'bottom';
     if (winHeight - parentPosition.height - parentPosition.top >= maskPosition.height || parentPosition.top < maskPosition.height) {
-      maskEle.style.top = `${parentPosition.height}px`;
+      classText = 'top';
+      maskEle.style.top = `${parentPosition.height + 5}px`;
     } else {
-      maskEle.style.bottom = `${parentPosition.height}px`;
+      maskEle.style.bottom = `${parentPosition.height + 5}px`;
+    }
+    if (winWidth - parentPosition.left >= maskPosition.width) {
+      maskEle.className += ` mask-${classText}-left`;
+    } else if (parentPosition.left + parentPosition.width >= maskPosition.width) {
+      maskEle.className += ` mask-${classText}-right`;
+    } else {
+      maskEle.className += ` mask-${classText}-center`;
     }
   },
   methods: {
@@ -55,31 +61,134 @@ export default {
 </script>
 
 <style scoped>
-.mask {
+.date-picker-mask {
     position: absolute;
     width: 280px;
     min-height: 330px;
     z-index: 10;
-    overflow: hidden;
     border: 1px solid #e4e7ed;
     border-radius: 4px;
 }
 
-.mask::before {
+.mask-top-left::before,
+.mask-top-center::before,
+.mask-top-right::before {
   content: "";
   position: absolute;
-  top: -4px;
-  left: 40px;
-  border-bottom: 4px solid red;
-  border-left: 4px solid red;
-  border-right: 4px solid red;
+  border-bottom: 4px solid #fff;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
   border-top: 4px solid transparent;
+  z-index: 1000;
 }
 
-.mask .maskInner {
+.mask-top-left::after,
+.mask-top-center::after,
+.mask-top-right::after {
+  content: "";
+  position: absolute;
+  border-bottom: 5px solid #e4e7ed;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 5px solid transparent;
+  z-index: 99;
+}
+
+.mask-top-left,
+.mask-bottom-left {
+  left: 0;
+}
+
+.mask-top-center,
+.mask-bottom-center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.mask-top-right,
+.mask-bottom-right {
+  right: 0;
+}
+
+.mask-top-left::before,
+.mask-top-center::before,
+.mask-top-right::before{
+  top: -8px;
+}
+
+.mask-top-left::after,
+.mask-top-center::after,
+.mask-top-right::after {
+  top: -10px;
+}
+
+.mask-bottom-left::before,
+.mask-bottom-center::before,
+.mask-bottom-right::before{
+  bottom: -8px;
+}
+
+.mask-bottom-left::after,
+.mask-bottom-center::after,
+.mask-bottom-right::after{
+  bottom: -10px;
+}
+
+.mask-top-center::before,
+.mask-top-center::after,
+.mask-bottom-center::before,
+.mask-bottom-center::after {
+  transform: translateX(-50%);
+}
+
+
+.mask-top-left::before,
+.mask-bottom-left::before {
+  left: 40px;
+}
+
+.mask-top-left::after,
+.mask-bottom-left::after {
+  left: 38px;
+}
+
+.mask-top-right::before,
+.mask-bottom-right::before {
+  right: 40px;
+}
+
+.mask-top-right::after,
+.mask-bottom-right::after {
+  right: 38px;
+}
+
+.mask-bottom-left::before,
+.mask-bottom-center::before,
+.mask-bottom-right::before {
+  content: "";
+  position: absolute;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #fff;
+  z-index: 1000;
+}
+
+.mask-bottom-left::after,
+.mask-bottom-center::after,
+.mask-bottom-right::after {
+  content: "";
+  position: absolute;
+  border-bottom: 5px solid transparent;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 5px solid #e4e7ed;;
+  z-index: 99;
+}
+
+.mask-inner {
     position: relative;
     background: #fff;
 }
-
 
 </style>
