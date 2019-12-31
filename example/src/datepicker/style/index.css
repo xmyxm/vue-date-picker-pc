@@ -90,207 +90,17 @@
     background-color: #fff;
 }
 
-.btn,
-.disableLeftBtn,
-.rightHandleBtn,
-.monthRightHandleBtn,
-.monthHandleBtn,
-.handleBtn {
-    display: inline-block;
-    cursor: pointer;
-}
-
-.btn:last-child {
-    margin-right: inherit;
-}
-.disableLeftBtn {
-    display: none;
-}
 .centerBtn {
     text-align: center;
     font-size: 12px;
     flex: 1;
 }
-.centerBtn .dateSplitLine {
-    display: inline-block;
-    margin: 0 10px;
-}
 
-.rightHandleBtn {
-    text-align: right;
-}
-.disableRightBtn {
-    display: none;
-}
 .iconBtn {
     width: 20px;
     height: 20px;
     border-radius: 20px;
 }
-.pannel {
-    display: inline-block;
-    width: 20%;
-    text-align: center;
-}
-
-.normalHeader {
-    color: #000;
-}
-.normalHeader .normalHeaderInner {
-    height: 2.8em;
-    line-height: 2.8em;
-    vertical-align: middle;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-    background-color: #fbfbfb;
-    color: #333;
-}
-.normalHeader .normalLeftBtn {
-    display: inline-block;
-    text-align: right;
-    font-size: 14px;
-    cursor: pointer;
-}
-.normalHeader .normalRightBtn {
-    display: inline-block;
-    text-align: left;
-    font-size: 14px;
-    cursor: pointer;
-}
-.normalHeader .normalCenter {
-    display: inline-block;
-    margin: 0 2em;
-    text-align: center;
-    white-space: nowrap;
-    cursor: pointer;
-}
-.normalHeader .normalSplitLine {
-    display: inline-block;
-    margin: 0 10px;
-}
-.currentYearBtn {
-    width: 100%;
-    text-align: center;
-    cursor: pointer;
-    padding: 5px 0;
-    background: #fff;
-}
-.currentYearBtn:hover {
-    background-color: #f8f8f8;
-}
-
-.groupCell {
-    display: inline-block;
-    width: 33.3%;
-    padding: 3px;
-    text-align: center;
-    border-radius: 3px;
-}
-.groupCellSplit {
-    display: inline-block;
-    width: 33.3%;
-}
-.groupCellSplit:after {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -0.13755158em;
-    margin-top: -1em;
-    content: ':';
-    text-align: center;
-    font-size: 2em;
-    line-height: 2em;
-    font-family: sans-serif;
-}
-.clockInput {
-    padding: 3px;
-    width: 2em;
-    height: 1.6em;
-    text-align: center;
-    font-size: 1.5em;
-    border: none;
-}
-
-.specialDayWrap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 0;
-    padding: 2px !important;
-    transform: scale(0.6);
-    color: #fff;
-}
-
-.specialDayWrap:before {
-    content: " ";
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 0;
-    height: 0;
-    border-top: 2.5em solid #118bfb;
-    border-right: 2.5em solid transparent;
-    z-index: -999;
-}
-
-.handleBtn {
-    font-size: 20px;
-    top: 0.02rem;
-    position: relative;
-}
-.rightHandleBtn {
-    font-size: 20px;
-    top: 0.02rem;
-    position: relative;
-}
-.monthHandleBtn {
-    float: left;
-}
-.monthRightHandleBtn {
-    float: right;
-}
-
-.holidayItemWrap {
-    display: inline-block;
-    text-align: center;
-    min-width: 25%;
-}
-.cellDate {
-    font-size: 10px;
-}
-.textName {
-    font-size: 12px;
-    line-height: 30px;
-}
-
-.normalList {
-    background: #fff;
-}
-
-/**节假日选择**/
-.holidaynormalListInner{
-    text-align: left;
-}
-/****/
-
-
-
-
-/**********************************  week  ********************************/
-.weeknormalList {
-    margin: 15px 8px;
-}
-.weeknormalList .normalListInner {
-    margin-bottom: -10px;
-}
-
-/***************************************************************************/
-
-/************************************* 核心公共样式 start **************************************/
-
-
-/************************************* 核心公共样式 end **************************************/
-
 
 /************************************* 新已确认样式 day start **************************************/
 .head-day-list {
@@ -361,11 +171,3 @@
     padding: 0;
 }
 /************************************* 新已确认样式 day end **************************************/
-
-
-
-
-/************************************* 新已确认样式 week start **************************************/
-
-/************************************* 新已确认样式 week end **************************************/
-

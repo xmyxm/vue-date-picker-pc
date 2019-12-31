@@ -1,18 +1,18 @@
 <template>
   <div class="week-wrap">
     <div class="header">
-        <div class="btn" @click="prevChange">
-          <div class="iconBtn">
-            <Icon type="angleLeft" />
-          </div>
+        <div
+          class="iconBtn"
+          @click="prevChange"
+        >
+          <Icon type="angleLeft" />
         </div>
-        <div class="centerBtn">
-          <span class="dateSplitLine">{{showYear}}</span>
-        </div>
-        <div class="rightBtn" @click="nextChange">
-          <div class="iconBtn">
-            <Icon type="angleRight" />
-          </div>
+        <div class="centerBtn">{{showYear}}</div>
+        <div
+          class="iconBtn"
+          @click="nextChange"
+        >
+          <Icon type="angleRight" />
         </div>
     </div>
     <div class="week-List" ref="list">
