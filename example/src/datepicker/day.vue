@@ -1,65 +1,61 @@
 <template>
   <div class="day-wrap">
-      <!-- 日历头 -->
-      <div class="header">
-          <div
-            class="iconBtn"
-            :title="locale.lang[lang].btns[0]"
-            @click="handleDateCalc('-1', 'year')"
-            >
-            <Icon :type="btnsNext.BTN_MINUS_YEAR" />
-          </div>
-          <div
-            class="iconBtn"
-            :title="locale.lang[lang].btns[1]"
-            @click="handleDateCalc('-1', 'month')"
-            >
-            <Icon :type="btnsNext.BTN_MINUS_MONTH" />
-          </div>
-          <div
-            :title="displayDateNext.getFullYear() + '-' + tools.dateFormat('m', this.displayDateNext)"
-            class="centerBtn"
-          >
-            <span>{{displayDateNext.getFullYear()}} 年 {{tools.dateFormat('m', this.displayDateNext)}} 月</span>
-          </div>
-          <div
-            class="iconBtn"
-            :title="locale.lang[lang].btns[2]"
-              @click="handleDateCalc('+1', 'month')"
-            >
-            <Icon :type="btnsNext.BTN_PLUS_MONTH" />
-          </div>
-          <div
-            class="iconBtn"
-            :title="locale.lang[lang].btns[3]"
-            @click="handleDateCalc('+1', 'year')"
-          >
-            <Icon :type="btnsNext.BTN_PLUS_YEAR" />
-          </div>
+    <!-- 日历头 -->
+    <div class="header">
+      <div class="iconBtn" :title="locale.lang[lang].btns[0]" @click="handleDateCalc('-1', 'year')">
+        <Icon :type="btnsNext.BTN_MINUS_YEAR" />
       </div>
-
-      <!-- 星期头 -->
-      <div class="head-day-list">
-        <span v-for="i in [0,1,2,3,4,5,6]" :class="'head-day-' + (i === 0 || i === 6 ? 'opacity' : 'item')" :key="i">
-          <span>{{locale.lang[lang]['week' + (isLong ? '' : 'Short')][i]}}</span>
-        </span>
+      <div
+        class="iconBtn"
+        :title="locale.lang[lang].btns[1]"
+        @click="handleDateCalc('-1', 'month')"
+      >
+        <Icon :type="btnsNext.BTN_MINUS_MONTH" />
       </div>
-
-      <!-- 日期单元 -->
-      <div class="day-list">
-        <div
-          v-for="dayData in dayListData"
-          :key="`${dayData.year}${dayData.month}${dayData.val}`"
-          :class="dayData.status"
-          @click="handleChooseDay(dayData)"
-        >
-          <span class="dayItemVal">{{dayData.val}}</span>
-          <p class="vication-wrap" :title="dayData.lDay">{{dayData.lDay}}</p>
-          <p v-if="dayData.holiday" class="holidayWrap">假</p>
-          <p v-if="dayData.work" class="workWrap">班</p>
-        </div>
+      <div
+        :title="displayDateNext.getFullYear() + '-' + tools.dateFormat('m', this.displayDateNext)"
+        class="centerBtn"
+      >
+        <span>{{displayDateNext.getFullYear()}} 年 {{tools.dateFormat('m', this.displayDateNext)}} 月</span>
+      </div>
+      <div
+        class="iconBtn"
+        :title="locale.lang[lang].btns[2]"
+        @click="handleDateCalc('+1', 'month')"
+      >
+        <Icon :type="btnsNext.BTN_PLUS_MONTH" />
+      </div>
+      <div class="iconBtn" :title="locale.lang[lang].btns[3]" @click="handleDateCalc('+1', 'year')">
+        <Icon :type="btnsNext.BTN_PLUS_YEAR" />
       </div>
     </div>
+
+    <!-- 星期头 -->
+    <div class="head-day-list">
+      <span
+        v-for="i in [0,1,2,3,4,5,6]"
+        :class="'head-day-' + (i === 0 || i === 6 ? 'opacity' : 'item')"
+        :key="i"
+      >
+        <span>{{locale.lang[lang]['week' + (isLong ? '' : 'Short')][i]}}</span>
+      </span>
+    </div>
+
+    <!-- 日期单元 -->
+    <div class="day-list">
+      <div
+        v-for="dayData in dayListData"
+        :key="`${dayData.year}${dayData.month}${dayData.val}`"
+        :class="dayData.status"
+        @click="handleChooseDay(dayData)"
+      >
+        <span class="dayItemVal">{{dayData.val}}</span>
+        <p class="vication-wrap" :title="dayData.lDay">{{dayData.lDay}}</p>
+        <p v-if="dayData.holiday" class="holidayWrap">假</p>
+        <p v-if="dayData.work" class="workWrap">班</p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -82,7 +78,9 @@ export default {
     },
     locale: {
       type: Object,
-      default() { return conf.locale; },
+      default() {
+        return conf.locale;
+      },
     },
     // 返回数据的格式，默认'Y/m/d'
     format: {
@@ -197,10 +195,21 @@ export default {
       };
     },
     dayListData() {
-      const { displayDateNext, enableRange, startDate, endDate, disabled, validCache, cache, enablefix, lunar } = this;
+      const {
+        displayDateNext, // 当前显示的时间对象
+        enableRange, // 是否限制可选时间范围
+        startDate, // 开始时间
+        endDate, // 结束时间
+        disabled, // 处理可选时间范围函数
+        validCache,
+        cache,
+        enablefix,
+        lunar,
+      } = this;
+      // 转换成时间的字面量对象
       const dateVal = tools.parseDate(displayDateNext);
       // eslint-disable-next-line no-underscore-dangle
-      const _endDate = enableRange ? (endDate || startDate) : startDate;
+      const _endDate = enableRange ? endDate || startDate : startDate;
       const dayList = dayConverters(
         {
           month: dateVal.month,
@@ -268,7 +277,13 @@ export default {
     },
     getInjectStatus() {
       let injectStatus = false;
-      const { enableRange, valueNext, startDate, endDate, displayDateNext } = this;
+      const {
+        enableRange,
+        valueNext,
+        startDate,
+        endDate,
+        displayDateNext,
+      } = this;
       if (enableRange) {
         if (valueNext) {
           if (valueNext.startDate && valueNext.endDate) {
@@ -276,7 +291,10 @@ export default {
               valueNext.startDate,
               startDate,
             );
-            const resolvedEndDate = this.parseDateUnit(valueNext.endDate, endDate);
+            const resolvedEndDate = this.parseDateUnit(
+              valueNext.endDate,
+              endDate,
+            );
             this.startDate = resolvedStartDate.date;
             this.endDate = resolvedEndDate.date;
             if (this.startDate > this.endDate) {
@@ -379,7 +397,9 @@ export default {
     handleChooseDay(dayData) {
       if (dayData.disabled) return;
 
-      const targetDate = new Date(`${dayData.year}/${dayData.month}/${dayData.val}`);
+      const targetDate = new Date(
+        `${dayData.year}/${dayData.month}/${dayData.val}`,
+      );
       // 设置clock
       targetDate.setHours(this.cache.hour || 0);
       targetDate.setMinutes(this.cache.minute || 0);
@@ -410,10 +430,7 @@ export default {
       this.displayDateNext = new Date(targetDate.toGMTString());
       if (this.onSelected) {
         const choosedDateStr = tools.dateFormat(this.format, targetDate);
-        this.onSelected(
-          tools.cloneDate(targetDate),
-          choosedDateStr,
-        );
+        this.onSelected(tools.cloneDate(targetDate), choosedDateStr);
       }
       this.$nextTick(function () {
         this.triggerChangeEvt();
