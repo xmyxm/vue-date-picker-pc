@@ -22,6 +22,7 @@
 .dayDisabled,
 .todayActive,
 .todayRegion,
+.todayDisabled,
 .head-day-item,
 .head-day-opacity {
     position: relative;
@@ -43,7 +44,8 @@
 .dayRegion .dayItemVal, 
 .dayDisabled .dayItemVal,
 .todayActive .dayItemVal,
-.todayRegion .dayItemVal {
+.todayRegion .dayItemVal,
+.todayDisabled .dayItemVal {
     display: inline-block;
     width: 2em;
     height: 2em;
