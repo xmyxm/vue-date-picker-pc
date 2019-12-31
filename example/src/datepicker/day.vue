@@ -99,30 +99,12 @@ export default {
       type: Boolean,
       default: false,
     },
-    enablefix: {
-      type: Boolean,
-      default: false,
-    },
-    isFirst: {
-      type: Boolean,
-      default: false,
-    },
     // 禁用的范围，false为不禁用，true为全部禁用
     // 数组时为多点禁用
     // 如：[new Date('2015/11/11'), [new Date('2015/11/01'), new Date('2015/11/04')]]表示禁用 2015/11/11 和 2015/11/01 - 2015/11/04
     disabled: {
       type: [Function, Boolean, Object],
       default: false,
-    },
-    // 日历尺寸，可选normal, medium, large
-    size: {
-      type: String,
-      default: 'normal',
-    },
-    // 根据size参数来指定最外层容器尺寸，false时将撤去外层容器尺寸的硬性指定
-    sizeLimit: {
-      type: Boolean,
-      default: true,
     },
     // 是否需要显示农历、节假日信息
     lunar: {
@@ -137,8 +119,10 @@ export default {
     value: {
       type: [Object, Date],
     },
+    // 尾部是否多显示一行不可用日期
     enablefix: {
       type: Boolean,
+      default: false,
     },
     // 配置按钮类型，其值取自Icon组件中的type列表
     btns: {
@@ -146,10 +130,6 @@ export default {
     },
     // 选择改变时的回调，非范围模式下一般无用
     onChange: {
-      type: Function,
-      default() {},
-    },
-    onClose: {
       type: Function,
       default() {},
     },
@@ -213,14 +193,13 @@ export default {
     maskSpec() {
       return {
         lang: this.lang,
-        size: this.size,
-        sizeLimit: this.sizeLimit,
         btns: this.btnsNext,
       };
     },
     dayListData() {
       const { displayDateNext, enableRange, startDate, endDate, disabled, validCache, cache, enablefix, lunar } = this;
       const dateVal = tools.parseDate(displayDateNext);
+      // eslint-disable-next-line no-underscore-dangle
       const _endDate = enableRange ? (endDate || startDate) : startDate;
       const dayList = dayConverters(
         {
