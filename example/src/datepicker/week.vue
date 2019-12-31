@@ -5,14 +5,14 @@
           class="iconBtn"
           @click="prevChange"
         >
-          <Icon type="angleLeft" />
+          <i type="angleLeft" />
         </div>
         <div class="centerBtn">{{showYear}}</div>
         <div
           class="iconBtn"
           @click="nextChange"
         >
-          <Icon type="angleRight" />
+          <i type="angleRight" />
         </div>
     </div>
     <div class="week-List" ref="list">
@@ -30,14 +30,10 @@
 </template>
 
 <script>
-import Icon from './icon';
 import tools from './lib/tools';
 
 export default {
   name: 'Week',
-  components: {
-    Icon,
-  },
   props: {
     year: {
       type: Number,

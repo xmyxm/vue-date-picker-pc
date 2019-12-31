@@ -81,11 +81,13 @@ const getYearWeekNums = function getYearWeekNums(year) {
  * @return {Number}       天数
  */
 const getMonthDaysNum = function getMonthDaysNum(month, year) {
-  month = parseInt(month, 10);
-  if (month !== 2) {
-    return monthDayNumMap[month - 1];
-  }
-  return isLeapYear(year) ? 29 : 28;
+  const day = new Date(year, month, 0); // 最后一个参数为0,意为获取2018年10月一共多少天
+  return day.getDate();
+  // month = parseInt(month, 10);
+  // if (month !== 2) {
+  //   return monthDayNumMap[month - 1];
+  // }
+  // return isLeapYear(year) ? 29 : 28;
 };
 
 const cloneDate = function cloneDate(date) {

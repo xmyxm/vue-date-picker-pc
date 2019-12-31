@@ -171,3 +171,59 @@
     padding: 0;
 }
 /************************************* 新已确认样式 day end **************************************/
+
+
+
+/************************************* 新已确认样式 icon btn start **************************************/
+
+.angleDoubleLeft {
+    background: url("./icon/angleDoubleLeft.png") center no-repeat;
+}
+
+.angleLeft {
+    background: url("./icon/angleLeft.png") center no-repeat;
+}
+
+.angleRight {
+    background: url("./icon/angleRight.png") center no-repeat;
+}
+
+.angleDoubleRight {
+    background: url("./icon/angleDoubleRight.png") center no-repeat;
+}
+
+.angleDown {
+    background: red;
+}
+
+.angleUp {
+    background: red;
+}
+
+.fa {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-size: 40px 40px;
+}
+
+.angleDoubleLeft,
+.angleLeft,
+.angleRight,
+.angleDoubleRight {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-size: 10px 10px;
+    cursor: pointer;
+}
+
+.angleDoubleLeft:hover,
+.angleLeft:hover,
+.angleRight:hover,
+.angleDoubleRight:hover {
+    border-radius: 50%;
+    background-color: #f7f7f7;
+}
+/************************************* 新已确认样式 icon btn end **************************************/
+

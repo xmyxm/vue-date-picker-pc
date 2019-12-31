@@ -2,15 +2,15 @@
   <div class="day-wrap">
     <!-- 日历头 -->
     <div class="header">
-      <div class="iconBtn" :title="locale.lang[lang].btns[0]" @click="handleDateCalc('-1', 'year')">
-        <Icon :type="btnsNext.BTN_MINUS_YEAR" />
+      <div class="iconBtn" title="上一年" @click="handleDateCalc('-1', 'year')">
+        <i class="angleDoubleLeft" />
       </div>
       <div
         class="iconBtn"
-        :title="locale.lang[lang].btns[1]"
+        title="上个月"
         @click="handleDateCalc('-1', 'month')"
       >
-        <Icon :type="btnsNext.BTN_MINUS_MONTH" />
+        <i class="angleLeft" />
       </div>
       <div
         :title="displayDateNext.getFullYear() + '-' + tools.dateFormat('m', this.displayDateNext)"
@@ -20,13 +20,13 @@
       </div>
       <div
         class="iconBtn"
-        :title="locale.lang[lang].btns[2]"
+        title="下个月"
         @click="handleDateCalc('+1', 'month')"
       >
-        <Icon :type="btnsNext.BTN_PLUS_MONTH" />
+        <i class="angleRight" />
       </div>
-      <div class="iconBtn" :title="locale.lang[lang].btns[3]" @click="handleDateCalc('+1', 'year')">
-        <Icon :type="btnsNext.BTN_PLUS_YEAR" />
+      <div class="iconBtn" title="下一年" @click="handleDateCalc('+1', 'year')">
+        <i class="angleDoubleRight" />
       </div>
     </div>
 
@@ -63,13 +63,9 @@ import absoluteCalc from './lib/absolute-calc';
 import { dayConverters } from './lib/day-converters';
 import tools from './lib/tools';
 import conf from './lib/config';
-import Icon from './icon';
 
 export default {
   name: 'Day',
-  components: {
-    Icon,
-  },
   props: {
     // 多语言，'zh' 或 'en'
     lang: {
@@ -473,4 +469,3 @@ export default {
   },
 };
 </script>
-
