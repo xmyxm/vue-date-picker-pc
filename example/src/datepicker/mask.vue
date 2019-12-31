@@ -64,7 +64,7 @@ export default {
 .date-picker-mask {
     position: absolute;
     width: 250px;
-    height: 300px;
+    max-height: 350px;
     z-index: 10;
     border: 1px solid #e4e7ed;
     border-radius: 4px;

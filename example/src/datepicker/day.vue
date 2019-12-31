@@ -1,24 +1,20 @@
 <template>
-  <div :class="size + (sizeLimit ? '' : ' notLimitSize')">
+  <div class="day-wrap">
       <!-- 日历头 -->
       <div class="header">
           <div
+            class="iconBtn"
             :title="locale.lang[lang].btns[0]"
-            class="btn"
             @click="handleDateCalc('-1', 'year')"
-          >
-            <div class="iconBtn">
-              <Icon :type="btnsNext.BTN_MINUS_YEAR" />
-            </div>
+            >
+            <Icon :type="btnsNext.BTN_MINUS_YEAR" />
           </div>
           <div
+            class="iconBtn"
             :title="locale.lang[lang].btns[1]"
-            class="btn"
             @click="handleDateCalc('-1', 'month')"
-          >
-            <div class="iconBtn">
-              <Icon :type="btnsNext.BTN_MINUS_MONTH" />
-            </div>
+            >
+            <Icon :type="btnsNext.BTN_MINUS_MONTH" />
           </div>
           <div
             :title="displayDateNext.getFullYear() + '-' + tools.dateFormat('m', this.displayDateNext)"
@@ -27,22 +23,18 @@
             <span>{{displayDateNext.getFullYear()}} 年 {{tools.dateFormat('m', this.displayDateNext)}} 月</span>
           </div>
           <div
+            class="iconBtn"
             :title="locale.lang[lang].btns[2]"
-            class="rightBtn"
-            @click="handleDateCalc('+1', 'month')"
-          >
-            <div class="iconBtn">
-              <Icon :type="btnsNext.BTN_PLUS_MONTH" />
-            </div>
+              @click="handleDateCalc('+1', 'month')"
+            >
+            <Icon :type="btnsNext.BTN_PLUS_MONTH" />
           </div>
           <div
+            class="iconBtn"
             :title="locale.lang[lang].btns[3]"
-            class="rightBtn"
             @click="handleDateCalc('+1', 'year')"
           >
-            <div class="iconBtn">
-              <Icon :type="btnsNext.BTN_PLUS_YEAR" />
-            </div>
+            <Icon :type="btnsNext.BTN_PLUS_YEAR" />
           </div>
       </div>
 
@@ -67,7 +59,6 @@
           <p v-if="dayData.work" class="workWrap">班</p>
         </div>
       </div>
-
     </div>
 </template>
 

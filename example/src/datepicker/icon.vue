@@ -51,6 +51,7 @@ export default {
 .angleLeft,
 .angleRight,
 .angleDoubleRight {
+    display: block;
     width: 20px;
     height: 20px;
     background-size: 10px 10px;

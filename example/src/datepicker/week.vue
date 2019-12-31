@@ -242,7 +242,7 @@ export default {
 
 <style scope>
 .week-wrap {
-    height: 100%;
+    height: 300px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
