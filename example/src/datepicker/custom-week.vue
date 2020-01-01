@@ -45,11 +45,11 @@
     <div class="day-list">
       <div
         v-for="dayData in dayListData"
-        :key="`${dayData.year}${dayData.month}${dayData.val}`"
+        :key="`${dayData.year}${dayData.month}${dayData.day}`"
         :class="dayData.status"
         @click="handleChooseDay(dayData)"
       >
-        <span class="dayItemVal">{{dayData.val}}</span>
+        <span class="dayItemVal">{{dayData.day}}</span>
         <p class="vication-wrap" :title="dayData.lDay">{{dayData.lDay}}</p>
         <p v-if="dayData.holiday" class="holidayWrap">假</p>
         <p v-if="dayData.work" class="workWrap">班</p>
@@ -90,7 +90,7 @@ export default {
   data() {
     return {
       tools,
-      displayDate: this.value,
+      displayDate: new Date('2019/12/26'), // this.value,
     };
   },
   created() {

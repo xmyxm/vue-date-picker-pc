@@ -40,7 +40,7 @@ const addLunarInfo = (dayList) => {
     let work;
     year = parseInt(dayList[i].year, 10);
     month = parseInt(dayList[i].month, 10);
-    day = parseInt(dayList[i].val, 10);
+    day = parseInt(dayList[i].day, 10);
     // 初始化 或 新的一月，需要重新获取起始农历时间
     if (!tempDay || tempDay > monthDaySum) {
       firstDay = lunarUtil.solar2lunar(year, month, day);
@@ -74,245 +74,17 @@ const addLunarInfo = (dayList) => {
   return dayList;
 };
 
-  // 日期数据转换器，生成render所需的日期数据
-  // 添加enablefix，表示是否范围日历，若范围日历enablefix设为true
-export function weekConverters(date, disabledCheck) {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  // 是否在日历尾部多加一行
-  const enablefix = false;
-  // 该月总天数
-  const dayNum = tools.getMonthDaysNum(month, year);
-  // 该月第一天是周几
-  const startDayWeek = tools.getWeek(1, month, year);
-  // 该月最后一天是周几
-  const lastDayWeek = tools.getWeek(dayNum, month, year);
-
-  //   let startDate,
-  //     endDate,
-  //     startDateStamp,
-  //     endDateStamp;
-  // 今天的
-  const todayTime = new Date();
-  const todayDate = new Date(`${todayTime.getFullYear()}/${todayTime.getMonth() + 1}/${todayTime.getDate()}`);
-  // 完全没选中的标识
-  // const absoluteNoChoosed = true;
-
-  // 非范围状态下表示已选择，范围模式下表示存在起点
-  // 分别获取对应的时间戳，自动归类起点/终点
-  //   if (startDateData) {
-  //     startDate = tools.resetToFirst(startDateData, 'hours');
-  //     endDate = tools.resetToFirst(endDateData, 'hours');
-  //     startDateStamp = +startDate;
-  //     endDateStamp = +endDate;
-
-  //     if (startDateStamp > endDateStamp) {
-  //       const currentDate = endDate;
-  //       const tmpEndDateData = endDateData;
-  //       startDateStamp = endDateStamp;
-  //       endDateStamp = +startDate;
-  //       endDate = startDate;
-  //       startDate = currentDate;
-  //       endDateData = startDateData;
-  //       startDateData = tmpEndDateData;
-  //     }
-
-  //     absoluteNoChoosed = false;
-  //   }
-
-  let dayVal;
-  // let checkedParam;
-  let dayList = [];
-  // const startDateNum = year + (month.toString().length < 2 ? '0' : '') + month;
-  let disabledFlag = false;
-  // let currentPos;
-  // 用于比较范围/选中
-  //   startDate = startDate && parseInt(tools.dateFormat('Ymd', startDate), 10);
-  //   endDate = endDate && parseInt(tools.dateFormat('Ymd', endDate), 10);
-
-  // 获取主体部分数据
-  for (let i = 0; i < dayNum; i++) {
-    dayVal = i + 1;
-
-    let status = CONF.CURRENT;
-    // 日期的数字形式，用于比较选中
-    const currentDate = new Date([year, month, dayVal].join('/'));
-    // const tmpDateNum = parseInt(
-    //   startDateNum + (dayVal < 10 ? '0' : '') + dayVal,
-    //   10,
-    // );
-    // checkedParam = cloneClockToDate(currentDate, cache);
-    // disabledFlag = disabledCheck(checkedParam);
-    disabledFlag = disabledCheck(currentDate);
-    if (disabledFlag) {
-      status = CONF.DISABLED;
-    }
-
-    // 追加当天状态
-    if (currentDate === todayDate) {
-      status = CONF.TODAY;
-    }
-
-    dayList.push({
-      month,
-      year,
-      val: dayVal,
-      status,
-      disabled: disabledFlag,
-    });
-  }
-
-  // 补齐本月之前的数据
-  const prevOffset = startDayWeek % 7;
-
-  if (prevOffset) {
-    let prevMonth = month - 1;
-    const isFirstMonth = prevMonth <= 0;
-
-    prevMonth = isFirstMonth ? 12 : prevMonth;
-
-    const prevYear = isFirstMonth ? year - 1 : year;
-    let prevMonthDayNum = tools.getMonthDaysNum(prevMonth, prevYear);
-    const prevDayBorder = prevMonthDayNum - prevOffset;
-
-    for (; prevMonthDayNum > prevDayBorder; prevMonthDayNum--) {
-      let status = CONF.PREV;
-      const currentDate = new Date([prevYear, prevMonth, prevMonthDayNum].join('/'));
-      // const tmpDateNum = parseInt(tools.dateFormat('Ymd', currentDate), 10);
-      //   checkedParam = cloneClockToDate(currentDate, cache);
-      // checkedParam = currentDate;
-      // currentPos = 'normal';
-
-      //   // 选中状态
-      //   if (!absoluteNoChoosed) {
-      //     if (tmpDateNum === startDate) {
-      //       currentPos = 'start';
-      //     }
-      //     if (tmpDateNum === endDate) {
-      //       currentPos = currentPos === 'start' ? 'startEnd' : 'end';
-      //     }
-      //   }
-
-      // 追加当天状态
-      if (currentDate === todayDate) {
-        status = CONF.TODAY;
-      }
-
-      disabledFlag = disabledCheck(currentDate); // (checkedParam, currentPos);
-      if (disabledFlag) {
-        status = CONF.DISABLED;
-      }
-
-      dayList.unshift({
-        month: prevMonth,
-        year: prevYear,
-        val: prevMonthDayNum,
-        status,
-        disabled: disabledFlag,
-      });
-    }
-  }
-
-  // 补齐本月之后的数据
-  // 将日历数据补全6行；
-
-  let nextOffset = (7 - ((lastDayWeek + 1) % 7)) % 7;
-
-  if (dayNum + prevOffset <= 28 && enablefix) {
-    nextOffset += 7 * 2;
-  } else if (
-    dayNum + prevOffset > 28 &&
-      dayNum + prevOffset <= 35 &&
-      enablefix
-  ) {
-    nextOffset += 7;
-  }
-
-  if (nextOffset) {
-    let nextMonth = month + 1;
-    const isLastMonth = nextMonth > 12;
-
-    nextMonth = isLastMonth ? 1 : nextMonth;
-    const nextYear = isLastMonth ? year + 1 : year;
-
-    const nextDayBorder = nextOffset;
-
-    for (let i = 1; i <= nextDayBorder; i++) {
-      let status = CONF.NEXT;
-      const currentDate = new Date([nextYear, nextMonth, i].join('/'));
-      // const tmpDateNum = parseInt(tools.dateFormat('Ymd', currentDate), 10);
-      // checkedParam = cloneClockToDate(currentDate, cache);
-      // checkedParam = currentDate;
-      // currentPos = 'normal';
-
-      // 选中状态
-      //   if (
-      //     !absoluteNoChoosed &&
-      //       tmpDateNum >= startDate &&
-      //       tmpDateNum <= endDate
-      //   ) {
-      //     // if(tmpDateNum == startDate || tmpDateNum == endDate)
-      //     //     status = CONF.ACTIVE;
-      //     // else status = CONF.REGION;
-      //     if (tmpDateNum === startDate) {
-      //       currentPos = 'start';
-      //     }
-      //     if (tmpDateNum === endDate) {
-      //       currentPos = currentPos === 'start' ? 'startEnd' : 'end';
-      //     }
-      //   }
-
-      // 追加当天状态
-      if (currentDate === todayDate) {
-        status = CONF.TODAY;
-      }
-
-      disabledFlag = disabledCheck(currentDate); // (checkedParam, currentPos);
-      if (disabledFlag) {
-        status = CONF.DISABLED;
-      }
-
-      dayList.push({
-        month: nextMonth,
-        year: nextYear,
-        val: i,
-        status,
-        disabled: disabledFlag,
-      });
-    }
-  }
-  // 增加农历、节假日信息
-  dayList = addLunarInfo(dayList);
-  //   selectedTime =
-
-  //   dayList.forEach((item) => {
-
-  //   });
-  return dayList;
-}
-
-
-export const cloneClockToDate = (date, parsedBasedDate) => {
-  if (parsedBasedDate === false) {
-    return date;
-  }
-  date = tools.cloneDate(date);
-  date.setHours(parsedBasedDate.hour || 0);
-  date.setMinutes(parsedBasedDate.minute || 0);
-  date.setSeconds(parsedBasedDate.second || 0);
-  date.setMilliseconds(0);
-  return date;
-};
-
-
+// 计算当前时间所在周的起始范围
 function weekIndexByDate(date) {
-  const dateText = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}`;
+  const dateText = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
   const nowDate = new Date(dateText);
   const initTime = new Date(dateText);
   initTime.setMonth(0); // 本年初始月份
   initTime.setDate(1); // 本年初始时间
   const differenceVal = nowDate - initTime; // 今天的时间减去本年开始时间，获得相差的时间
-  const todayYear = Math.ceil(differenceVal / (24 * 60 * 60 * 1000)); // 获取今天是今年第几天
+  let todayYear = Math.ceil(differenceVal / (24 * 60 * 60 * 1000)); // 获取今天是今年第几天
+  // 如果当前年份第一天不是周一需要补上上年年尾的几天
+  todayYear += initTime.getDay();
   const index = Math.ceil(todayYear / 7);
   // 当年所属周
   const result = { index };
@@ -329,11 +101,13 @@ function weekIndexByDate(date) {
     // 当前日期生效周
     result.validTime = result.currentWeek;
   } else {
+    // debugger;
     // 当前日期非周日
     const startTime = new Date(dateText);
     startTime.setDate(startTime.getDate() - weekIndex);
     const endTime = new Date(dateText);
-    endTime.setDate(endTime.getDate() + 7 - weekIndex);
+    // 这里是6，因为排列是从周日开始
+    endTime.setDate(endTime.getDate() + 6 - weekIndex);
     // 当前日期所属周
     result.currentWeek = {
       start: startTime,
@@ -349,3 +123,158 @@ function weekIndexByDate(date) {
   }
   return result;
 }
+
+
+// 日期数据转换器，生成render所需的日期数据
+// 添加enablefix，表示是否范围日历，若范围日历enablefix设为true
+export function weekConverters(date, disabledCheck) {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  // 是否在日历尾部多加一行
+  const enablefix = false;
+  // 该月总天数
+  const dayCount = tools.getMonthDaysNum(month, year);
+  // 该月第一天是周几
+  const startDayWeek = tools.getWeek(1, month, year);
+  // 该月最后一天是周几
+  const lastDayWeek = tools.getWeek(dayCount, month, year);
+  // 今日时间
+  const todayTime = new Date();
+  // 今日日期
+  const todayDate = new Date(`${todayTime.getFullYear()}/${todayTime.getMonth() + 1}/${todayTime.getDate()}`);
+
+  // 月天数对象集合
+  let dayList = [];
+  // 禁止点击标识
+  let disabledFlag = false;
+
+  // 获取主体部分数据
+  for (let i = 0; i < dayCount; i++) {
+    const currentDay = i + 1;
+
+    let status = CONF.CURRENT;
+    // 日期的数字形式，用于比较选中
+    const currentDate = new Date([year, month, currentDay].join('/'));
+    // 判断当前日期是否点击
+    disabledFlag = disabledCheck(currentDate);
+    // 添加不可点击样式
+    if (disabledFlag) {
+      status = CONF.DISABLED;
+    }
+
+    // 追加当天状态
+
+    if (currentDate.getTime() === todayDate.getTime()) {
+      status = CONF.TODAY;
+    }
+
+    dayList.push({
+      month,
+      year,
+      day: currentDay,
+      status,
+      disabled: disabledFlag,
+    });
+  }
+
+  // 补齐本月之前的数据
+  const prevDay = startDayWeek % 7;
+
+  if (prevDay) {
+    let prevMonth = month - 1;
+    let prevYear = year;
+    if (prevMonth <= 0) {
+      prevMonth = 12;
+      prevYear = year - 1;
+    }
+    let prevDayCount = tools.getMonthDaysNum(prevMonth, prevYear);
+    const prevDayBorder = prevDayCount - prevDay;
+
+    for (; prevDayCount > prevDayBorder; prevDayCount--) {
+      let status = CONF.PREV;
+      const currentDate = new Date([prevYear, prevMonth, prevDayCount].join('/'));
+
+      // 追加当天状态
+      if (currentDate.getTime() === todayDate.getTime()) {
+        status = CONF.TODAY;
+      }
+
+      disabledFlag = disabledCheck(currentDate); // (checkedParam, currentPos);
+      if (disabledFlag) {
+        status = CONF.DISABLED;
+      }
+
+      dayList.unshift({
+        month: prevMonth,
+        year: prevYear,
+        day: prevDayCount,
+        status,
+        disabled: disabledFlag,
+      });
+    }
+  }
+
+  // 补齐本月之后的数据
+  // 将日历数据补全6行；
+
+  let nextDay = (7 - ((lastDayWeek + 1) % 7)) % 7;
+  if (dayCount + prevDay <= 28 && enablefix) {
+    nextDay += 7 * 2;
+  } else if (
+    dayCount + prevDay > 28 &&
+      dayCount + prevDay <= 35 &&
+      enablefix
+  ) {
+    nextDay += 7;
+  }
+
+  if (nextDay) {
+    let nextMonth = month + 1;
+    let nextYear = year;
+    if (nextMonth > 12) {
+      nextMonth = 1;
+      nextYear = year + 1;
+    }
+
+    for (let i = 1; i <= nextDay; i++) {
+      let status = CONF.NEXT;
+      const currentDate = new Date([nextYear, nextMonth, i].join('/'));
+      // 追加当天状态
+      if (currentDate.getTime() === todayDate.getTime()) {
+        status = CONF.TODAY;
+      }
+
+      disabledFlag = disabledCheck(currentDate); // (checkedParam, currentPos);
+      if (disabledFlag) {
+        status = CONF.DISABLED;
+      }
+
+      dayList.push({
+        month: nextMonth,
+        year: nextYear,
+        day: i,
+        status,
+        disabled: disabledFlag,
+      });
+    }
+  }
+  // 增加农历、节假日信息
+  dayList = addLunarInfo(dayList);
+  //
+  const currentWeek = weekIndexByDate(date).currentWeek;
+  if (currentWeek.end < new Date()) {
+    const minDay = currentWeek.start.getDate();
+    const maxDay = currentWeek.end.getDate();
+    console.log(currentWeek);
+    dayList.forEach((item) => {
+      if (item.day >= minDay && item.day <= maxDay) {
+        item.status = CONF.ACTIVE;
+      }
+    });
+  }
+  return dayList;
+}
+
+export default {
+  weekConverters,
+};
