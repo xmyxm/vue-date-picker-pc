@@ -1,5 +1,3 @@
-
-import tools from './tools';
 import lunarUtil from './lunar-util';
 
 // const CONF = {
@@ -62,78 +60,30 @@ function dayCountByMonth(date) {
 }
 
 function monthInfoByDate(date) {
-  const dateText = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-  const nowDate = new Date(dateText);
-  const initTime = new Date(dateText);
-  initTime.setMonth(0); // 本年初始月份
-  initTime.setDate(1); // 本年初始时间
-  const differenceVal = nowDate - initTime; // 今天的时间减去本年开始时间，获得相差的时间
-  let todayYear = Math.ceil(differenceVal / (24 * 60 * 60 * 1000)); // 获取今天是今年第几天
-  // 本年初始时间是1号，所以天数差值需要补充1天
-  todayYear += 1;
-  // 如果当前年份第一天不是周一需要补上上年年尾的几天
-  todayYear += initTime.getDay() - 1;
-  const year = nowDate.getFullYear();
-  const month = nowDate.getMonth() + 1;
-  // 计算出第几周
-  const week = Math.ceil(todayYear / 7);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
   // 计算当月总天数
   const dayCount = dayCountByMonth(date);
   // 计算当月第一天星期几
   const firstDayWeekIndex = (new Date(`${date.getFullYear()}/${date.getMonth() + 1}/1`)).getDay();
   // 计算当月最后一天星期几
   const lastDayWeekIndex = (new Date(`${date.getFullYear()}/${date.getMonth() + 1}/${dayCount}`)).getDay();
-  // 当天是周几
-  const weekIndex = todayYear % 7;
-  // 当年所属周
-  const result = {
+  // 月信息
+  const monthInfo = {
     year,
     month,
-    week,
     dayCount,
-    weekIndex,
     firstDayWeekIndex,
     lastDayWeekIndex,
   };
-  // debugger;
-  // 当前日期为周日
-  if (weekIndex === 0) {
-    const startTime = new Date(dateText);
-    // 减去6天刚好是这周周一
-    startTime.setDate(startTime.getDate() - 7 + 1);
-    // 当前日期所属周
-    result.currentWeek = {
-      start: startTime,
-      end: nowDate,
-    };
-    // 当前日期生效周
-    result.validTime = result.currentWeek;
-  } else {
-    // 当前日期非周日
-    const startTime = new Date(dateText);
-    startTime.setDate(startTime.getDate() - weekIndex + 1);
-    const endTime = new Date(dateText);
-    // debugger;
-    endTime.setDate(endTime.getDate() + 7 - weekIndex);
-    // 当前日期所属周
-    result.currentWeek = {
-      start: startTime,
-      end: endTime,
-    };
-    const oldTime = new Date(dateText);
-    oldTime.setDate(oldTime.getDate() - weekIndex - 7);
-    // 当前日期生效周
-    result.validTime = {
-      start: oldTime,
-      end: startTime,
-    };
-  }
-  return result;
+  return monthInfo;
 }
 
 // 计算当前时间所在周的起始范围
-function weekInfoByDate(date) {
-  const dateText = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+export function weekInfoByDate(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const dateText = `${year}/${month}/${date.getDate()}`;
   const nowDate = new Date(dateText);
   const initTime = new Date(dateText);
   initTime.setMonth(0); // 本年初始月份
@@ -144,27 +94,16 @@ function weekInfoByDate(date) {
   todayYear += 1;
   // 如果当前年份第一天不是周一需要补上上年年尾的几天
   todayYear += initTime.getDay() - 1;
-  const year = nowDate.getFullYear();
-  const month = nowDate.getMonth() + 1;
   // 计算出第几周
   const week = Math.ceil(todayYear / 7);
-  // 计算当月总天数
-  const dayCount = dayCountByMonth(date);
-  // 计算当月第一天星期几
-  const firstDayWeekIndex = (new Date(`${date.getFullYear()}/${date.getMonth() + 1}/1`)).getDay();
-  // 计算当月最后一天星期几
-  const lastDayWeekIndex = (new Date(`${date.getFullYear()}/${date.getMonth() + 1}/${dayCount}`)).getDay();
   // 当天是周几
   const weekIndex = todayYear % 7;
   // 当年所属周
-  const result = {
+  const weekInfo = {
     year,
     month,
     week,
-    dayCount,
     weekIndex,
-    firstDayWeekIndex,
-    lastDayWeekIndex,
   };
   // debugger;
   // 当前日期为周日
@@ -173,12 +112,12 @@ function weekInfoByDate(date) {
     // 减去6天刚好是这周周一
     startTime.setDate(startTime.getDate() - 7 + 1);
     // 当前日期所属周
-    result.currentWeek = {
+    weekInfo.currentWeek = {
       start: startTime,
       end: nowDate,
     };
     // 当前日期生效周
-    result.validTime = result.currentWeek;
+    weekInfo.validTime = weekInfo.currentWeek;
   } else {
     // 当前日期非周日
     const startTime = new Date(dateText);
@@ -187,28 +126,28 @@ function weekInfoByDate(date) {
     // debugger;
     endTime.setDate(endTime.getDate() + 7 - weekIndex);
     // 当前日期所属周
-    result.currentWeek = {
+    weekInfo.currentWeek = {
       start: startTime,
       end: endTime,
     };
     const oldTime = new Date(dateText);
     oldTime.setDate(oldTime.getDate() - weekIndex - 7);
     // 当前日期生效周
-    result.validTime = {
+    weekInfo.validTime = {
       start: oldTime,
       end: startTime,
     };
   }
-  return result;
+  return weekInfo;
 }
 
 // 日期数据转换器，生成render所需的日期数据
 // 添加enablefix，表示是否范围日历，若范围日历enablefix设为true
-export function weekConverters(selectWeek, displayDate, disabledCheck, mouseHitDate) {
+export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitDate) {
   // 是否在日历尾部多加一行
   const enablefix = false;
   // 该月总天数, 该月第一天是周几, 该月最后一天是周几, 当前日期所在的周
-  const { year, month, dayCount, firstDayWeekIndex, lastDayWeekIndex, currentWeek } = weekInfoByDate(displayDate);
+  const { year, month, dayCount, firstDayWeekIndex, lastDayWeekIndex } = monthInfoByDate(displayDate);
   // 今日时间
   const todayTime = new Date();
   // 今日日期
@@ -249,7 +188,7 @@ export function weekConverters(selectWeek, displayDate, disabledCheck, mouseHitD
   }
 
   // 补齐本月之前的数据, 若 firstDayWeekIndex = 0 则当天为周日，需补6天
-  const prevDay = firstDayWeekIndex === 0 ? 6 : firstDayWeekIndex;
+  const prevDay = firstDayWeekIndex === 0 ? 6 : firstDayWeekIndex - 1;
   if (prevDay) {
     let prevMonth = month - 1;
     let prevYear = year;
@@ -331,26 +270,29 @@ export function weekConverters(selectWeek, displayDate, disabledCheck, mouseHitD
   }
   // 增加农历、节假日信息
   addLunarInfo(dayList);
-  if (currentWeek.end < todayDate) {
-    const { start, end } = currentWeek;
-    dayList.forEach((item) => {
-      if (item.year === year && item.month === month && item.date >= start && item.date <= end) {
-        if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
-          item.status = CONF.ACTIVE;
-        } else {
-          item.status = CONF.REGION;
+  if (selectDate) {
+    const weekInfo = weekInfoByDate(selectDate);
+    const { start, end } = weekInfo.currentWeek;
+    if (end < todayDate) {
+      dayList.forEach((item) => {
+        if (item.year === weekInfo.year && item.month === weekInfo.month && item.date >= start && item.date <= end) {
+          if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
+            item.status = CONF.ACTIVE;
+          } else {
+            item.status = CONF.REGION;
+          }
         }
-      }
-    });
+      });
+    }
   }
+
   // 如果鼠标滑动到某时间需要 计算其对应的周
   if (mouseHitDate) {
-    const selectWeekInfo = weekInfoByDate(mouseHitDate);
-    // { year, month, dayCount, firstDayWeekIndex, lastDayWeekIndex, currentWeek; }
-    const { start, end } = selectWeekInfo.currentWeek;
-    if (selectWeekInfo.month <= month && end < todayDate) {
+    const weekInfo = weekInfoByDate(mouseHitDate);
+    const { start, end } = weekInfo.currentWeek;
+    if (end < todayDate) { // weekInfo.month <= month &&
       dayList.forEach((item) => {
-        if (item.year <= year && item.month <= month && item.date >= start && item.date <= end) {
+        if (item.date >= start && item.date <= end) {
           if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
             item.status = CONF.TEMP_ACTIVE;
           } else {
@@ -366,4 +308,5 @@ export function weekConverters(selectWeek, displayDate, disabledCheck, mouseHitD
 
 export default {
   weekConverters,
+  weekInfoByDate,
 };

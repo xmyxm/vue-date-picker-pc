@@ -61,7 +61,7 @@
 </template>
 
 <script>
-import { weekConverters } from './lib/week-converters';
+import { weekConverters, weekInfoByDate } from './lib/week-converters';
 import updateTime from './lib/update-time';
 
 export default {
@@ -86,7 +86,7 @@ export default {
   data() {
     return {
       mouseHitDate: null, // 鼠标命中日期
-      displayDate: this.value,
+      displayDate: new Date(this.value.getTime()),
     };
   },
   created() {
@@ -94,7 +94,7 @@ export default {
   },
   watch: {
     value(newValue) {
-      this.displayDate = newValue;
+      this.displayDate = new Date(newValue.getTime());
     },
   },
   computed: {
@@ -117,9 +117,8 @@ export default {
   methods: {
     // 可选时间判断
     disabledDay(date) {
-      const minDate = this.startDate;
-      const maxDate = this.endDate || new Date();
-      if ((minDate && date < minDate) || date > maxDate) {
+      const { startDate, endDate } = this;
+      if ((startDate && date < startDate) || date > endDate) {
         return true;
       }
       return false;
@@ -130,7 +129,13 @@ export default {
     // 选中某个日期
     clickDay(dayInfo) {
       this.mouseHitDate = null;
-      console.log('clickDay', Date.now());
+      const { year, month, day, date } = dayInfo;
+      const { startDate, endDate, onSus } = this;
+      const { currentWeek: { start, end } } = weekInfoByDate(date);
+      if (!(startDate && end < startDate) && end < endDate) {
+        console.log('clickDay', `${year}/${month}/${day}`);
+        onSus({ start, end });
+      }
     },
     enter(dayInfo) {
       const { year, month, day } = dayInfo;

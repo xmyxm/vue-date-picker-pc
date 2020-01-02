@@ -134,7 +134,6 @@ export default {
       this.customWeekConfig.week = data.week;
       console.log(data.key, data.fetchDate);
     },
-
   },
 };
 </script>
