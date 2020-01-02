@@ -57,28 +57,20 @@ export default {
       weekText: '',
       customWeekText: '',
       dateConfig: {
-        type: 'day', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
         open: false,
-        top: 0,
-        year: 2019,
-        quarter: 3,
-        month: 9,
-        week: 32,
-        endDate: new Date(),
-        value: this.getToDay(),
+        type: 'day', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
+        startDate: new Date('2010/1/1'),
+        endDate: new Date('2019/1/1'),
+        value: new Date('2019/1/1'),
         onSus: this.onSusDayFun,
       },
 
       weekConfig: {
-        type: 'week', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
         open: false,
-        top: 0,
-        year: 2019,
-        quarter: 3,
-        month: 9,
-        week: 32,
+        type: 'week', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
+        startDate: null,
         endDate: new Date(),
-        value: this.getToDay(),
+        value: new Date('2019/12/26'),
         onSus: this.onSusWeekFun,
       },
 
@@ -97,7 +89,7 @@ export default {
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
       const day = date.getDate();
-      return `${year}-${month}-${day}`;
+      return `${year}-${month > 10 ? month : `0${month}`}-${day > 10 ? day : `0${day}`}`;
     },
     getToDay() {
       return new Date();
@@ -113,24 +105,25 @@ export default {
       });
     },
     onSusDayFun(data) {
-      this.dayText = data.fetchDate;
+      const { date } = data;
+      this.dayText = this.getDateText(date);
       this.dateConfig.open = false;
-      this.dateConfig.year = data.year;
-      this.dateConfig.value = data.value;
-      console.log(data.key, data.fetchDate);
+      this.dateConfig.value = date;
+      console.log('day: ', this.dayText);
     },
     onSusWeekFun(data) {
-      this.weekText = data.fetchDate;
+      const { start, end } = data;
+      this.weekText = `${this.getDateText(start)} ~ ${this.getDateText(end)}`;
       this.weekConfig.open = false;
-      this.weekConfig.year = data.year;
-      this.weekConfig.week = data.week;
-      console.log(data.key, data.fetchDate);
+      this.weekConfig.value = end;
+      console.log('week', data.fetchDate);
     },
     onSusCustomWeekFun(data) {
-      this.customWeekText = `${this.getDateText(data.start)} ~ ${this.getDateText(data.end)}`;
+      const { start, end } = data;
+      this.customWeekText = `${this.getDateText(start)} ~ ${this.getDateText(end)}`;
       this.customWeekConfig.open = false;
-      this.customWeekConfig.value = data.end;
-      console.log(data.key, this.customWeekText);
+      this.customWeekConfig.value = end;
+      console.log('customWeek', this.customWeekText);
     },
   },
 };
@@ -213,7 +206,7 @@ export default {
 
 .date-box-item .ipt {
   position: relative;
-  width: 160px;
+  width: 180px;
   margin-left: 5px;
   height: 24px;
   line-height: 24px;

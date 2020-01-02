@@ -69,6 +69,14 @@ export default {
     value: {
       type: [Object, Date],
     },
+    startDate: {
+      type: [Date, Object],
+      default: null,
+    },
+    endDate: {
+      type: [Date, Object],
+      default: new Date(),
+    },
     // 选中时的回调
     onSus: {
       type: Function,
@@ -119,7 +127,7 @@ export default {
       this.mouseHitDate = null;
       const { year, month, day, date, disabled } = dayInfo;
       const { onSus } = this;
-      if (disabled) {
+      if (!disabled) {
         console.log('clickDay', `${year}/${month}/${day}`);
         onSus({ date });
       }

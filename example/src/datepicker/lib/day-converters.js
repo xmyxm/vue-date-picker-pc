@@ -35,9 +35,11 @@ export function dayConverters(selectDate, displayDate, disabledCheck) {
       status = DAY_STYLE.DISABLED;
     }
 
-    // 追加当天状态
-
-    if (currentDate.getTime() === todayDate.getTime()) {
+    if (selectDate && selectDate.getTime() === currentDate.getTime()) {
+      // 选中时间
+      status = DAY_STYLE.ACTIVE;
+    } else if (currentDate.getTime() === todayDate.getTime()) {
+      // 追加当天状态
       status = DAY_STYLE.TODAY;
     }
 

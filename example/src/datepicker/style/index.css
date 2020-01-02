@@ -61,7 +61,8 @@
     cursor: pointer;
 }
 
-.dayItem .dayItemVal:hover {
+.dayItem .dayItemVal:hover, 
+.dayPrev .dayItemVal:hover {
     background-color: #f8f8f8;
 }
 
@@ -130,7 +131,7 @@
 .holidayWrap, .workWrap {
     position: absolute;
     top: 0;
-    left: 7px;
+    left: 5px;
     padding-left: 1px;
     padding-right: 1px;
     color: #fff;
