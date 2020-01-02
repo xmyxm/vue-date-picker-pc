@@ -33,7 +33,7 @@
     <!-- 星期头 -->
     <div class="head-day-list">
       <span
-        v-for="val in ['日', '一', '二', '三', '四', '五', '六']"
+        v-for="val in ['一', '二', '三', '四', '五', '六', '日']"
         :class="'head-day-' + (val === '六' || val === '日' ? 'opacity' : 'item')"
         :key="val"
       >

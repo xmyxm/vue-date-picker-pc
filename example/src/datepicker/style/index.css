@@ -11,6 +11,7 @@
     position: relative;
     z-index: 15;
     font-size: 12px;
+    text-align: left;
 }
 
 .dayItem,
@@ -76,11 +77,11 @@
     background-color: #118bfb;
 }
 .dayRegion .dayItemVal {
-    background-color: #c1e1fe;
+    background-color: #deedfb;
     color: #02498a;
 }
 .dayRegion .dayItemVal:hover {
-    background-color: #c1e1fe;
+    background-color: #deedfb;
 }
 .dayDisabled .dayItemVal {
     color: #cccccc;

@@ -23,7 +23,6 @@ const CONF = {
   NEXT: 'dayNext',
 };
 
-
 // 给日期添加农历，节假日
 const addLunarInfo = (dayList) => {
   let year;
@@ -75,7 +74,7 @@ const addLunarInfo = (dayList) => {
 };
 
 // 计算当前时间所在周的起始范围
-function weekIndexByDate(date) {
+function weekInfoByDate(date) {
   const dateText = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
   const nowDate = new Date(dateText);
   const initTime = new Date(dateText);
@@ -83,11 +82,29 @@ function weekIndexByDate(date) {
   initTime.setDate(1); // 本年初始时间
   const differenceVal = nowDate - initTime; // 今天的时间减去本年开始时间，获得相差的时间
   let todayYear = Math.ceil(differenceVal / (24 * 60 * 60 * 1000)); // 获取今天是今年第几天
+  // 本年初始时间是1号，所以天数差值需要补充1天
+  todayYear += 1;
   // 如果当前年份第一天不是周一需要补上上年年尾的几天
-  todayYear += initTime.getDay();
-  const index = Math.ceil(todayYear / 7);
+  todayYear += initTime.getDay() - 1;
+  const year = nowDate.getFullYear();
+  const month = nowDate.getMonth() + 1;
+  // 计算出第几周
+  const week = Math.ceil(todayYear / 7);
+  // 计算当月总天数
+  const dayCount = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  // 计算当月第一天星期几
+  const firstDayWeekIndex = (new Date(`${date.getFullYear()}/${date.getMonth() + 1}/1`)).getDay();
+  // 计算当月最后一天星期几
+  const lastDayWeekIndex = (new Date(`${date.getFullYear()}/${date.getMonth() + 1}/${dayCount}`)).getDay();
   // 当年所属周
-  const result = { index };
+  const result = {
+    year,
+    month,
+    week,
+    dayCount,
+    firstDayWeekIndex,
+    lastDayWeekIndex,
+  };
   const weekIndex = todayYear % 7;
   // 当前日期为周日
   if (weekIndex === 0) {
@@ -101,13 +118,12 @@ function weekIndexByDate(date) {
     // 当前日期生效周
     result.validTime = result.currentWeek;
   } else {
-    // debugger;
     // 当前日期非周日
     const startTime = new Date(dateText);
     startTime.setDate(startTime.getDate() - weekIndex);
     const endTime = new Date(dateText);
-    // 这里是6，因为排列是从周日开始
-    endTime.setDate(endTime.getDate() + 6 - weekIndex);
+    // debugger;
+    endTime.setDate(endTime.getDate() + 7 - weekIndex);
     // 当前日期所属周
     result.currentWeek = {
       start: startTime,
@@ -124,20 +140,13 @@ function weekIndexByDate(date) {
   return result;
 }
 
-
 // 日期数据转换器，生成render所需的日期数据
 // 添加enablefix，表示是否范围日历，若范围日历enablefix设为true
 export function weekConverters(date, disabledCheck) {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
   // 是否在日历尾部多加一行
   const enablefix = false;
-  // 该月总天数
-  const dayCount = tools.getMonthDaysNum(month, year);
-  // 该月第一天是周几
-  const startDayWeek = tools.getWeek(1, month, year);
-  // 该月最后一天是周几
-  const lastDayWeek = tools.getWeek(dayCount, month, year);
+  // 该月总天数, 该月第一天是周几, 该月最后一天是周几, 当前日期所在的周
+  const { year, month, dayCount, firstDayWeekIndex, lastDayWeekIndex, currentWeek } = weekInfoByDate(date);
   // 今日时间
   const todayTime = new Date();
   // 今日日期
@@ -177,9 +186,8 @@ export function weekConverters(date, disabledCheck) {
     });
   }
 
-  // 补齐本月之前的数据
-  const prevDay = startDayWeek % 7;
-
+  // 补齐本月之前的数据, 若 firstDayWeekIndex = 0 则当天为周日，需补6天
+  const prevDay = firstDayWeekIndex === 0 ? 6 : firstDayWeekIndex;
   if (prevDay) {
     let prevMonth = month - 1;
     let prevYear = year;
@@ -217,7 +225,7 @@ export function weekConverters(date, disabledCheck) {
   // 补齐本月之后的数据
   // 将日历数据补全6行；
 
-  let nextDay = (7 - ((lastDayWeek + 1) % 7)) % 7;
+  let nextDay = (7 - ((lastDayWeekIndex + 1) % 7)) % 7;
   if (dayCount + prevDay <= 28 && enablefix) {
     nextDay += 7 * 2;
   } else if (
@@ -260,15 +268,17 @@ export function weekConverters(date, disabledCheck) {
   }
   // 增加农历、节假日信息
   dayList = addLunarInfo(dayList);
-  //
-  const currentWeek = weekIndexByDate(date).currentWeek;
   if (currentWeek.end < new Date()) {
     const minDay = currentWeek.start.getDate();
     const maxDay = currentWeek.end.getDate();
     console.log(currentWeek);
     dayList.forEach((item) => {
-      if (item.day >= minDay && item.day <= maxDay) {
-        item.status = CONF.ACTIVE;
+      if (item.year === year && item.month === month && item.day >= minDay && item.day <= maxDay) {
+        if (item.day === minDay || item.day === maxDay) {
+          item.status = CONF.ACTIVE;
+        } else {
+          item.status = CONF.REGION;
+        }
       }
     });
   }
