@@ -1,297 +1,149 @@
 <template>
-  <div class="week-wrap">
+  <div class="day-wrap">
+    <!-- 日历头 -->
     <div class="header">
-        <div
-          class="iconBtn"
-          @click="prevChange"
-        >
-          <i type="angleLeft" />
-        </div>
-        <div class="centerBtn">{{showYear}}</div>
-        <div
-          class="iconBtn"
-          @click="nextChange"
-        >
-          <i type="angleRight" />
-        </div>
-    </div>
-    <div class="week-List" ref="list">
+      <div class="iconBtn" title="上一年" @click="updateDisplayDate('updateYear', -1)">
+        <i class="angleDoubleLeft" />
+      </div>
       <div
-        v-for="item in weekList"
-        :key="item.index"
-        :class="item.className"
-        @click="handleChooseWeek(item, $event)"
+        class="iconBtn"
+        title="上个月"
+        @click="updateDisplayDate('updateMonth', -1)"
       >
-        <span>W{{item.number}}</span>
-        <p class="week-date-rande">{{item.content}}</p>
+        <i class="angleLeft" />
+      </div>
+      <div
+        :title="displayDate.getFullYear() + '-' + displayDate.getMonth() + 1"
+        class="centerBtn"
+      >
+        {{displayDate.getFullYear()}} 年 {{displayDate.getMonth() + 1}} 月
+      </div>
+      <div
+        class="iconBtn"
+        title="下个月"
+        @click="updateDisplayDate('updateMonth', 1)"
+      >
+        <i class="angleRight" />
+      </div>
+      <div class="iconBtn" title="下一年" @click="updateDisplayDate('updateYear', 1)">
+        <i class="angleDoubleRight" />
+      </div>
+    </div>
+
+    <!-- 星期头 -->
+    <div class="head-day-list">
+      <span
+        v-for="val in ['一', '二', '三', '四', '五', '六', '日']"
+        :class="'head-day-' + (val === '六' || val === '日' ? 'opacity' : 'item')"
+        :key="val"
+      >
+        <span>{{ val }}</span>
+      </span>
+    </div>
+
+    <!-- 日期单元 -->
+    <div class="day-list">
+      <div
+        v-for="dayData in dayListData"
+        :key="`${dayData.year}${dayData.month}${dayData.day}`"
+        :class="dayData.status"
+        @click="clickDay(dayData)"
+        @mouseenter="enter(dayData)"
+        @mouseleave="leave(dayData)"
+      >
+        <span class="dayItemVal">{{dayData.day}}</span>
+        <p class="vication-wrap" :title="dayData.lDay">{{dayData.lDay}}</p>
+        <p v-if="dayData.holiday" class="holidayWrap">假</p>
+        <p v-if="dayData.work" class="workWrap">班</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import tools from './lib/tools';
+import { weekConverters, weekInfoByDate } from './lib/week-converters';
+import updateTime from './lib/update-time';
 
 export default {
-  name: 'Week',
+  name: 'customWeek',
   props: {
-    year: {
-      type: Number,
-      default: tools.getYear(),
+    value: {
+      type: Date,
     },
-    week: {
-      type: Number,
-      default: tools.getDateWeekNum(new Date()),
+    startDate: {
+      type: [Date, Object],
+      default: null,
     },
-    disabled: {
-      type: [Function, Boolean],
-      default: false,
+    endDate: {
+      type: [Date, Object],
+      default: new Date(),
     },
-    onChange: {
+    onSus: {
       type: Function,
       default() {},
     },
   },
   data() {
     return {
-      selectWeek: this.week,
-      selectYear: this.year,
-      value: { week: this.week },
-      showYear: this.year,
-      startDate: null,
-      endDate: null,
-      touchStatus: null,
-      touchInfo: {},
+      mouseHitDate: null, // 鼠标命中日期
+      displayDate: new Date(this.value.getTime()),
     };
   },
-  created() {},
-  computed: {
-    // 周列表
-    weekList() {
-      // 起止时间默认为当前展示年份的第一天，最后一天
-      const disabledCheck = tools.disabledCheckCreator(this.disabled);
-      const startDate = `${this.showYear}-01-01`;
-      const endData = `${this.showYear}-12-31`;
-      const weekListDate = this.gerWeekList(startDate, endData, disabledCheck);
-      const dataList = weekListDate.map((item, index) => {
-        let className = 'week-item';
-        if (
-          index === this.selectWeek - 1 &&
-          this.selectYear === this.showYear
-        ) {
-          className = 'week-item-active';
-          // 默认值
-          if (!this.value.monday) {
-            this.value.monday = item.monday;
-            this.value.sunday = item.sunday;
-          }
-        } else if (item.disabled) {
-          className = 'week-item-disabled';
-        }
-        const data = {
-          index,
-          disabled: item.disabled,
-          number: item.number,
-          monday: item.monday,
-          sunday: item.sunday,
-          className,
-          content: `${item.mondayStr}${
-            item.sundayStr ? `-${item.sundayStr}` : ''
-          }`,
-        };
-        return data;
-      });
-      return dataList;
-    },
-  },
   watch: {
-    week(newWeek) {
-      this.selectWeek = newWeek;
-    },
-    year(newYear) {
-      this.selectYear = newYear;
+    value(newValue) {
+      this.displayDate = new Date(newValue.getTime());
     },
   },
-  mounted() {
-    // 当前组件渲染完立即调用，服务端不会执行
-    const parent = this.$refs.list;
-    const parentPosition = parent && parent.getBoundingClientRect();
-    const parentScroll = parent.scrollTop;
-    parent.scrollTo(parentPosition.x, parentScroll + parentPosition.height / 2);
+  computed: {
+    dayListData() {
+      const {
+        value, // 当前选择的时间对象
+        displayDate, // 显示时间
+        disabledDay, // 禁止选择判断逻辑
+        mouseHitDate,
+      } = this;
+      const dayList = weekConverters(
+        value,
+        displayDate,
+        disabledDay,
+        mouseHitDate,
+      );
+      return dayList;
+    },
   },
   methods: {
-    gerWeekList(startDate, endDate, disabledCheck) {
-      // 规范起始，截止日期
-      startDate = new Date(startDate);
-      endDate = new Date(endDate);
-      const sum = (endDate - startDate) / 86400000 + 1;
-      // 第一天是周几
-      const firstDay = startDate.getDay();
-      // 周一、周日的计算规律
-      const mondayCount = (7 - firstDay + 2) % 7;
-      const sundayCount = (7 - firstDay + 1) % 7;
-      let tempWeek = 1;
-      const dateList = [];
-      for (let count = 1; count < sum + 1; count++) {
-        if (count === 1) {
-          const referenceDate = new Date(startDate.toGMTString());
-          let firstDate = null;
-          let weekObj = {
-            number: tempWeek,
-            disabled: disabledCheck(firstDate),
-            monday: firstDate,
-            mondayStr: `${month > 9 ? '' : '0'}${month}${
-              date > 9 ? '' : '0'
-            }${date}`,
-          };
-          if (firstDay === 1) {
-            firstDate = startDate;
-          } else if (firstDay === 0) {
-            tempWeek += 1;
-            firstDate = new Date(referenceDate.setDate(-5));
-            const sundayMonth = startDate.getMonth() + 1;
-            const sundayDate = startDate.getDate();
-            weekObj.sunday = startDate;
-            weekObj.sundayStr = `${sundayMonth > 9 ? '' : '0'}${sundayMonth}${
-              sundayDate > 9 ? '' : '0'
-            }${sundayDate}`;
-          } else {
-            firstDate = new Date(referenceDate.setDate(-(firstDay - 2)));
-          }
-          let month = firstDate.getMonth() + 1;
-          let date = firstDate.getDate();
-          weekObj = Object.assign({}, weekObj, {
-            disabled: disabledCheck(firstDate),
-            monday: firstDate,
-            mondayStr: `${month > 9 ? '' : '0'}${month}${
-              date > 9 ? '' : '0'
-            }${date}`,
-          });
-          dateList.push(weekObj);
-        } else if (count % 7 === mondayCount) {
-          if (count === sum) {
-            continue;
-          }
-          const referenceDate = new Date(startDate.toGMTString());
-          const firstDate =
-            count === 0
-              ? referenceDate
-              : new Date(referenceDate.setDate(count));
-          const month = firstDate.getMonth() + 1;
-          const date = firstDate.getDate();
-          dateList.push({
-            number: tempWeek,
-            disabled: disabledCheck(firstDate),
-            monday: firstDate,
-            mondayStr: `${month > 9 ? '' : '0'}${month}${
-              date > 9 ? '' : '0'
-            }${date}`,
-          });
-        } else if (count % 7 === sundayCount || count === sum) {
-          const referenceDate = new Date(startDate.toGMTString());
-          const lastDate = new Date(referenceDate.setDate(count));
-          if (count === sum && lastDate.getDay() !== 0) {
-            dateList.pop();
-          } else {
-            const month = lastDate.getMonth() + 1;
-            const date = lastDate.getDate();
-            const lastWeek = dateList[dateList.length - 1];
-            lastWeek.sunday = lastDate;
-            lastWeek.sundayStr = `${month > 9 ? '' : '0'}${month}${
-              date > 9 ? '' : '0'
-            }${date}`;
-            lastWeek.disabled = lastWeek.disabled || disabledCheck(lastDate);
-            tempWeek += 1;
-          }
-        }
+    // 可选时间判断
+    disabledDay(date) {
+      const { startDate, endDate } = this;
+      if ((startDate && date < startDate) || date > endDate) {
+        return true;
       }
-      return dateList;
+      return false;
     },
-    // 选中
-    handleChooseWeek(data, e) {
-      if (data.disabled) return;
-
-      const week = data.number;
-      const { showYear } = this;
-      if (this.selectWeek !== week || this.selectYear !== showYear) {
-        this.selectWeek = week;
-        this.selectYear = this.showYear;
-        this.value = {
-          week: this.selectWeek,
-          monday: data.monday,
-          sunday: data.sunday,
-        };
-        this.onChange(this.value);
+    updateDisplayDate(type, num) {
+      this.displayDate = updateTime[type](this.displayDate, num);
+    },
+    // 选中某个日期
+    clickDay(dayInfo) {
+      this.mouseHitDate = null;
+      const { year, month, day, date } = dayInfo;
+      const { startDate, endDate, onSus } = this;
+      const { currentWeek: { start, end } } = weekInfoByDate(date);
+      if (!(startDate && end < startDate) && end < endDate) {
+        console.log('clickDay', `${year}/${month}/${day}`);
+        onSus({ start, end });
       }
     },
-    // 改变年
-    prevChange() {
-      this.showYear = this.showYear - 1;
+    enter(dayInfo) {
+      const { year, month, day } = dayInfo;
+      this.mouseHitDate = new Date(`${year}/${month}/${day}/`);
+      console.log('enter', `${year}/${month}/${day}`);
     },
-    // 改变年
-    nextChange() {
-      this.showYear = this.showYear + 1;
+    leave(dayInfo) {
+      this.mouseHitDate = null;
+      const { year, month, day } = dayInfo;
+      console.log('leave', `${year}/${month}/${day}`);
     },
   },
 };
 </script>
-
-<style scope>
-.week-wrap {
-    height: 300px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-.week-List {
-    flex: 1;
-    height: 330px;
-    overflow: scroll;
-    text-align: left;
-}
-
-.week-List :nth-child(4n) {
-    margin-right: 4%;
-}
-
-.week-item,
-.week-item-active,
-.week-item-disabled {
-    font-size: 12px;
-    width: 22%;
-    margin-left: 2%;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    text-align: center;
-    line-height: 1em;
-    cursor: pointer;
-    position: relative;
-    display: inline-block;
-    border-radius: 2px;
-    box-sizing: border-box;
-}
-
-.week-item:hover {
-    background: #f7f7f7;
-}
-
-.week-item-active {
-    color: #fff;
-    background-color: #118bfb;
-    font-size: 13px;
-}
-
-.week-item-disabled {
-  color: #cccccc;
-}
-
-.week-date-rande {
-    margin-top: 2px;
-    margin-bottom: 0;
-    width: 100%;
-    font-size: 8px;
-    white-space: nowrap;
-}
-</style>
