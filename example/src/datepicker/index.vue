@@ -1,7 +1,7 @@
 <template>
   <el-mask v-if="open">
-    <Day v-if="type == 'day'" v-bind="bindData" :disabled="disabledWeek" ></Day>
-    <Week v-if="type == 'week'" v-bind="bindData" :disabled="disabledWeek"></Week>
+    <Day v-if="type == 'day'" v-bind="bindData"></Day>
+    <Week v-if="type == 'week'" v-bind="bindData"></Week>
     <custom-week v-if="type == 'customWeek'" v-bind="bindData"></custom-week>
   </el-mask>
 </template>

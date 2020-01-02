@@ -1,83 +1,9 @@
-import lunarUtil from './lunar-util';
-
-// const CONF = {
-//   CURRENT: 'week-item',
-//   ACTIVE: 'week-active',
-//   TODAY: 'week-today',
-//   DISABLED: 'week-disabled',
-//   PREV: 'week-prev',
-//   NEXT: 'week-next',
-// };
-
-const CONF = {
-  CURRENT: 'dayItem',
-  ACTIVE: 'dayActive',
-  TEMP_ACTIVE: 'temp-day-active',
-  REGION: 'dayRegion',
-  TEMP_REGION: 'temp-day-region',
-  TODAY: 'today',
-  ACTIVE_TODAY: 'todayActive',
-  REGION_TODAY: 'todayRegion',
-  DISABLED: 'dayDisabled',
-  DISABLED_TODAY: 'today-disabled',
-  PREV: 'dayPrev',
-  NEXT: 'dayNext',
-};
-
-// 给日期添加农历，节假日
-function addLunarInfo(dayList) {
-  dayList.forEach((item) => {
-    const { year, month, day } = item;
-    // 获取日期农历信息
-    const lunarDateInfo = lunarUtil.solar2lunar(year, month, day);
-    // 根据是否闰月计算月总天数
-    // const monthDayCount = lunarDateInfo.isLeap ? lunarUtil.leapDays(year) : lunarUtil.monthDays(lunarDateInfo.lYear, lunarDateInfo.lMonth);
-    // 农历月份
-    const lunarMonth = lunarDateInfo.lMonth;
-    const lunarDay = lunarDateInfo.lDay;
-
-    // 传入农历日期数字返回汉字表示法
-    let chinaDay = lunarUtil.toChinaDay(lunarDay);
-    if (lunarDay === 1) {
-      chinaDay = lunarDateInfo.IMonthCn;
-    }
-    const holidayInfo = lunarUtil.getHolidayInfo(lunarMonth, lunarDay, year, month, day);
-    // 展示信息优先级：农历节日 > 特殊节日（母亲节等）> 公历节日 > 月份（每月初一显示月份）> 日期
-    chinaDay = holidayInfo.vication || chinaDay;
-    // 假期标识
-    const holiday = holidayInfo.holiday;
-    // 假期补班标识
-    const work = holidayInfo.work;
-
-    item.lDay = chinaDay;
-    item.holiday = holiday;
-    item.work = work;
-  });
-}
-
-function dayCountByMonth(date) {
-  return (new Date(date.getFullYear(), date.getMonth() + 1, 0)).getDate();
-}
-
-function monthInfoByDate(date) {
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1;
-  // 计算当月总天数
-  const dayCount = dayCountByMonth(date);
-  // 计算当月第一天星期几
-  const firstDayWeekIndex = (new Date(`${date.getFullYear()}/${date.getMonth() + 1}/1`)).getDay();
-  // 计算当月最后一天星期几
-  const lastDayWeekIndex = (new Date(`${date.getFullYear()}/${date.getMonth() + 1}/${dayCount}`)).getDay();
-  // 月信息
-  const monthInfo = {
-    year,
-    month,
-    dayCount,
-    firstDayWeekIndex,
-    lastDayWeekIndex,
-  };
-  return monthInfo;
-}
+import {
+  addLunarInfo,
+  dayCountByMonth,
+  monthInfoByDate,
+} from './tools-date';
+import { DAY_STYLE } from './config';
 
 // 计算当前时间所在周的起始范围
 export function weekInfoByDate(date) {
@@ -161,20 +87,20 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
   for (let i = 0; i < dayCount; i++) {
     const currentDay = i + 1;
 
-    let status = CONF.CURRENT;
+    let status = DAY_STYLE.CURRENT;
     // 日期的数字形式，用于比较选中
     const currentDate = new Date([year, month, currentDay].join('/'));
     // 判断当前日期是否点击
     disabledFlag = disabledCheck(currentDate);
     // 添加不可点击样式
     if (disabledFlag) {
-      status = CONF.DISABLED;
+      status = DAY_STYLE.DISABLED;
     }
 
     // 追加当天状态
 
     if (currentDate.getTime() === todayDate.getTime()) {
-      status = CONF.TODAY;
+      status = DAY_STYLE.TODAY;
     }
 
     dayList.push({
@@ -200,17 +126,17 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
     const prevDayBorder = prevDayCount - prevDay;
 
     for (; prevDayCount > prevDayBorder; prevDayCount--) {
-      let status = CONF.PREV;
+      let status = DAY_STYLE.PREV;
       const currentDate = new Date([prevYear, prevMonth, prevDayCount].join('/'));
 
       // 追加当天状态
       //   if (currentDate.getTime() === todayDate.getTime()) {
-      //     status = CONF.TODAY;
+      //     status = DAY_STYLE.TODAY;
       //   }
 
       disabledFlag = disabledCheck(currentDate); // (checkedParam, currentPos);
       if (disabledFlag) {
-        status = CONF.DISABLED;
+        status = DAY_STYLE.DISABLED;
       }
 
       dayList.unshift({
@@ -246,16 +172,16 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
     }
 
     for (let i = 1; i <= nextDay; i++) {
-      let status = CONF.NEXT;
+      let status = DAY_STYLE.NEXT;
       const currentDate = new Date([nextYear, nextMonth, i].join('/'));
       // 追加当天状态
       //   if (currentDate.getTime() === todayDate.getTime()) {
-      //     status = CONF.TODAY;
+      //     status = DAY_STYLE.TODAY;
       //   }
 
       disabledFlag = disabledCheck(currentDate); // (checkedParam, currentPos);
       if (disabledFlag) {
-        status = CONF.DISABLED;
+        status = DAY_STYLE.DISABLED;
       }
 
       dayList.push({
@@ -277,9 +203,9 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
       dayList.forEach((item) => {
         if (item.year === weekInfo.year && item.month === weekInfo.month && item.date >= start && item.date <= end) {
           if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
-            item.status = CONF.ACTIVE;
+            item.status = DAY_STYLE.ACTIVE;
           } else {
-            item.status = CONF.REGION;
+            item.status = DAY_STYLE.REGION;
           }
         }
       });
@@ -294,9 +220,9 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
       dayList.forEach((item) => {
         if (item.date >= start && item.date <= end) {
           if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
-            item.status = CONF.TEMP_ACTIVE;
+            item.status = DAY_STYLE.TEMP_ACTIVE;
           } else {
-            item.status = CONF.TEMP_REGION;
+            item.status = DAY_STYLE.TEMP_REGION;
           }
         }
       });

@@ -89,9 +89,6 @@ export default {
       displayDate: new Date(this.value.getTime()),
     };
   },
-  created() {
-
-  },
   watch: {
     value(newValue) {
       this.displayDate = new Date(newValue.getTime());

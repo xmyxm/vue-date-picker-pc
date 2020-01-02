@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       title: '日历组件',
-      dayText: this.getDate(),
+      dayText: '',
       weekText: '',
       customWeekText: '',
       dateConfig: {
@@ -65,7 +65,7 @@ export default {
         month: 9,
         week: 32,
         endDate: new Date(),
-        value: this.getYearMonthDay(),
+        value: this.getToDay(),
         onSus: this.onSusDayFun,
       },
 
@@ -78,7 +78,7 @@ export default {
         month: 9,
         week: 32,
         endDate: new Date(),
-        value: this.getYearMonthDay(),
+        value: this.getToDay(),
         onSus: this.onSusWeekFun,
       },
 
@@ -93,15 +93,14 @@ export default {
     };
   },
   methods: {
-    getDate() {
-      const date = new Date();
+    getDateText(date) {
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
-      const day = date.getDate() - 1;
+      const day = date.getDate();
       return `${year}-${month}-${day}`;
     },
-    getYearMonthDay() {
-      return new Date(this.getDate());
+    getToDay() {
+      return new Date();
     },
     onOff(sum) {
       const configList = [this.dateConfig, this.weekConfig, this.customWeekConfig];
@@ -128,11 +127,10 @@ export default {
       console.log(data.key, data.fetchDate);
     },
     onSusCustomWeekFun(data) {
-      this.customWeekText = data.fetchDate;
+      this.customWeekText = `${this.getDateText(data.start)} ~ ${this.getDateText(data.end)}`;
       this.customWeekConfig.open = false;
-      this.customWeekConfig.year = data.year;
-      this.customWeekConfig.week = data.week;
-      console.log(data.key, data.fetchDate);
+      this.customWeekConfig.value = data.end;
+      console.log(data.key, this.customWeekText);
     },
   },
 };

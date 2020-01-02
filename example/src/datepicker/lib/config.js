@@ -38,7 +38,34 @@ const headBtns = {
   BTN_PLUS_CLOCK: 'angleUp',
 };
 
+
+// const CONF = {
+//   CURRENT: 'week-item',
+//   ACTIVE: 'week-active',
+//   TODAY: 'week-today',
+//   DISABLED: 'week-disabled',
+//   PREV: 'week-prev',
+//   NEXT: 'week-next',
+// };
+
+export const DAY_STYLE = {
+  CURRENT: 'dayItem',
+  ACTIVE: 'dayActive',
+  TEMP_ACTIVE: 'temp-day-active',
+  REGION: 'dayRegion',
+  TEMP_REGION: 'temp-day-region',
+  TODAY: 'today',
+  ACTIVE_TODAY: 'todayActive',
+  REGION_TODAY: 'todayRegion',
+  DISABLED: 'dayDisabled',
+  DISABLED_TODAY: 'today-disabled',
+  PREV: 'dayPrev',
+  NEXT: 'dayNext',
+};
+
 export default {
   locale,
   headBtns,
+  DAY_STYLE,
 };
+
