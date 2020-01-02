@@ -81,6 +81,70 @@ export function dateByDateText(year, month, day) {
   return new Date([year, month, day].join('/'));
 }
 
+/**
+ * 计算当前时间所在周的起始范围
+ * @param {*} date 时间对象
+ */
+export function weekInfoByDate(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const dateText = `${year}/${month}/${date.getDate()}`;
+  const nowDate = new Date(dateText);
+  const initTime = new Date(dateText);
+  initTime.setMonth(0); // 本年初始月份
+  initTime.setDate(1); // 本年初始时间
+  const differenceVal = nowDate - initTime; // 今天的时间减去本年开始时间，获得相差的时间
+  let todayYear = Math.ceil(differenceVal / (24 * 60 * 60 * 1000)); // 获取今天是今年第几天
+  // 本年初始时间是1号，所以天数差值需要补充1天
+  todayYear += 1;
+  // 如果当前年份第一天不是周一需要补上上年年尾的几天
+  todayYear += initTime.getDay() - 1;
+  // 计算出第几周
+  const week = Math.ceil(todayYear / 7);
+  // 当天是周几
+  const weekIndex = todayYear % 7;
+  // 当年所属周
+  const weekInfo = {
+    year,
+    month,
+    week,
+    weekIndex,
+  };
+    // debugger;
+    // 当前日期为周日
+  if (weekIndex === 0) {
+    const startTime = new Date(dateText);
+    // 减去6天刚好是这周周一
+    startTime.setDate(startTime.getDate() - 7 + 1);
+    // 当前日期所属周
+    weekInfo.currentWeek = {
+      start: startTime,
+      end: nowDate,
+    };
+    // 当前日期生效周
+    weekInfo.validTime = weekInfo.currentWeek;
+  } else {
+    // 当前日期非周日
+    const startTime = new Date(dateText);
+    startTime.setDate(startTime.getDate() - weekIndex + 1);
+    const endTime = new Date(dateText);
+    // debugger;
+    endTime.setDate(endTime.getDate() + 7 - weekIndex);
+    // 当前日期所属周
+    weekInfo.currentWeek = {
+      start: startTime,
+      end: endTime,
+    };
+    const oldTime = new Date(dateText);
+    oldTime.setDate(oldTime.getDate() - weekIndex - 7);
+    // 当前日期生效周
+    weekInfo.validTime = {
+      start: oldTime,
+      end: startTime,
+    };
+  }
+  return weekInfo;
+}
 
 /**
  * 计算生成完成日历控件中的天数据
@@ -176,4 +240,6 @@ export default {
   monthInfoByDate,
   dateByDate,
   dateByDateText,
+  weekInfoByDate,
+  dayListByDate,
 };

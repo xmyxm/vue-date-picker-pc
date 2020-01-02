@@ -61,7 +61,8 @@
 </template>
 
 <script>
-import { weekConverters, weekInfoByDate } from './lib/custom-week-converters';
+import { weekConverters } from './lib/week-converters';
+import { weekInfoByDate } from './lib/tools-date';
 import updateTime from './lib/update-time';
 
 export default {
