@@ -1,6 +1,6 @@
-# example
+# 日期选择组件
 
-> A Vue.js project
+> 基于 Vue 的 pc 日期组件，采用灵活超轻巧的架构方案让日历组件易阅读开发更简单，具备解耦与高拓展性，以及具备友好的 react 跨框架迁移能力，以及跨平台迁移能力(mobile)
 
 ## Build Setup
 

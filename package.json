@@ -1,7 +1,7 @@
 {
   "name": "@dp/date-picker-pc",
   "version": "0.0.1",
-  "description": "日期选择组件",
+  "description": "PC日期选择组件",
   "main": "index.js",
   "directories": {
     "lib": "lib",
