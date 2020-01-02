@@ -13,8 +13,6 @@
 */
 import holiday from './holiday.config';
 
-// 辅助时间格式化的正则
-const dateFormateReg = /Y|y|m|n|d|j|g|G|h|H|i|s/g;
 var calendar = {
 
     /**
