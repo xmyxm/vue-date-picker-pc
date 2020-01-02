@@ -164,7 +164,7 @@ export function dayListByDate(displayDate, disabledCheck, enablefix = false) {
   addLunarInfo(dayList);
   if (typeof disabledCheck === 'function') {
     dayList.forEach((item) => {
-      item.disabled = disabledCheck(disabledCheck.date);
+      item.disabled = disabledCheck(item.date);
     });
   }
   return dayList;

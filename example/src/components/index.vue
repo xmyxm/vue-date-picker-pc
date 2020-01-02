@@ -60,7 +60,7 @@ export default {
         open: false,
         type: 'day', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
         startDate: new Date('2010/1/1'),
-        endDate: new Date('2019/1/1'),
+        endDate: new Date('2020/1/1'),
         value: new Date('2019/1/1'),
         onSus: this.onSusDayFun,
       },
