@@ -37,6 +37,7 @@ module.exports = {
     "no-console": "off",
     "no-plusplus": "off",
     "no-mixed-operators": "off",
+    "max-len": "off",
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }

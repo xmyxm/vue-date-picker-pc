@@ -14,22 +14,6 @@
 
 export default {
   name: 'elMask',
-  components: {},
-  props: {
-    top: {
-      type: Number,
-      default: 0,
-    },
-    onCancel: {
-      type: Function,
-      default() {},
-    },
-  },
-  computed: {
-    topHeight() {
-      return this.top;
-    },
-  },
   mounted() {
     const maskEle = this.$refs.mask;
     const parentPosition = maskEle.parentElement.getBoundingClientRect();

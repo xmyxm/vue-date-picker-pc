@@ -60,6 +60,7 @@
 
 <script>
 import absoluteCalc from './lib/absolute-calc';
+import naturalCalc from './lib/natural-date-calc';
 import { dayConverters } from './lib/day-converters';
 import tools from './lib/tools';
 import conf from './lib/config';
@@ -465,6 +466,26 @@ export default {
           this.triggerChangeEvt('clock');
         });
       }
+    },
+
+    disabledWeek(date) {
+      let yesterday = this.endDateNext;
+      const boundary = this.startDateNext;
+      // 按周，昨天所在的周可选
+      if (this.buttonKeyNext === 'week') {
+        yesterday = tools.resetToFirst(yesterday, 'week');
+        yesterday = naturalCalc('+7day', yesterday);
+      }
+      if (this.buttonKeyNext === 'month') {
+        const now = new Date();
+        yesterday = now.setMonth(now.getMonth() - 1);
+      }
+      date = naturalCalc('-0day', date);
+      // today = tools.buildNoTimesDate(yesterday);
+      if (date < boundary || date > yesterday) {
+        return true;
+      }
+      return false;
     },
   },
 };

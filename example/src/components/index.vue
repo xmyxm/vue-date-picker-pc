@@ -57,7 +57,7 @@ export default {
       weekText: '',
       customWeekText: '',
       dateConfig: {
-        buttonKey: 'day', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
+        type: 'day', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
         open: false,
         top: 0,
         year: 2019,
@@ -70,7 +70,7 @@ export default {
       },
 
       weekConfig: {
-        buttonKey: 'week', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
+        type: 'week', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
         open: false,
         top: 0,
         year: 2019,
@@ -83,15 +83,11 @@ export default {
       },
 
       customWeekConfig: {
-        buttonKey: 'customWeek', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
         open: false,
-        top: 0,
-        year: 2019,
-        quarter: 3,
-        month: 9,
-        week: 32,
+        type: 'customWeek', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
+        startDate: null,
         endDate: new Date(),
-        value: this.getYearMonthDay(),
+        value: new Date('2019/12/26'),
         onSus: this.onSusCustomWeekFun,
       },
     };

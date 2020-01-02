@@ -47,7 +47,9 @@
         v-for="dayData in dayListData"
         :key="`${dayData.year}${dayData.month}${dayData.day}`"
         :class="dayData.status"
-        @click="handleChooseDay(dayData)"
+        @click="clickDay(dayData)"
+        @mouseenter="enter(dayData)"
+        @mouseleave="leave(dayData)"
       >
         <span class="dayItemVal">{{dayData.day}}</span>
         <p class="vication-wrap" :title="dayData.lDay">{{dayData.lDay}}</p>
@@ -60,37 +62,31 @@
 
 <script>
 import { weekConverters } from './lib/week-converters';
-import tools from './lib/tools';
 import updateTime from './lib/update-time';
 
 export default {
   name: 'customWeek',
   props: {
-    // 返回数据的格式，默认'Y/m/d'
-    format: {
-      type: String,
-      default: 'Y/m/d',
-    },
     value: {
-      type: [Object, Date],
+      type: Date,
     },
-    // 禁用的范围，false为不禁用，true为全部禁用
-    // 数组时为多点禁用
-    // 如：[new Date('2015/11/11'), [new Date('2015/11/01'), new Date('2015/11/04')]]表示禁用 2015/11/11 和 2015/11/01 - 2015/11/04
-    disabled: {
-      type: [Function, Boolean, Object],
-      default: false,
+    startDate: {
+      type: [Date, Object],
+      default: null,
     },
-    // 选中时的回调
-    onSelected: {
+    endDate: {
+      type: [Date, Object],
+      default: new Date(),
+    },
+    onSus: {
       type: Function,
       default() {},
     },
   },
   data() {
     return {
-      tools,
-      displayDate: new Date('2019/12/26'), // this.value,
+      mouseHitDate: null, // 鼠标命中日期
+      displayDate: this.value,
     };
   },
   created() {
@@ -104,23 +100,47 @@ export default {
   computed: {
     dayListData() {
       const {
-        displayDate, // 当前显示的时间对象
-        disabled, // 处理可选时间范围函数
+        value, // 当前选择的时间对象
+        displayDate, // 显示时间
+        disabledDay, // 禁止选择判断逻辑
+        mouseHitDate,
       } = this;
       const dayList = weekConverters(
+        value,
         displayDate,
-        disabled,
+        disabledDay,
+        mouseHitDate,
       );
       return dayList;
     },
   },
   methods: {
-    // 选中某个日期
-    handleChooseDay(day) {
-
+    // 可选时间判断
+    disabledDay(date) {
+      const minDate = this.startDate;
+      const maxDate = this.endDate || new Date();
+      if ((minDate && date < minDate) || date > maxDate) {
+        return true;
+      }
+      return false;
     },
     updateDisplayDate(type, num) {
       this.displayDate = updateTime[type](this.displayDate, num);
+    },
+    // 选中某个日期
+    clickDay(dayInfo) {
+      this.mouseHitDate = null;
+      console.log('clickDay', Date.now());
+    },
+    enter(dayInfo) {
+      const { year, month, day } = dayInfo;
+      this.mouseHitDate = new Date(`${year}/${month}/${day}/`);
+      console.log('enter', `${year}/${month}/${day}`);
+    },
+    leave(dayInfo) {
+      this.mouseHitDate = null;
+      const { year, month, day } = dayInfo;
+      console.log('leave', `${year}/${month}/${day}`);
     },
   },
 };

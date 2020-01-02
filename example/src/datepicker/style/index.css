@@ -19,7 +19,9 @@
 .dayPrev,
 .dayNext,
 .dayActive,
+.temp-day-active,
 .dayRegion,
+.temp-day-region,
 .dayDisabled,
 .todayActive,
 .todayRegion,
@@ -42,7 +44,9 @@
 .dayPrev .dayItemVal,
 .dayNext .dayItemVal, 
 .dayActive .dayItemVal, 
+.temp-day-active .dayItemVal, 
 .dayRegion .dayItemVal, 
+.temp-day-region .dayItemVal, 
 .dayDisabled .dayItemVal,
 .todayActive .dayItemVal,
 .todayRegion .dayItemVal,
@@ -69,20 +73,27 @@
     color: #a6a6a6;
 }
 
-.dayActive .dayItemVal, .todayActive .dayItemVal{
+.dayActive .dayItemVal, 
+.todayActive .dayItemVal {
     color: #fff;
     background-color: #118bfb;
 }
-.dayActive .dayItemVal:hover, .todayActive .dayItemVal:hover {
-    background-color: #118bfb;
+
+.temp-day-active .dayItemVal {
+    color: #fff;
+    background-color: #afd3f5;
 }
+
 .dayRegion .dayItemVal {
     background-color: #deedfb;
     color: #02498a;
 }
-.dayRegion .dayItemVal:hover {
-    background-color: #deedfb;
+
+.temp-day-region .dayItemVal {
+    background-color: #f2f7fb;
+    color: #9fc2e2;
 }
+
 .dayDisabled .dayItemVal {
     color: #cccccc;
     cursor: not-allowed;
