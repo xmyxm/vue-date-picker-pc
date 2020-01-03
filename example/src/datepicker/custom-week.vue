@@ -3,14 +3,14 @@
     <!-- 日历头 -->
     <div class="header">
       <div class="iconBtn" title="上一年" @click="updateDisplayDate('updateYear', -1)">
-        <i class="angleDoubleLeft" />
+        <i class="double-left-btn" />
       </div>
       <div
         class="iconBtn"
         title="上个月"
         @click="updateDisplayDate('updateMonth', -1)"
       >
-        <i class="angleLeft" />
+        <i class="left-btn" />
       </div>
       <div
         :title="displayDate.getFullYear() + '-' + displayDate.getMonth() + 1"
@@ -23,10 +23,10 @@
         title="下个月"
         @click="updateDisplayDate('updateMonth', 1)"
       >
-        <i class="angleRight" />
+        <i class="right-btn" />
       </div>
       <div class="iconBtn" title="下一年" @click="updateDisplayDate('updateYear', 1)">
-        <i class="angleDoubleRight" />
+        <i class="double-right-btn" />
       </div>
     </div>
 

@@ -14,18 +14,17 @@
     text-align: left;
 }
 
-.dayItem,
+.day-item,
 .today,
-.dayPrev,
-.dayNext,
-.dayActive,
+.day-prev,
+.day-next,
+.day-active,
 .temp-day-active,
-.dayRegion,
+.day-region,
 .temp-day-region,
-.dayDisabled,
-.todayActive,
-.todayRegion,
-.todayDisabled,
+.day-disabled,
+.today-active,
+.today-region,
 .head-day-item,
 .head-day-opacity {
     position: relative;
@@ -39,18 +38,17 @@
     box-sizing: border-box;
 }
 
-.dayItem .dayItemVal,
+.day-item .dayItemVal,
 .today .dayItemVal,
-.dayPrev .dayItemVal,
-.dayNext .dayItemVal, 
-.dayActive .dayItemVal, 
+.day-prev .dayItemVal,
+.day-next .dayItemVal, 
+.day-active .dayItemVal, 
 .temp-day-active .dayItemVal, 
-.dayRegion .dayItemVal, 
+.day-region .dayItemVal, 
 .temp-day-region .dayItemVal, 
-.dayDisabled .dayItemVal,
-.todayActive .dayItemVal,
-.todayRegion .dayItemVal,
-.todayDisabled .dayItemVal {
+.day-disabled .dayItemVal,
+.today-active .dayItemVal,
+.today-region .dayItemVal {
     display: inline-block;
     width: 2em;
     height: 2em;
@@ -61,8 +59,8 @@
     cursor: pointer;
 }
 
-.dayItem .dayItemVal:hover, 
-.dayPrev .dayItemVal:hover {
+.day-item .dayItemVal:hover, 
+.day-prev .dayItemVal:hover {
     background-color: #f8f8f8;
 }
 
@@ -70,12 +68,12 @@
     color: #000;
     background-color: #f7f7f7;
 }
-.dayPrev, .dayNext {
+.day-prev, .day-next {
     color: #a6a6a6;
 }
 
-.dayActive .dayItemVal, 
-.todayActive .dayItemVal {
+.day-active .dayItemVal, 
+.today-active .dayItemVal {
     color: #fff;
     background-color: #118bfb;
 }
@@ -85,7 +83,7 @@
     background-color: #afd3f5;
 }
 
-.dayRegion .dayItemVal {
+.day-region .dayItemVal {
     background-color: #deedfb;
     color: #02498a;
 }
@@ -95,11 +93,11 @@
     color: #9fc2e2;
 }
 
-.dayDisabled .dayItemVal {
+.day-disabled .dayItemVal {
     color: #cccccc;
     cursor: not-allowed;
 }
-.dayDisabled .dayItemVal:hover {
+.day-disabled .dayItemVal:hover {
     background-color: #fff;
 }
 
@@ -159,7 +157,7 @@
     border-top: 2.2em solid #ff6459;
 }
 
-.dayDisabled .holidayWrap:before {
+.day-disabled .holidayWrap:before {
     border-top: 2.2em solid rgba(255, 100, 89, 0.5);
 }
 
@@ -167,11 +165,11 @@
     border-top: 2.2em solid #118bfb;
 }
 
-.dayDisabled .workWrap:before {
+.day-disabled .workWrap:before {
     border-top: 2.2em solid rgba(17, 139, 251, 0.5);
 }
 
-.dayDisabled .vication-wrap {
+.day-disabled .vication-wrap {
     color: #cccccc;
 }
 
@@ -189,41 +187,26 @@
 
 /************************************* 新已确认样式 icon btn start **************************************/
 
-.angleDoubleLeft {
+.double-left-btn {
     background: url("./icon/angleDoubleLeft.png") center no-repeat;
 }
 
-.angleLeft {
+.left-btn {
     background: url("./icon/angleLeft.png") center no-repeat;
 }
 
-.angleRight {
+.right-btn {
     background: url("./icon/angleRight.png") center no-repeat;
 }
 
-.angleDoubleRight {
+.double-right-btn {
     background: url("./icon/angleDoubleRight.png") center no-repeat;
 }
 
-.angleDown {
-    background: red;
-}
-
-.angleUp {
-    background: red;
-}
-
-.fa {
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    background-size: 40px 40px;
-}
-
-.angleDoubleLeft,
-.angleLeft,
-.angleRight,
-.angleDoubleRight {
+.double-left-btn,
+.left-btn,
+.right-btn,
+.double-right-btn {
     display: block;
     width: 20px;
     height: 20px;
@@ -231,10 +214,10 @@
     cursor: pointer;
 }
 
-.angleDoubleLeft:hover,
-.angleLeft:hover,
-.angleRight:hover,
-.angleDoubleRight:hover {
+.double-left-btn:hover,
+.left-btn:hover,
+.right-btn:hover,
+.double-right-btn:hover {
     border-radius: 50%;
     background-color: #f7f7f7;
 }

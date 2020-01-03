@@ -28,14 +28,12 @@ const locale = {
 
 // 顶部按钮配置
 const headBtns = {
-  BTN_MINUS_YEAR: 'angleDoubleLeft',
-  BTN_MINUS_MONTH: 'angleLeft',
-  BTN_PLUS_MONTH: 'angleRight',
-  BTN_PLUS_YEAR: 'angleDoubleRight',
-  BTN_NORMAL_PREV: 'angleLeft',
-  BTN_NORMAL_NEXT: 'angleRight',
-  BTN_MINUS_CLOCK: 'angleDown',
-  BTN_PLUS_CLOCK: 'angleUp',
+  BTN_MINUS_YEAR: 'double-left-btn',
+  BTN_MINUS_MONTH: 'left-btn',
+  BTN_PLUS_MONTH: 'right-btn',
+  BTN_PLUS_YEAR: 'double-right-btn',
+  BTN_NORMAL_PREV: 'left-btn',
+  BTN_NORMAL_NEXT: 'right-btn',
 };
 
 
@@ -49,18 +47,18 @@ const headBtns = {
 // };
 
 export const DAY_STYLE = {
-  CURRENT: 'dayItem',
-  ACTIVE: 'dayActive',
+  CURRENT: 'day-item',
+  ACTIVE: 'day-active',
   TEMP_ACTIVE: 'temp-day-active',
-  REGION: 'dayRegion',
+  REGION: 'day-region',
   TEMP_REGION: 'temp-day-region',
   TODAY: 'today',
-  ACTIVE_TODAY: 'todayActive',
-  REGION_TODAY: 'todayRegion',
-  DISABLED: 'dayDisabled',
+  ACTIVE_TODAY: 'today-active',
+  REGION_TODAY: 'today-region',
+  DISABLED: 'day-disabled',
   DISABLED_TODAY: 'today-disabled',
-  PREV: 'dayPrev',
-  NEXT: 'dayNext',
+  PREV: 'day-prev',
+  NEXT: 'day-next',
 };
 
 export default {
