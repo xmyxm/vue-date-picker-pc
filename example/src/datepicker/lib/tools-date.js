@@ -33,8 +33,19 @@ export function addLunarInfo(dayList) {
     item.work = work;
   });
 }
+/**
+ * 获取昨天日期
+ */
+export function getYesterday() {
+  const date = new Date();
+  date.setDate(date.getDate() - 1);
+  return date;
+}
 
-// 通过日期计算所属月的总天数
+/**
+ * 通过日期计算所属月的总天数
+ * @param {*} date 时间对象
+ */
 export function dayCountByMonth(date) {
   return (new Date(date.getFullYear(), date.getMonth() + 1, 0)).getDate();
 }
@@ -61,6 +72,17 @@ export function monthInfoByDate(date) {
     lastDayWeekIndex,
   };
   return monthInfo;
+}
+
+/**
+ * 获取月份时间数字，用于比较大小
+ * @param {*} date 时间对象
+ */
+export function getYearMonthNum(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const text = year + month >= 10 ? `${month}` : `0${month}`;
+  return parseInt(text, 10);
 }
 
 /**
@@ -236,8 +258,10 @@ export function dayListByDate(displayDate, disabledCheck, enablefix = false) {
 
 export default {
   addLunarInfo,
+  getYesterday,
   dayCountByMonth,
   monthInfoByDate,
+  getYearMonthNum,
   dateByDate,
   dateByDateText,
   weekInfoByDate,

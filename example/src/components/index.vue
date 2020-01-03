@@ -60,8 +60,8 @@ export default {
         open: false,
         type: 'day', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
         startDate: new Date('2010/1/1'),
-        endDate: new Date('2020/1/1'),
-        value: new Date('2019/1/1'),
+        endDate: this.getYesterday(),
+        value: this.getYesterday(),
         onSus: this.onSusDayFun,
       },
 
@@ -89,7 +89,12 @@ export default {
       const year = date.getFullYear();
       const month = date.getMonth() + 1;
       const day = date.getDate();
-      return `${year}-${month > 10 ? month : `0${month}`}-${day > 10 ? day : `0${day}`}`;
+      return `${year}-${month >= 10 ? month : `0${month}`}-${day >= 10 ? day : `0${day}`}`;
+    },
+    getYesterday() {
+      const date = new Date();
+      date.setDate(date.getDate() - 1);
+      return date;
     },
     getToDay() {
       return new Date();

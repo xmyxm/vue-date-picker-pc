@@ -7,10 +7,12 @@
 </template>
 
 <script>
-import Week from './week';
-import Mask from './mask';
-import customWeek from './custom-week';
+
 import Day from './day';
+import Week from './week';
+import customWeek from './custom-week';
+import Mask from './mask';
+import { dateByDate, getYesterday } from './lib/tools-date';
 
 export default {
   name: 'DatePicker',
@@ -34,6 +36,7 @@ export default {
     // 选择日期
     value: {
       type: Date,
+      default: getYesterday(),
     },
     startDate: {
       type: [Date, Object],
@@ -51,7 +54,7 @@ export default {
   computed: {
     bindData() {
       return {
-        value: this.value,
+        value: dateByDate(this.value),
         startDate: this.startDate,
         endDate: this.endDate,
         onSus: this.onSus,
