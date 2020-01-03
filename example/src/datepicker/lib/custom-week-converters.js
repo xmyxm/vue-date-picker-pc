@@ -1,4 +1,4 @@
-import { dayListByDate, weekInfoByDate } from './tools-date';
+import { dayListByDate, weekInfoByDate, getTodayDate, getYearMonthNum } from './tools-date';
 import { DAY_STYLE } from './config';
 
 // 日期数据转换器，生成render所需的日期数据
@@ -7,11 +7,23 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
   // 是否在日历尾部多加一行
   const enablefix = false;
   const dayList = dayListByDate(displayDate, disabledCheck, enablefix);
-  const todayDate = new Date();
+  const todayDate = getTodayDate();
+  // 显示日历所属的月份
+  const endYearMonthNum = getYearMonthNum(displayDate);
   dayList.forEach((item) => {
     if (!item.disabled) {
+      // 当前时间对应的月
+      const currentYearMonthNum = getYearMonthNum(item.date);
       if (item.date.getTime() === todayDate.getTime()) {
         item.status = DAY_STYLE.TODAY;
+      } else if (currentYearMonthNum !== endYearMonthNum) {
+        if (currentYearMonthNum > endYearMonthNum) {
+          // 下个月
+          item.status = DAY_STYLE.NEXT;
+        } else {
+          // 上个月
+          item.status = DAY_STYLE.PREV;
+        }
       } else {
         item.status = DAY_STYLE.CURRENT;
       }
@@ -25,10 +37,12 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
     const { start, end } = weekInfo.currentWeek;
     if (end < todayDate) {
       dayList.forEach((item) => {
-        if (item.year <= weekInfo.year && item.month <= weekInfo.month && item.date >= start && item.date <= end) {
+        if (!item.disabled && item.year <= weekInfo.year && item.month <= weekInfo.month && item.date >= start && item.date <= end) {
           if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
+            // 自然周第一天或最后一天
             item.status = DAY_STYLE.ACTIVE;
           } else {
+            // 自然周第一天和最后一天之间的时间
             item.status = DAY_STYLE.REGION;
           }
         }
@@ -42,7 +56,7 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
     const { start, end } = weekInfo.currentWeek;
     if (end < todayDate) { // weekInfo.month <= month &&
       dayList.forEach((item) => {
-        if (item.date >= start && item.date <= end) {
+        if (!item.disabled && item.date >= start && item.date <= end) {
           if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
             item.status = DAY_STYLE.TEMP_ACTIVE;
           } else {
