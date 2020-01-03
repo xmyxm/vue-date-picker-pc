@@ -25,7 +25,7 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
     const { start, end } = weekInfo.currentWeek;
     if (end < todayDate) {
       dayList.forEach((item) => {
-        if (item.year === weekInfo.year && item.month === weekInfo.month && item.date >= start && item.date <= end) {
+        if (item.year <= weekInfo.year && item.month <= weekInfo.month && item.date >= start && item.date <= end) {
           if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
             item.status = DAY_STYLE.ACTIVE;
           } else {
@@ -54,7 +54,6 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
   }
   return dayList;
 }
-
 
 export default {
   weekConverters,

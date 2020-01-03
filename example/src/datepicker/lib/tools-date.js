@@ -94,6 +94,13 @@ export function dateByDate(date) {
 }
 
 /**
+ * 获取今天日期，用于比较大小
+ */
+export function getTodayDate() {
+  return dateByDate(new Date());
+}
+
+/**
  * 生成去掉时分秒的时间对象
  * @param {*} year 年
  * @param {*} month 月
@@ -263,6 +270,7 @@ export default {
   monthInfoByDate,
   getYearMonthNum,
   dateByDate,
+  getTodayDate,
   dateByDateText,
   weekInfoByDate,
   dayListByDate,

@@ -58,7 +58,7 @@ export default {
       customWeekText: '',
       dateConfig: {
         open: false,
-        type: 'day', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
+        type: 'day',
         startDate: new Date('2010/1/1'),
         endDate: this.getYesterday(),
         value: this.getYesterday(),
@@ -67,7 +67,7 @@ export default {
 
       weekConfig: {
         open: false,
-        type: 'week', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
+        type: 'week',
         startDate: null,
         endDate: new Date(),
         value: new Date('2019/12/26'),
@@ -76,7 +76,7 @@ export default {
 
       customWeekConfig: {
         open: false,
-        type: 'customWeek', // 'week', 'month', 'quarter', 'year', 'festival', 'optional'], //
+        type: 'customWeek',
         startDate: null,
         endDate: new Date(),
         value: new Date('2019/12/26'),
