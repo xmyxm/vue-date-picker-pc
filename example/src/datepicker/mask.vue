@@ -63,6 +63,7 @@ export default {
     border: 1px solid #e4e7ed;
     border-radius: 4px;
     line-height: 20px;
+    user-select: none;
 }
 
 .date-picker-mask {
