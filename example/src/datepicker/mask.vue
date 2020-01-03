@@ -9,11 +9,10 @@
     </div>
   </div>
 </template>
-
 <script>
 
 export default {
-  name: 'elMask',
+  name: 'CMask',
   props: {
     // 展示的日历组件类型
     type: {
@@ -48,7 +47,7 @@ export default {
       event.stopPropagation();
     },
     getClass() {
-      return this.type === 'customWeek' ? 'date-double-picker-mask' : 'date-picker-mask';
+      return this.type === 'custom' ? 'date-double-picker-mask' : 'date-picker-mask';
     },
   },
 };

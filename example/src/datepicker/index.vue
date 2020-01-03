@@ -1,26 +1,25 @@
 <template>
-  <el-mask v-if="open" :type="type" >
+  <CMask v-if="open" :type="type" >
     <Day v-if="type == 'day'" v-bind="bindData"></Day>
     <Week v-if="type == 'week'" v-bind="bindData"></Week>
-    <custom-week v-if="type == 'customWeek'" v-bind="bindData"></custom-week>
-  </el-mask>
+    <Custom v-if="type == 'custom'" v-bind="bindData"></Custom>
+  </CMask>
 </template>
 
 <script>
-
 import Day from './day';
 import Week from './week';
-import customWeek from './custom-week';
-import Mask from './mask';
+import Custom from './custom';
+import CMask from './mask';
 import { dateByDate, getYesterday, getRegionDay } from './lib/tools-date';
 
 export default {
-  name: 'DatePicker',
+  name: 'DatePickerPC',
   components: {
     Day,
     Week,
-    'custom-week': customWeek,
-    'el-mask': Mask,
+    Custom,
+    CMask,
   },
   props: {
     // 是否展示日历组件
@@ -69,7 +68,3 @@ export default {
   },
 };
 </script>
-
-<style>
-@import "./style/index.css";
-</style>

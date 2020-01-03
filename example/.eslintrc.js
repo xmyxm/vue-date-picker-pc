@@ -38,7 +38,9 @@ module.exports = {
     "no-plusplus": "off",
     "no-mixed-operators": "off",
     "max-len": "off",
+    "import/no-named-as-default-member": "off",
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
 }
+

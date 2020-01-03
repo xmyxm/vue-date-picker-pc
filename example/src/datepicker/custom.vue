@@ -1,123 +1,24 @@
 <template>
   <div class="custom-week-wrap">
-    <div class="day-wrap">
-      <!-- 日历头 -->
-      <div class="header">
-        <div class="icon-btn" title="上一年" @click="updateDisplayDate('updateYear', -1)">
-          <i class="double-left-btn" />
-        </div>
-        <div
-          class="icon-btn"
-          title="上个月"
-          @click="updateDisplayDate('updateMonth', -1)"
-        >
-          <i class="left-btn" />
-        </div>
-        <div
-          :title="displayStart.getFullYear() + '-' + displayStart.getMonth() + 1"
-          class="center-btn"
-        >
-          {{displayStart.getFullYear()}} 年 {{displayStart.getMonth() + 1}} 月
-        </div>
-        <div
-          class="icon-btn"
-          title="下个月"
-          @click="updateDisplayDate('updateMonth', 1)"
-        >
-          <i class="right-btn" />
-        </div>
-        <div class="icon-btn" title="下一年" @click="updateDisplayDate('updateYear', 1)">
-          <i class="double-right-btn" />
-        </div>
-      </div>
+     <Calendar
+      :next-year = "false"
+      :next-month = "false"
+      :click-day = "clickDay"
+      :mouse-enter = "enter"
+      :mouse-leave = "leave"
+      :day-list = "startDayList"
+      :display-date = "displayStart"
+    />
 
-      <!-- 星期头 -->
-      <div class="head-day-list">
-        <span
-          v-for="val in ['一', '二', '三', '四', '五', '六', '日']"
-          :class="'head-day-' + (val === '六' || val === '日' ? 'opacity' : 'item')"
-          :key="val"
-        >
-          <span>{{ val }}</span>
-        </span>
-      </div>
-
-      <!-- 日期单元 -->
-      <div class="day-list">
-        <div
-          v-for="dayData in startDayList"
-          :key="`${dayData.year}${dayData.month}${dayData.day}`"
-          :class="dayData.status"
-          @click="clickDay(dayData)"
-          @mouseenter="enter(dayData)"
-          @mouseleave="leave(dayData)"
-        >
-          <span class="day-item-val">{{dayData.day}}</span>
-          <p class="vication-wrap" :title="dayData.lDay">{{dayData.lDay}}</p>
-          <p v-if="dayData.holiday" class="holiday-wrap">假</p>
-          <p v-if="dayData.work" class="work-wrap">班</p>
-        </div>
-      </div>
-    </div>
-    <div class="day-wrap">
-      <!-- 日历头 -->
-      <div class="header">
-        <div class="icon-btn" title="上一年" @click="updateDisplayDate('updateYear', -1)">
-          <i class="double-left-btn" />
-        </div>
-        <div
-          class="icon-btn"
-          title="上个月"
-          @click="updateDisplayDate('updateMonth', -1)"
-        >
-          <i class="left-btn" />
-        </div>
-        <div
-          :title="displayEnd.getFullYear() + '-' + displayEnd.getMonth() + 1"
-          class="center-btn"
-        >
-          {{displayEnd.getFullYear()}} 年 {{displayEnd.getMonth() + 1}} 月
-        </div>
-        <div
-          class="icon-btn"
-          title="下个月"
-          @click="updateDisplayDate('updateMonth', 1)"
-        >
-          <i class="right-btn" />
-        </div>
-        <div class="icon-btn" title="下一年" @click="updateDisplayDate('updateYear', 1)">
-          <i class="double-right-btn" />
-        </div>
-      </div>
-
-      <!-- 星期头 -->
-      <div class="head-day-list">
-        <span
-          v-for="val in ['一', '二', '三', '四', '五', '六', '日']"
-          :class="'head-day-' + (val === '六' || val === '日' ? 'opacity' : 'item')"
-          :key="val"
-        >
-          <span>{{ val }}</span>
-        </span>
-      </div>
-
-      <!-- 日期单元 -->
-      <div class="day-list">
-        <div
-          v-for="dayData in endDayList"
-          :key="`${dayData.year}${dayData.month}${dayData.day}`"
-          :class="dayData.status"
-          @click="clickDay(dayData)"
-          @mouseenter="enter(dayData)"
-          @mouseleave="leave(dayData)"
-        >
-          <span class="day-item-val">{{dayData.day}}</span>
-          <p class="vication-wrap" :title="dayData.lDay">{{dayData.lDay}}</p>
-          <p v-if="dayData.holiday" class="holiday-wrap">假</p>
-          <p v-if="dayData.work" class="work-wrap">班</p>
-        </div>
-      </div>
-    </div>
+    <Calendar
+      :last-year = "false"
+      :last-month = "false"
+      :click-day = "clickDay"
+      :mouse-enter = "enter"
+      :mouse-leave = "leave"
+      :day-list = "endDayList"
+      :display-date = "displayEnd"
+    />
   </div>
 </template>
 
@@ -125,9 +26,13 @@
 import { weekConverters } from './lib/custom-week-converters';
 import { getLastMonthDay, getYesterday, getTodayDate } from './lib/tools-date';
 import updateTime from './lib/update-time';
+import Calendar from './calendar';
 
 export default {
-  name: 'customWeek',
+  name: 'Custom',
+  components: {
+    Calendar,
+  },
   props: {
     // 自定义日期区间选择 (customWeek)
     dateRegion: {

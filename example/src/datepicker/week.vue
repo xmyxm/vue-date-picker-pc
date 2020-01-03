@@ -1,72 +1,24 @@
 <template>
-  <div class="day-wrap">
-    <!-- 日历头 -->
-    <div class="header">
-      <div class="icon-btn" title="上一年" @click="updateDisplayDate('updateYear', -1)">
-        <i class="double-left-btn" />
-      </div>
-      <div
-        class="icon-btn"
-        title="上个月"
-        @click="updateDisplayDate('updateMonth', -1)"
-      >
-        <i class="left-btn" />
-      </div>
-      <div
-        :title="displayDate.getFullYear() + '-' + displayDate.getMonth() + 1"
-        class="center-btn"
-      >
-        {{displayDate.getFullYear()}} 年 {{displayDate.getMonth() + 1}} 月
-      </div>
-      <div
-        class="icon-btn"
-        title="下个月"
-        @click="updateDisplayDate('updateMonth', 1)"
-      >
-        <i class="right-btn" />
-      </div>
-      <div class="icon-btn" title="下一年" @click="updateDisplayDate('updateYear', 1)">
-        <i class="double-right-btn" />
-      </div>
-    </div>
-
-    <!-- 星期头 -->
-    <div class="head-day-list">
-      <span
-        v-for="val in ['一', '二', '三', '四', '五', '六', '日']"
-        :class="'head-day-' + (val === '六' || val === '日' ? 'opacity' : 'item')"
-        :key="val"
-      >
-        <span>{{ val }}</span>
-      </span>
-    </div>
-
-    <!-- 日期单元 -->
-    <div class="day-list">
-      <div
-        v-for="dayData in dayListData"
-        :key="`${dayData.year}${dayData.month}${dayData.day}`"
-        :class="dayData.status"
-        @click="clickDay(dayData)"
-        @mouseenter="enter(dayData)"
-        @mouseleave="leave(dayData)"
-      >
-        <span class="day-item-val">{{dayData.day}}</span>
-        <p class="vication-wrap" :title="dayData.lDay">{{dayData.lDay}}</p>
-        <p v-if="dayData.holiday" class="holiday-wrap">假</p>
-        <p v-if="dayData.work" class="work-wrap">班</p>
-      </div>
-    </div>
-  </div>
+  <Calendar
+  :click-day = "clickDay"
+  :mouse-enter = "enter"
+  :mouse-leave = "leave"
+  :day-list = "dayList"
+  :display-date = "displayDate"
+/>
 </template>
 
 <script>
 import { weekConverters } from './lib/week-converters';
 import { weekInfoByDate } from './lib/tools-date';
 import updateTime from './lib/update-time';
+import Calendar from './calendar';
 
 export default {
-  name: 'customWeek',
+  name: 'Week',
+  components: {
+    Calendar,
+  },
   props: {
     value: {
       type: Date,
@@ -96,7 +48,7 @@ export default {
     },
   },
   computed: {
-    dayListData() {
+    dayList() {
       const {
         value, // 当前选择的时间对象
         displayDate, // 显示时间

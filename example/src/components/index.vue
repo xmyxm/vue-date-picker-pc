@@ -76,7 +76,7 @@ export default {
 
       customWeekConfig: {
         open: false,
-        type: 'customWeek',
+        type: 'custom',
         startDate: null,
         endDate: new Date(),
         value: new Date('2019/12/26'),
