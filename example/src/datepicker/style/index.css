@@ -178,6 +178,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 10px;
     margin: 0;
     padding: 0;
 }

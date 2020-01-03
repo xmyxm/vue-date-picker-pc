@@ -1,13 +1,24 @@
+import { dateByDate } from './tools-date';
+/**
+ * 修改月份
+ * @param {*} date 时间对象
+ * @param {*} num 增减数值
+ */
 export function updateMonth(date, num) {
-  date.setMonth(date.getMonth() + num);
-  date = new Date(date.getTime());
-  return date;
+  const newDate = dateByDate(date);
+  newDate.setMonth(newDate.getMonth() + num);
+  return newDate;
 }
 
+/**
+ * 修改年份
+ * @param {*} date 时间对象
+ * @param {*} num 增减数值
+ */
 export function updateYear(date, num) {
-  date.setFullYear(date.getFullYear() + num);
-  date = new Date(date.getTime());
-  return date;
+  const newDate = dateByDate(date);
+  newDate.setFullYear(newDate.getFullYear() + num);
+  return newDate;
 }
 
 export default {

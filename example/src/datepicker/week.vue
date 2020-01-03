@@ -72,12 +72,12 @@ export default {
       type: Date,
     },
     startDate: {
-      type: [Date, Object],
+      type: Date,
       default: null,
     },
     endDate: {
-      type: [Date, Object],
-      default: new Date(),
+      type: Date,
+      default: null,
     },
     onSus: {
       type: Function,

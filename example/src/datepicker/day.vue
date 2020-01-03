@@ -67,15 +67,15 @@ export default {
   props: {
     // 选中的日期，范围模式下表示起始日期
     value: {
-      type: [Object, Date],
+      type: Date,
     },
     startDate: {
-      type: [Date, Object],
+      type: Date,
       default: null,
     },
     endDate: {
-      type: [Date, Object],
-      default: new Date(),
+      type: Date,
+      default: null,
     },
     // 选中时的回调
     onSus: {

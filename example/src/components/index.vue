@@ -80,6 +80,10 @@ export default {
         startDate: null,
         endDate: new Date(),
         value: new Date('2019/12/26'),
+        dateRegion: {
+          begin: new Date('2019/12/23'),
+          end: new Date('2019/12/28'),
+        },
         onSus: this.onSusCustomWeekFun,
       },
     };

@@ -3,7 +3,7 @@ import { DAY_STYLE } from './config';
 
 // 日期数据转换器，生成render所需的日期数据
 // 添加enablefix，表示是否范围日历，若范围日历enablefix设为true
-export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitDate) {
+export function weekConverters(dateRegion, displayDate, disabledCheck, mouseHitDate) {
   // 是否在日历尾部多加一行
   const enablefix = false;
   const dayList = dayListByDate(displayDate, disabledCheck, enablefix);
@@ -32,23 +32,23 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
     }
   });
 
-  if (selectDate) {
-    const weekInfo = weekInfoByDate(selectDate);
-    const { start, end } = weekInfo.currentWeek;
-    if (end < todayDate) {
-      dayList.forEach((item) => {
-        if (!item.disabled && item.year <= weekInfo.year && item.month <= weekInfo.month && item.date >= start && item.date <= end) {
-          if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
-            // 自然周第一天或最后一天
-            item.status = DAY_STYLE.ACTIVE;
-          } else {
-            // 自然周第一天和最后一天之间的时间
-            item.status = DAY_STYLE.REGION;
-          }
-        }
-      });
-    }
-  }
+  // if (dateRegion) {
+  //   const weekInfo = weekInfoByDate(dateRegion);
+  //   const { start, end } = weekInfo.currentWeek;
+  //   if (end < todayDate) {
+  //     dayList.forEach((item) => {
+  //       if (!item.disabled && item.year <= weekInfo.year && item.month <= weekInfo.month && item.date >= start && item.date <= end) {
+  //         if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
+  //           // 自然周第一天或最后一天
+  //           item.status = DAY_STYLE.ACTIVE;
+  //         } else {
+  //           // 自然周第一天和最后一天之间的时间
+  //           item.status = DAY_STYLE.REGION;
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
 
   // 如果鼠标滑动到某时间需要 计算其对应的周
   if (mouseHitDate) {

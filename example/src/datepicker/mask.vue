@@ -1,7 +1,7 @@
 <template>
   <div
     ref="mask"
-    class="date-picker-mask"
+    :class="getClass()"
     @click="eventStop($event)"
   >
     <div class="mask-inner">
@@ -14,13 +14,20 @@
 
 export default {
   name: 'elMask',
+  props: {
+    // 展示的日历组件类型
+    type: {
+      type: String,
+      default: 'day',
+    },
+  },
   mounted() {
     const maskEle = this.$refs.mask;
     const parentPosition = maskEle.parentElement.getBoundingClientRect();
     const maskPosition = maskEle.getBoundingClientRect();
     const winWidth = window.innerWidth;
     const winHeight = window.innerHeight;
-    maskEle.className = 'date-picker-mask';
+    maskEle.className = this.getClass();
     let classText = 'bottom';
     if (winHeight - parentPosition.height - parentPosition.top >= maskPosition.height || parentPosition.top < maskPosition.height) {
       classText = 'top';
@@ -40,19 +47,30 @@ export default {
     eventStop(event) {
       event.stopPropagation();
     },
+    getClass() {
+      return this.type === 'customWeek' ? 'date-double-picker-mask' : 'date-picker-mask';
+    },
   },
 };
 </script>
 
 <style scoped>
-.date-picker-mask {
+.date-picker-mask,
+.date-double-picker-mask {
     position: absolute;
-    width: 250px;
     max-height: 350px;
     z-index: 10;
     border: 1px solid #e4e7ed;
     border-radius: 4px;
     line-height: 20px;
+}
+
+.date-picker-mask {
+  width: 250px;
+}
+
+.date-double-picker-mask {
+  width: 500px;
 }
 
 .mask-top-left::before,
