@@ -61,9 +61,13 @@
 <script>
 import { dayConverters } from './lib/day-converters';
 import updateTime from './lib/update-time';
+import Calendar from './calendar';
 
 export default {
   name: 'Day',
+  components: {
+    Calendar,
+  },
   props: {
     // 选中的日期，范围模式下表示起始日期
     value: {

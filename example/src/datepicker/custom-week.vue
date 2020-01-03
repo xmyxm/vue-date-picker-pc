@@ -275,10 +275,8 @@ export default {
         console.log('enter', `${year}/${month}/${day}`);
       }
     },
-    leave(dayInfo) {
-      // this.mouseHitDate = null;
-      // const { year, month, day } = dayInfo;
-      // console.log('leave', `${year}/${month}/${day}`);
+    leave() {
+
     },
   },
 };
