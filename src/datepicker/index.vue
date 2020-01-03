@@ -14,7 +14,7 @@ import CMask from './mask';
 import { dateByDate, getYesterday, getRegionDay } from './lib/tools-date';
 
 export default {
-  name: 'DatePickerPC',
+  name: 'PCDatePicker',
   components: {
     Day,
     Week,
