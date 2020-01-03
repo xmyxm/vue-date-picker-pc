@@ -14,10 +14,10 @@
           <i class="left-btn" />
         </div>
         <div
-          :title="displayBegin.getFullYear() + '-' + displayBegin.getMonth() + 1"
+          :title="displayStart.getFullYear() + '-' + displayStart.getMonth() + 1"
           class="center-btn"
         >
-          {{displayBegin.getFullYear()}} 年 {{displayBegin.getMonth() + 1}} 月
+          {{displayStart.getFullYear()}} 年 {{displayStart.getMonth() + 1}} 月
         </div>
         <div
           class="icon-btn"
@@ -45,7 +45,7 @@
       <!-- 日期单元 -->
       <div class="day-list">
         <div
-          v-for="dayData in beginDayList"
+          v-for="dayData in startDayList"
           :key="`${dayData.year}${dayData.month}${dayData.day}`"
           :class="dayData.status"
           @click="clickDay(dayData)"
@@ -149,39 +149,39 @@ export default {
   },
   data() {
     return {
-      mouseBegin: null, // 鼠标点击的第一个点
+      mouseStart: null, // 鼠标点击的第一个点
       mouseEnd: null, // 鼠标点击的第一个点
-      displayBegin: this.getDisplayBegin(this.dateRegion),
+      displayStart: this.getDisplayStart(this.dateRegion),
       displayEnd: this.getDisplayEnd(this.dateRegion),
     };
   },
   watch: {
     dateRegion(newDateRegion) {
-      this.displayBegin = this.getDisplayBegin(newDateRegion);
+      this.displayStart = this.getDisplayStart(newDateRegion);
       this.displayEnd = this.getDisplayEnd(newDateRegion);
     },
   },
   computed: {
-    beginDayList() {
+    startDayList() {
       const {
-        mouseBegin,
+        mouseStart,
         mouseEnd,
         dateRegion,
-        displayBegin, // 显示时间
+        displayStart, // 显示时间
         disabledDay, // 禁止选择判断逻辑
       } = this;
       const dayList = weekConverters(
-        displayBegin,
+        displayStart,
         disabledDay,
         dateRegion,
-        mouseBegin,
+        mouseStart,
         mouseEnd,
       );
       return dayList;
     },
     endDayList() {
       const {
-        mouseBegin,
+        mouseStart,
         mouseEnd,
         dateRegion,
         displayEnd, // 显示时间
@@ -191,7 +191,7 @@ export default {
         displayEnd,
         disabledDay,
         dateRegion,
-        mouseBegin,
+        mouseStart,
         mouseEnd,
       );
       return dayList;
@@ -206,32 +206,32 @@ export default {
       }
       return false;
     },
-    getDisplayBegin(dateRegion) {
-      let beginDate = getLastMonthDay();
+    getDisplayStart(dateRegion) {
+      let startDate = getLastMonthDay();
       if (dateRegion) {
-        const { begin, end } = dateRegion;
-        const beginMonth = begin.getMonth();
+        const { start, end } = dateRegion;
+        const startMonth = start.getMonth();
         const endMonth = end.getMonth();
-        if (beginMonth === endMonth) {
+        if (startMonth === endMonth) {
           const todayMonth = getTodayDate().getMonth();
-          if (todayMonth === beginMonth) {
-            beginDate = updateTime.updateMonth(begin, -1);
+          if (todayMonth === startMonth) {
+            startDate = updateTime.updateMonth(start, -1);
           } else {
-            beginDate = updateTime.updateMonth(begin, 0);
+            startDate = updateTime.updateMonth(start, 0);
           }
         } else {
-          beginDate = begin;
+          startDate = start;
         }
       }
-      return beginDate;
+      return startDate;
     },
     getDisplayEnd(dateRegion) {
       let endDate = getYesterday();
       if (dateRegion) {
-        const { begin, end } = dateRegion;
-        const beginMonth = begin.getMonth();
+        const { start, end } = dateRegion;
+        const startMonth = start.getMonth();
         const endMonth = end.getMonth();
-        if (beginMonth === endMonth) {
+        if (startMonth === endMonth) {
           const todayMonth = getTodayDate().getMonth();
           if (todayMonth === endMonth) {
             endDate = updateTime.updateMonth(end, 0);
@@ -245,22 +245,22 @@ export default {
       return endDate;
     },
     updateDisplayDate(type, num) {
-      this.displayBegin = updateTime[type](this.displayBegin, num);
+      this.displayStart = updateTime[type](this.displayStart, num);
       this.displayEnd = updateTime[type](this.displayEnd, num);
     },
     // 选中某个日期
     clickDay(dayInfo) {
       const { year, month, day, date, disabled } = dayInfo;
       if (!disabled) {
-        if (this.mouseBegin) {
-          if (this.mouseBegin >= date) {
-            this.onSus({ begin: date, end: this.mouseBegin });
+        if (this.mouseStart) {
+          if (this.mouseStart >= date) {
+            this.onSus({ start: date, end: this.mouseStart });
           } else {
-            this.onSus({ begin: this.mouseBegin, end: date });
+            this.onSus({ start: this.mouseStart, end: date });
           }
-          this.mouseBegin = null;
+          this.mouseStart = null;
         } else {
-          this.mouseBegin = date;
+          this.mouseStart = date;
         }
         console.log('clickDay', `${year}/${month}/${day}`);
       }
@@ -268,7 +268,7 @@ export default {
     enter(dayInfo) {
       const { year, month, day, date, disabled } = dayInfo;
       if (!disabled) {
-        if (this.mouseBegin) {
+        if (this.mouseStart) {
           this.mouseEnd = date;
         }
         // this.mouseHitDate = new Date(`${year}/${month}/${day}/`);
@@ -301,7 +301,7 @@ export default {
   width: 1px;
   top: 0;
   bottom: 0;
-  left: 0;
+  left: -4px;
   background: #e4e7ed;
   z-index: 1000;
 }

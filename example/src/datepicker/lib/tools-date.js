@@ -115,8 +115,8 @@ export function getLastMonthDay() {
  */
 export function getRegionDay(dateRegion) {
   if (dateRegion) {
-    if (dateRegion.begin) {
-      dateRegion.begin = dateByDate(dateRegion.begin);
+    if (dateRegion.start) {
+      dateRegion.start = dateByDate(dateRegion.start);
     }
     if (dateRegion.end) {
       dateRegion.end = dateByDate(dateRegion.end);

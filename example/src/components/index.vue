@@ -81,7 +81,7 @@ export default {
         endDate: new Date(),
         value: new Date('2019/12/26'),
         dateRegion: {
-          begin: new Date('2019/12/23'),
+          start: new Date('2019/12/23'),
           end: new Date('2019/12/28'),
         },
         onSus: this.onSusCustomWeekFun,
@@ -128,8 +128,8 @@ export default {
       console.log('week', data.fetchDate);
     },
     onSusCustomWeekFun(data) {
-      const { begin, end } = data;
-      this.customWeekText = `${this.getDateText(begin)} ~ ${this.getDateText(end)}`;
+      const { start, end } = data;
+      this.customWeekText = `${this.getDateText(start)} ~ ${this.getDateText(end)}`;
       this.customWeekConfig.open = false;
       this.customWeekConfig.dateRegion = data;
       console.log('customWeek', this.customWeekText);
