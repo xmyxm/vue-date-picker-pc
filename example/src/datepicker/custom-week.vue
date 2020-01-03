@@ -123,7 +123,7 @@
 
 <script>
 import { weekConverters } from './lib/custom-week-converters';
-import { weekInfoByDate, getLastMonthDay, getYesterday, getTodayDate, dateByDateText } from './lib/tools-date';
+import { getLastMonthDay, getYesterday, getTodayDate } from './lib/tools-date';
 import updateTime from './lib/update-time';
 
 export default {
@@ -149,7 +149,8 @@ export default {
   },
   data() {
     return {
-      mouseHitDate: null, // 鼠标命中日期
+      mouseBegin: null, // 鼠标点击的第一个点
+      mouseEnd: null, // 鼠标点击的第一个点
       displayBegin: this.getDisplayBegin(this.dateRegion),
       displayEnd: this.getDisplayEnd(this.dateRegion),
     };
@@ -163,31 +164,35 @@ export default {
   computed: {
     beginDayList() {
       const {
+        mouseBegin,
+        mouseEnd,
         dateRegion,
         displayBegin, // 显示时间
         disabledDay, // 禁止选择判断逻辑
-        mouseHitDate,
       } = this;
       const dayList = weekConverters(
-        dateRegion,
         displayBegin,
         disabledDay,
-        mouseHitDate,
+        dateRegion,
+        mouseBegin,
+        mouseEnd,
       );
       return dayList;
     },
     endDayList() {
       const {
+        mouseBegin,
+        mouseEnd,
         dateRegion,
         displayEnd, // 显示时间
         disabledDay, // 禁止选择判断逻辑
-        mouseHitDate,
       } = this;
       const dayList = weekConverters(
-        dateRegion,
         displayEnd,
         disabledDay,
-        mouseHitDate,
+        dateRegion,
+        mouseBegin,
+        mouseEnd,
       );
       return dayList;
     },
@@ -210,9 +215,9 @@ export default {
         if (beginMonth === endMonth) {
           const todayMonth = getTodayDate().getMonth();
           if (todayMonth === beginMonth) {
-            beginDate = updateTime.updateMonth(begin, 0);
+            beginDate = updateTime.updateMonth(begin, -1);
           } else {
-            beginDate = updateTime.updateMonth(begin, 1);
+            beginDate = updateTime.updateMonth(begin, 0);
           }
         } else {
           beginDate = begin;
@@ -229,9 +234,9 @@ export default {
         if (beginMonth === endMonth) {
           const todayMonth = getTodayDate().getMonth();
           if (todayMonth === endMonth) {
-            endDate = updateTime.updateMonth(end, 1);
+            endDate = updateTime.updateMonth(end, 0);
           } else {
-            endDate = updateTime.updateMonth(end, 2);
+            endDate = updateTime.updateMonth(end, 1);
           }
         } else {
           endDate = end;
@@ -245,24 +250,35 @@ export default {
     },
     // 选中某个日期
     clickDay(dayInfo) {
-      this.mouseHitDate = null;
-      const { year, month, day, date } = dayInfo;
-      const { startDate, endDate, onSus } = this;
-      const { currentWeek: { start, end } } = weekInfoByDate(date);
-      if (!(startDate && end < startDate) && end < endDate) {
+      const { year, month, day, date, disabled } = dayInfo;
+      if (!disabled) {
+        if (this.mouseBegin) {
+          if (this.mouseBegin >= date) {
+            this.onSus({ begin: date, end: this.mouseBegin });
+          } else {
+            this.onSus({ begin: this.mouseBegin, end: date });
+          }
+          this.mouseBegin = null;
+        } else {
+          this.mouseBegin = date;
+        }
         console.log('clickDay', `${year}/${month}/${day}`);
-        onSus({ start, end });
       }
     },
     enter(dayInfo) {
-      const { year, month, day } = dayInfo;
-      // this.mouseHitDate = new Date(`${year}/${month}/${day}/`);
-      console.log('enter', `${year}/${month}/${day}`);
+      const { year, month, day, date, disabled } = dayInfo;
+      if (!disabled) {
+        if (this.mouseBegin) {
+          this.mouseEnd = date;
+        }
+        // this.mouseHitDate = new Date(`${year}/${month}/${day}/`);
+        console.log('enter', `${year}/${month}/${day}`);
+      }
     },
     leave(dayInfo) {
-      this.mouseHitDate = null;
-      const { year, month, day } = dayInfo;
-      console.log('leave', `${year}/${month}/${day}`);
+      // this.mouseHitDate = null;
+      // const { year, month, day } = dayInfo;
+      // console.log('leave', `${year}/${month}/${day}`);
     },
   },
 };
