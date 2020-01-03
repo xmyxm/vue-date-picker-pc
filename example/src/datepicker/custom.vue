@@ -120,6 +120,7 @@ export default {
         if (startMonth === endMonth) {
           const todayMonth = getTodayDate().getMonth();
           if (todayMonth === startMonth) {
+            //
             startDate = updateTime.updateMonth(start, -1);
           } else {
             startDate = updateTime.updateMonth(start, 0);
@@ -204,7 +205,7 @@ export default {
   width: 1px;
   top: 0;
   bottom: 0;
-  left: -4px;
+  left: 0;
   background: #e4e7ed;
   z-index: 1000;
 }

@@ -116,6 +116,8 @@ export default {
     z-index: 15;
     font-size: 12px;
     text-align: left;
+    padding-left: 1%;
+    padding-right: 1%;
 }
 
 .day-item,
@@ -285,6 +287,7 @@ export default {
     line-height: 10px;
     margin: 0;
     padding: 0;
+    padding-top: 3px;
 }
 /************************************* 新已确认样式 day end **************************************/
 
