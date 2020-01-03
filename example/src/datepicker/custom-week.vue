@@ -2,11 +2,11 @@
   <div class="day-wrap">
     <!-- 日历头 -->
     <div class="header">
-      <div class="iconBtn" title="上一年" @click="updateDisplayDate('updateYear', -1)">
+      <div class="icon-btn" title="上一年" @click="updateDisplayDate('updateYear', -1)">
         <i class="double-left-btn" />
       </div>
       <div
-        class="iconBtn"
+        class="icon-btn"
         title="上个月"
         @click="updateDisplayDate('updateMonth', -1)"
       >
@@ -14,18 +14,18 @@
       </div>
       <div
         :title="displayDate.getFullYear() + '-' + displayDate.getMonth() + 1"
-        class="centerBtn"
+        class="center-btn"
       >
         {{displayDate.getFullYear()}} 年 {{displayDate.getMonth() + 1}} 月
       </div>
       <div
-        class="iconBtn"
+        class="icon-btn"
         title="下个月"
         @click="updateDisplayDate('updateMonth', 1)"
       >
         <i class="right-btn" />
       </div>
-      <div class="iconBtn" title="下一年" @click="updateDisplayDate('updateYear', 1)">
+      <div class="icon-btn" title="下一年" @click="updateDisplayDate('updateYear', 1)">
         <i class="double-right-btn" />
       </div>
     </div>
@@ -51,10 +51,10 @@
         @mouseenter="enter(dayData)"
         @mouseleave="leave(dayData)"
       >
-        <span class="dayItemVal">{{dayData.day}}</span>
+        <span class="day-item-val">{{dayData.day}}</span>
         <p class="vication-wrap" :title="dayData.lDay">{{dayData.lDay}}</p>
-        <p v-if="dayData.holiday" class="holidayWrap">假</p>
-        <p v-if="dayData.work" class="workWrap">班</p>
+        <p v-if="dayData.holiday" class="holiday-wrap">假</p>
+        <p v-if="dayData.work" class="work-wrap">班</p>
       </div>
     </div>
   </div>
