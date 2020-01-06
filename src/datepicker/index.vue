@@ -2,12 +2,14 @@
   <CMask v-if="open" :type="type" >
     <Day v-if="type == 'day'" v-bind="bindData"></Day>
     <Week v-if="type == 'week'" v-bind="bindData"></Week>
+    <Cycle v-if="type == 'cycle'" v-bind="bindData"></Cycle>
     <Custom v-if="type == 'custom'" v-bind="bindData"></Custom>
   </CMask>
 </template>
 
 <script>
 import Day from './day';
+import Cycle from './cycle';
 import Week from './week';
 import Custom from './custom';
 import CMask from './mask';
@@ -18,6 +20,7 @@ export default {
   components: {
     Day,
     Week,
+    Cycle,
     Custom,
     CMask,
   },
@@ -36,6 +39,11 @@ export default {
     value: {
       type: Date,
       default: getYesterday(),
+    },
+    // 自定义时间区间
+    limit: {
+      type: Number,
+      default: 7,
     },
     // 自定义日期区间选择 (customWeek)
     dateRegion: {
@@ -59,6 +67,7 @@ export default {
     bindData() {
       return {
         value: dateByDate(this.value), // 格式化数据，去掉时分秒
+        limit: this.limit,
         dateRegion: getRegionDay(this.dateRegion),
         startDate: this.startDate,
         endDate: this.endDate,

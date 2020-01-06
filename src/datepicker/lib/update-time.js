@@ -1,4 +1,15 @@
 import { dateByDate } from './tools-date';
+
+/**
+ * 修改日期
+ * @param {*} date 时间对象
+ * @param {*} num 增减数值
+ */
+export function updateDay(date, num) {
+  const newDate = dateByDate(date);
+  newDate.setDate(newDate.getDate() + num);
+  return newDate;
+}
 /**
  * 修改月份
  * @param {*} date 时间对象

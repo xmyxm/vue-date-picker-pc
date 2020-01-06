@@ -77,41 +77,6 @@ export function weekConverters(displayDate, disabledCheck, dateRegion, mouseStar
       }
     });
   }
-
-  // if (dateRegion) {
-  //   const weekInfo = weekInfoByDate(dateRegion);
-  //   const { start, end } = weekInfo.currentWeek;
-  //   if (end < todayDate) {
-  //     dayList.forEach((item) => {
-  //       if (!item.disabled && item.year <= weekInfo.year && item.month <= weekInfo.month && item.date >= start && item.date <= end) {
-  //         if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
-  //           // 自然周第一天或最后一天
-  //           item.status = DAY_STYLE.ACTIVE;
-  //         } else {
-  //           // 自然周第一天和最后一天之间的时间
-  //           item.status = DAY_STYLE.REGION;
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
-
-  // 如果鼠标滑动到某时间需要 计算其对应的周
-  // if (mouseHitDate) {
-  //   const weekInfo = weekInfoByDate(mouseHitDate);
-  //   const { start, end } = weekInfo.currentWeek;
-  //   if (end < todayDate) { // weekInfo.month <= month &&
-  //     dayList.forEach((item) => {
-  //       if (!item.disabled && item.date >= start && item.date <= end) {
-  //         if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
-  //           item.status = DAY_STYLE.TEMP_ACTIVE;
-  //         } else {
-  //           item.status = DAY_STYLE.TEMP_REGION;
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
   return dayList;
 }
 

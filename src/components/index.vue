@@ -33,10 +33,20 @@
       class="date-box-item">
         <div class="attr">业务周选择: </div>
         <div class="ipt">
-           <span class="text">{{customWeekText}}</span>
-          <date-picker v-bind="customWeekConfig"></date-picker>
+           <span class="text">{{sevenDaysText}}</span>
+          <date-picker v-bind="cycleConfig"></date-picker>
         </div>
-        <i :class="customWeekConfig.open ? 'open top' : 'open'"></i>
+        <i :class="cycleConfig.open ? 'open top' : 'open'"></i>
+    </div>
+    <div
+      @click="onOff(2)"
+      class="date-box-item">
+        <div class="attr">自定义区间选择: </div>
+        <div class="ipt">
+           <span class="text">{{customText}}</span>
+          <date-picker v-bind="customConfig"></date-picker>
+        </div>
+        <i :class="customConfig.open ? 'open top' : 'open'"></i>
     </div>
   </div>
 </template>
@@ -55,7 +65,8 @@ export default {
       title: '日历组件',
       dayText: '',
       weekText: '',
-      customWeekText: '',
+      sevenDaysText: '',
+      customText: '',
       dateConfig: {
         open: false,
         type: 'day',
@@ -73,8 +84,16 @@ export default {
         value: new Date('2019/12/26'),
         onSus: this.onSusWeekFun,
       },
-
-      customWeekConfig: {
+      cycleConfig: {
+        open: false,
+        type: 'cycle',
+        limit: 7, // 限制固定选择任意7天
+        startDate: null,
+        endDate: new Date(),
+        value: new Date('2019/12/26'),
+        onSus: this.onSusCycleFun,
+      },
+      customConfig: {
         open: false,
         type: 'custom',
         startDate: null,
@@ -84,7 +103,7 @@ export default {
           start: new Date('2019/12/23'),
           end: new Date('2019/12/28'),
         },
-        onSus: this.onSusCustomWeekFun,
+        onSus: this.onSusCustomFun,
       },
     };
   },
@@ -104,7 +123,7 @@ export default {
       return new Date();
     },
     onOff(sum) {
-      const configList = [this.dateConfig, this.weekConfig, this.customWeekConfig];
+      const configList = [this.dateConfig, this.weekConfig, this.customConfig];
       configList.forEach((item, index) => {
         if (index === sum) {
           item.open = !item.open;
@@ -127,12 +146,15 @@ export default {
       this.weekConfig.value = end;
       console.log('week', data.fetchDate);
     },
-    onSusCustomWeekFun(data) {
+    onSusCycleFun(data) {
+
+    },
+    onSusCustomFun(data) {
       const { start, end } = data;
-      this.customWeekText = `${this.getDateText(start)} ~ ${this.getDateText(end)}`;
-      this.customWeekConfig.open = false;
-      this.customWeekConfig.dateRegion = data;
-      console.log('customWeek', this.customWeekText);
+      this.customText = `${this.getDateText(start)} ~ ${this.getDateText(end)}`;
+      this.customConfig.open = false;
+      this.customConfig.dateRegion = data;
+      console.log('customWeek', this.customText);
     },
   },
 };

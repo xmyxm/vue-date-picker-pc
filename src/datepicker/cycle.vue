@@ -23,21 +23,24 @@
 </template>
 
 <script>
-import { weekConverters } from './lib/custom-converters';
+import { weekConverters } from './lib/cycle-converters';
 import { getLastMonthDay, getYesterday, getTodayDate } from './lib/tools-date';
 import updateTime from './lib/update-time';
 import Calendar from './calendar';
 
 export default {
-  name: 'Custom',
+  name: 'Cycle',
   components: {
     Calendar,
   },
   props: {
-    // 自定义日期区间选择 (customWeek)
-    dateRegion: {
-      type: Object,
-      default: null,
+    value: {
+      type: Date,
+    },
+    // 自定义时间区间
+    limit: {
+      type: Number,
+      default: 7,
     },
     startDate: {
       type: [Date, Object],
@@ -54,50 +57,41 @@ export default {
   },
   data() {
     return {
-      mouseStart: null, // 鼠标点击的第一个点
-      mouseEnd: null, // 鼠标点击的第一个点
-      displayStart: this.getDisplayStart(this.dateRegion),
-      displayEnd: this.getDisplayEnd(this.dateRegion),
+      mouseDay: null, // 鼠标移入的天数
+      displayStart: this.getDisplayStart(this.value),
+      displayEnd: this.value,
     };
   },
   watch: {
-    dateRegion(newDateRegion) {
-      this.displayStart = this.getDisplayStart(newDateRegion);
-      this.displayEnd = this.getDisplayEnd(newDateRegion);
+    dateRegion(newValue) {
+      this.displayStart = this.getDisplayStart(newValue);
+      this.displayEnd = this.value;
     },
   },
   computed: {
     startDayList() {
       const {
-        mouseStart,
-        mouseEnd,
-        dateRegion,
+        mouseDay,
         displayStart, // 显示时间
         disabledDay, // 禁止选择判断逻辑
       } = this;
       const dayList = weekConverters(
         displayStart,
         disabledDay,
-        dateRegion,
-        mouseStart,
-        mouseEnd,
+        mouseDay,
       );
       return dayList;
     },
     endDayList() {
       const {
-        mouseStart,
-        mouseEnd,
-        dateRegion,
+        mouseDay,
         displayEnd, // 显示时间
         disabledDay, // 禁止选择判断逻辑
       } = this;
       const dayList = weekConverters(
         displayEnd,
         disabledDay,
-        dateRegion,
-        mouseStart,
-        mouseEnd,
+        mouseDay,
       );
       return dayList;
     },
@@ -112,43 +106,10 @@ export default {
       return false;
     },
     getDisplayStart(dateRegion) {
-      let startDate = getLastMonthDay();
-      if (dateRegion) {
-        const { start, end } = dateRegion;
-        const startMonth = start.getMonth();
-        const endMonth = end.getMonth();
-        if (startMonth === endMonth) {
-          const todayMonth = getTodayDate().getMonth();
-          if (todayMonth === startMonth) {
-            //
-            startDate = updateTime.updateMonth(start, -1);
-          } else {
-            startDate = updateTime.updateMonth(start, 0);
-          }
-        } else {
-          startDate = start;
-        }
-      }
-      return startDate;
-    },
-    getDisplayEnd(dateRegion) {
-      let endDate = getYesterday();
-      if (dateRegion) {
-        const { start, end } = dateRegion;
-        const startMonth = start.getMonth();
-        const endMonth = end.getMonth();
-        if (startMonth === endMonth) {
-          const todayMonth = getTodayDate().getMonth();
-          if (todayMonth === endMonth) {
-            endDate = updateTime.updateMonth(end, 0);
-          } else {
-            endDate = updateTime.updateMonth(end, 1);
-          }
-        } else {
-          endDate = end;
-        }
-      }
-      return endDate;
+        const { end = value, limit } = this;
+        const start = updateTime.updateDay(start, -limit);
+        let startDate = updateTime.updateMonth(start, -1);
+        return startDate;
     },
     updateDisplayDate(type, num) {
       this.displayStart = updateTime[type](this.displayStart, num);
@@ -158,26 +119,16 @@ export default {
     clickDay(dayInfo) {
       const { year, month, day, date, disabled } = dayInfo;
       if (!disabled) {
-        if (this.mouseStart) {
-          if (this.mouseStart >= date) {
-            this.onSus({ start: date, end: this.mouseStart });
-          } else {
-            this.onSus({ start: this.mouseStart, end: date });
-          }
-          this.mouseStart = null;
-        } else {
-          this.mouseStart = date;
-        }
+        this.mouseDay = null;
+        const start = updateTime.updateDay(start, -limit);
+        this.onSus({ start, end: date });
         console.log('clickDay', `${year}/${month}/${day}`);
       }
     },
     enter(dayInfo) {
       const { year, month, day, date, disabled } = dayInfo;
       if (!disabled) {
-        if (this.mouseStart) {
-          this.mouseEnd = date;
-        }
-        // this.mouseHitDate = new Date(`${year}/${month}/${day}/`);
+        this.mouseDay = date;
         console.log('enter', `${year}/${month}/${day}`);
       }
     },
