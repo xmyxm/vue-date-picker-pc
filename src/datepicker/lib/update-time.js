@@ -33,6 +33,7 @@ export function updateYear(date, num) {
 }
 
 export default {
+  updateDay,
   updateMonth,
   updateYear,
 };

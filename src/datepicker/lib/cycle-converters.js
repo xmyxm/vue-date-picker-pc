@@ -3,7 +3,7 @@ import { DAY_STYLE } from './config';
 
 // 日期数据转换器，生成render所需的日期数据
 // 添加enablefix，表示是否范围日历，若范围日历enablefix设为true
-export function cycleConverters(displayDate, disabledCheck, dateRegion, mouseStart, mouseEnd) {
+export function cycleConverters(displayDate, disabledCheck, mouseStart, mouseEnd, startDate, endDate) {
   // 是否在日历尾部多加一行
   const enablefix = false;
   const dayList = dayListByDate(displayDate, disabledCheck, enablefix);
@@ -33,41 +33,23 @@ export function cycleConverters(displayDate, disabledCheck, dateRegion, mouseSta
     }
   });
 
-  if (mouseStart) {
-    if (mouseEnd) {
-      let maxDate;
-      let minDate;
-      if (mouseStart >= mouseEnd) {
-        maxDate = mouseStart;
-        minDate = mouseEnd;
-      } else {
-        maxDate = mouseEnd;
-        minDate = mouseStart;
-      }
+    if (mouseStart) {
       dayList.forEach((item) => {
-        if (item.date >= minDate && item.date <= maxDate && displayMonth === item.date.getMonth()) {
-          if (item.date.getTime() === minDate.getTime() || item.date.getTime() === maxDate.getTime()) {
-            // 自然周第一天或最后一天
+        if (item.date >= mouseStart && item.date <= mouseEnd && displayMonth === item.date.getMonth()) {
+          if (item.date.getTime() === mouseStart.getTime() || item.date.getTime() === mouseEnd.getTime()) {
+            // 周期第一天或最后一天
             item.status = DAY_STYLE.ACTIVE;
           } else {
-            // 自然周第一天和最后一天之间的时间
+            // 周期第一天和最后一天之间的时间
             item.status = DAY_STYLE.REGION;
           }
         }
       });
-    } else {
-      const mouseStartTime = mouseStart.getTime();
-      dayList.forEach((item) => {
-        if (mouseStartTime === item.date.getTime()) {
-          item.status = DAY_STYLE.ACTIVE;
-        }
-      });
-    }
-  } else if (dateRegion) {
-    const { start, end } = dateRegion;
+
+  } else if (startDate) {
     dayList.forEach((item) => {
-      if (item.date >= start && item.date <= end && displayMonth === item.date.getMonth()) {
-        if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
+      if (item.date >= startDate && item.date <= endDate && displayMonth === item.date.getMonth()) {
+        if (item.date.getTime() === startDate.getTime() || item.date.getTime() === endDate.getTime()) {
           // 自然周第一天或最后一天
           item.status = DAY_STYLE.ACTIVE;
         } else {

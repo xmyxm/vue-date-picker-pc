@@ -31,15 +31,15 @@
     <div
       @click="onOff(2)"
       class="date-box-item">
-        <div class="attr">业务周选择: </div>
+        <div class="attr">业务周选择(周期): </div>
         <div class="ipt">
-           <span class="text">{{sevenDaysText}}</span>
+           <span class="text">{{cycleText}}</span>
           <date-picker v-bind="cycleConfig"></date-picker>
         </div>
         <i :class="cycleConfig.open ? 'open top' : 'open'"></i>
     </div>
     <div
-      @click="onOff(2)"
+      @click="onOff(3)"
       class="date-box-item">
         <div class="attr">自定义区间选择: </div>
         <div class="ipt">
@@ -65,7 +65,7 @@ export default {
       title: '日历组件',
       dayText: '',
       weekText: '',
-      sevenDaysText: '',
+      cycleText: '',
       customText: '',
       dateConfig: {
         open: false,
@@ -123,7 +123,7 @@ export default {
       return new Date();
     },
     onOff(sum) {
-      const configList = [this.dateConfig, this.weekConfig, this.customConfig];
+      const configList = [this.dateConfig, this.weekConfig, this.cycleConfig, this.customConfig];
       configList.forEach((item, index) => {
         if (index === sum) {
           item.open = !item.open;
@@ -147,7 +147,11 @@ export default {
       console.log('week', data.fetchDate);
     },
     onSusCycleFun(data) {
-
+      const { start, end } = data;
+      this.cycleText = `${this.getDateText(start)} ~ ${this.getDateText(end)}`;
+      this.customConfig.open = false;
+      this.customConfig.value = end;
+      console.log('Cycle', this.cycleText);
     },
     onSusCustomFun(data) {
       const { start, end } = data;
@@ -231,7 +235,7 @@ export default {
 
 .date-box-item .attr {
   color: #000;
-  width: 80px;
+  width: 120px;
   text-align: left;
 }
 

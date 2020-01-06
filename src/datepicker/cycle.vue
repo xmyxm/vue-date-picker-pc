@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { weekConverters } from './lib/cycle-converters';
+import { cycleConverters } from './lib/cycle-converters';
 import { getLastMonthDay, getYesterday, getTodayDate } from './lib/tools-date';
 import updateTime from './lib/update-time';
 import Calendar from './calendar';
@@ -74,11 +74,16 @@ export default {
         mouseDay,
         displayStart, // 显示时间
         disabledDay, // 禁止选择判断逻辑
+        value,
+        limit
       } = this;
-      const dayList = weekConverters(
+      const dayList = cycleConverters(
         displayStart,
         disabledDay,
+        mouseDay ? updateTime.updateDay(mouseDay, -limit) : null,
         mouseDay,
+        updateTime.updateDay(value, -limit),
+        value,
       );
       return dayList;
     },
@@ -87,11 +92,16 @@ export default {
         mouseDay,
         displayEnd, // 显示时间
         disabledDay, // 禁止选择判断逻辑
+        value,
+        limit
       } = this;
-      const dayList = weekConverters(
+      const dayList = cycleConverters(
         displayEnd,
         disabledDay,
+        mouseDay ? updateTime.updateDay(mouseDay, -limit) : null,
         mouseDay,
+        updateTime.updateDay(value, -limit),
+        value,
       );
       return dayList;
     },
@@ -106,8 +116,8 @@ export default {
       return false;
     },
     getDisplayStart(dateRegion) {
-        const { end = value, limit } = this;
-        const start = updateTime.updateDay(start, -limit);
+        const { value, limit } = this;
+        const start = updateTime.updateDay(value, -limit);
         let startDate = updateTime.updateMonth(start, -1);
         return startDate;
     },
@@ -120,7 +130,7 @@ export default {
       const { year, month, day, date, disabled } = dayInfo;
       if (!disabled) {
         this.mouseDay = null;
-        const start = updateTime.updateDay(start, -limit);
+        const start = updateTime.updateDay(date, -this.limit);
         this.onSus({ start, end: date });
         console.log('clickDay', `${year}/${month}/${day}`);
       }
@@ -133,7 +143,7 @@ export default {
       }
     },
     leave() {
-
+      this.mouseDay = null;
     },
   },
 };

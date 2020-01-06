@@ -47,7 +47,7 @@ export default {
       event.stopPropagation();
     },
     getClass() {
-      return this.type === 'custom' ? 'date-double-picker-mask' : 'date-picker-mask';
+      return ['custom', 'cycle'].indexOf(this.type) > -1  ? 'date-double-picker-mask' : 'date-picker-mask';
     },
   },
 };
