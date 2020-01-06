@@ -40,9 +40,9 @@
         v-for="dayData in dayList"
         :key="`${dayData.year}${dayData.month}${dayData.day}`"
         :class="dayData.status"
-        @click="clickDay(dayData)"
-        @mouseenter="mouseEnter(dayData)"
-        @mouseleave="mouseLeave(dayData)"
+        @click="clickDay(dayData, $event)"
+        @mouseenter="mouseEnter(dayData, $event)"
+        @mouseleave="mouseLeave(dayData, $event)"
       >
         <span class="day-item-val">{{dayData.day}}</span>
         <p class="vication-wrap" :title="dayData.lDay">{{dayData.lDay}}</p>

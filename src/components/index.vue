@@ -71,11 +71,10 @@ export default {
         open: false,
         type: 'day',
         startDate: new Date('2010/1/1'),
-        endDate: this.getYesterday(),
-        value: this.getYesterday(),
+        endDate: this.getDateNow(-1),
+        value: this.getDateNow(-1),
         onSus: this.onSusDayFun,
       },
-
       weekConfig: {
         open: false,
         type: 'week',
@@ -87,10 +86,10 @@ export default {
       cycleConfig: {
         open: false,
         type: 'cycle',
-        limit: 7, // 限制固定选择任意7天
+        limit: 6, // 限制固定选择任意7天
         startDate: null,
         endDate: new Date(),
-        value: new Date('2019/12/26'),
+        value: this.getDateNow(-1),
         onSus: this.onSusCycleFun,
       },
       customConfig: {
@@ -98,10 +97,9 @@ export default {
         type: 'custom',
         startDate: null,
         endDate: new Date(),
-        value: new Date('2019/12/26'),
         dateRegion: {
-          start: new Date('2019/12/23'),
-          end: new Date('2019/12/28'),
+          start: this.getDateNow(-14),
+          end: this.getDateNow(-1),
         },
         onSus: this.onSusCustomFun,
       },
@@ -114,9 +112,9 @@ export default {
       const day = date.getDate();
       return `${year}-${month >= 10 ? month : `0${month}`}-${day >= 10 ? day : `0${day}`}`;
     },
-    getYesterday() {
+    getDateNow(days = 0) {
       const date = new Date();
-      date.setDate(date.getDate() - 1);
+      date.setDate(date.getDate() - days);
       return date;
     },
     getToDay() {
@@ -149,8 +147,8 @@ export default {
     onSusCycleFun(data) {
       const { start, end } = data;
       this.cycleText = `${this.getDateText(start)} ~ ${this.getDateText(end)}`;
-      this.customConfig.open = false;
-      this.customConfig.value = end;
+      this.cycleConfig.open = false;
+      this.cycleConfig.value = end;
       console.log('Cycle', this.cycleText);
     },
     onSusCustomFun(data) {

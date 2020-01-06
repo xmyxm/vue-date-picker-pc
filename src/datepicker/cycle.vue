@@ -1,11 +1,10 @@
 <template>
-  <div class="custom-week-wrap">
+  <div class="custom-week-wrap" @mouseleave="leave" >
      <Calendar
       :next-year = "false"
       :next-month = "false"
       :click-day = "clickDay"
       :mouse-enter = "enter"
-      :mouse-leave = "leave"
       :day-list = "startDayList"
       :display-date = "displayStart"
     />
@@ -15,7 +14,6 @@
       :last-month = "false"
       :click-day = "clickDay"
       :mouse-enter = "enter"
-      :mouse-leave = "leave"
       :day-list = "endDayList"
       :display-date = "displayEnd"
     />
@@ -115,9 +113,9 @@ export default {
       }
       return false;
     },
-    getDisplayStart(dateRegion) {
-        const { value, limit } = this;
-        const start = updateTime.updateDay(value, -limit);
+    getDisplayStart(date) {
+        const { limit } = this;
+        const start = updateTime.updateDay(date, -limit);
         let startDate = updateTime.updateMonth(start, -1);
         return startDate;
     },
@@ -142,8 +140,8 @@ export default {
         console.log('enter', `${year}/${month}/${day}`);
       }
     },
-    leave() {
-      this.mouseDay = null;
+    leave(dayInfo, event) {
+      this.mouseDay = null; 
     },
   },
 };
