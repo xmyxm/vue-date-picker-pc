@@ -50,10 +50,10 @@ export function cycleConverters(displayDate, disabledCheck, mouseStart, mouseEnd
     dayList.forEach((item) => {
       if (item.date >= startDate && item.date <= endDate && displayMonth === item.date.getMonth()) {
         if (item.date.getTime() === startDate.getTime() || item.date.getTime() === endDate.getTime()) {
-          // 自然周第一天或最后一天
+          // 周期第一天或最后一天
           item.status = DAY_STYLE.ACTIVE;
         } else {
-          // 自然周第一天和最后一天之间的时间
+          // 周期第一天和最后一天之间的时间
           item.status = DAY_STYLE.REGION;
         }
       }

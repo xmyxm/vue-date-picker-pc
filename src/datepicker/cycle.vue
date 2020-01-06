@@ -114,10 +114,17 @@ export default {
       return false;
     },
     getDisplayStart(date) {
-        const { limit } = this;
-        const start = updateTime.updateDay(date, -limit);
-        let startDate = updateTime.updateMonth(start, -1);
-        return startDate;
+      let startDate;
+      const { limit } = this;
+      const endMonth = date.getMonth();
+      const start = updateTime.updateDay(date, -limit);
+      const startMonth = start.getMonth();
+      if(startMonth === endMonth) {
+        startDate = updateTime.updateMonth(endDate, -1);
+      } else {
+        startDate = start;
+      }
+      return startDate;
     },
     updateDisplayDate(type, num) {
       this.displayStart = updateTime[type](this.displayStart, num);

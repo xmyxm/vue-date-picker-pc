@@ -38,7 +38,7 @@ export default {
     // 选择日期（day or week）
     value: {
       type: Date,
-      default: getYesterday(),
+      default: getYesterday,
     },
     // 自定义时间区间
     limit: {

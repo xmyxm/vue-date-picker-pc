@@ -80,7 +80,7 @@ export default {
         type: 'week',
         startDate: null,
         endDate: new Date(),
-        value: new Date('2019/12/26'),
+        value: this.getDateNow(-1),
         onSus: this.onSusWeekFun,
       },
       cycleConfig: {
@@ -114,7 +114,7 @@ export default {
     },
     getDateNow(days = 0) {
       const date = new Date();
-      date.setDate(date.getDate() - days);
+      date.setDate(date.getDate() + days);
       return date;
     },
     getToDay() {
