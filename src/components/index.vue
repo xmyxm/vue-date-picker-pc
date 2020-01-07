@@ -48,6 +48,16 @@
         </div>
         <i :class="customConfig.open ? 'open top' : 'open'"></i>
     </div>
+    <div
+      @click="onOff(4)"
+      class="date-box-item">
+        <div class="attr">月份选择: </div>
+        <div class="ipt">
+           <span class="text">{{monthText}}</span>
+          <date-picker v-bind="monthConfig"></date-picker>
+        </div>
+        <i :class="monthConfig.open ? 'open top' : 'open'"></i>
+    </div>
   </div>
 </template>
 
@@ -67,6 +77,7 @@ export default {
       weekText: '',
       cycleText: '',
       customText: '',
+      monthText: '',
       dateConfig: {
         open: false,
         type: 'day',
@@ -103,6 +114,14 @@ export default {
         },
         onSus: this.onSusCustomFun,
       },
+      monthConfig: {
+        open: false,
+        type: 'month',
+        startDate: null,
+        endDate: this.getMonthNow(1),
+        value: this.getMonthNow(-1),
+        onSus: this.onSusMonthFun,
+      }
     };
   },
   methods: {
@@ -117,11 +136,13 @@ export default {
       date.setDate(date.getDate() + days);
       return date;
     },
-    getToDay() {
-      return new Date();
+    getMonthNow(month = 0) {
+      const date = new Date();
+      date.setMonth(date.getMonth() + month)
+      return date;
     },
     onOff(sum) {
-      const configList = [this.dateConfig, this.weekConfig, this.cycleConfig, this.customConfig];
+      const configList = [this.dateConfig, this.weekConfig, this.cycleConfig, this.customConfig, this.monthConfig];
       configList.forEach((item, index) => {
         if (index === sum) {
           item.open = !item.open;
@@ -158,6 +179,13 @@ export default {
       this.customConfig.dateRegion = data;
       console.log('customWeek', this.customText);
     },
+    onSusMonthFun(data) {
+      const { date, year, month } = data;
+      this.monthText = `${year} - ${month >= 10 ? month : '0' + month}`;
+      this.monthConfig.open = false;
+      this.monthConfig.value = date;
+      console.log('customWeek', this.customText);
+    }
   },
 };
 </script>

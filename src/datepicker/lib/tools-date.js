@@ -73,7 +73,7 @@ export function monthInfoByDate(date) {
 export function getYearMonthNum(date) {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
-  const text = year + month >= 10 ? `${month}` : `0${month}`;
+  const text = year + (month >= 10 ? `${month}` : `0${month}`);
   return parseInt(text, 10);
 }
 

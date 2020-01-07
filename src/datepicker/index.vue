@@ -2,6 +2,7 @@
   <CMask v-if="open" :type="type" >
     <Day v-if="type == 'day'" v-bind="bindData"></Day>
     <Week v-if="type == 'week'" v-bind="bindData"></Week>
+    <Month v-if="type == 'month'" v-bind="bindData"></Month>
     <Cycle v-if="type == 'cycle'" v-bind="bindData"></Cycle>
     <Custom v-if="type == 'custom'" v-bind="bindData"></Custom>
   </CMask>
@@ -11,6 +12,7 @@
 import Day from './day';
 import Cycle from './cycle';
 import Week from './week';
+import Month from "./month";
 import Custom from './custom';
 import CMask from './mask';
 import { dateByDate, getYesterday, getRegionDay } from './lib/tools-date';
@@ -20,6 +22,7 @@ export default {
   components: {
     Day,
     Week,
+    Month,
     Cycle,
     Custom,
     CMask,
@@ -77,3 +80,7 @@ export default {
   },
 };
 </script>
+
+<style>
+  @import "./style/base.css";
+</style>

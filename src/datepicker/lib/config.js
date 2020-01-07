@@ -61,6 +61,14 @@ export const DAY_STYLE = {
   NEXT: 'day-next',
 };
 
+export const MONTH_STYLE = {
+  CURRENT: 'month-item',
+  ACTIVE: 'month-active',
+  DISABLED: 'month-disabled',
+  THIS_MONTH: 'this-month',
+  DISABLED_THIS_MONTH: 'this-month-disabled',
+}
+
 export default {
   locale,
   headBtns,

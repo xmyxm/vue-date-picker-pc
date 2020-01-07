@@ -102,13 +102,6 @@ export default {
 </script>
 
 <style scoped>
-.header {
-    background: #fff;
-    padding: 5px 15px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
 
 .day-list {
     background: #fff;
@@ -134,7 +127,6 @@ export default {
 .head-day-item,
 .head-day-opacity {
     position: relative;
-    cursor: pointer;
     display: inline-block;
     width: 14%;
     padding-left: 3px;
@@ -205,18 +197,6 @@ export default {
 }
 .day-disabled .day-item-val:hover {
     background-color: #fff;
-}
-
-.center-btn {
-    text-align: center;
-    font-size: 12px;
-    flex: 1;
-}
-
-.icon-btn {
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
 }
 
 /************************************* 新已确认样式 day start **************************************/
@@ -290,44 +270,5 @@ export default {
     padding-top: 3px;
 }
 /************************************* 新已确认样式 day end **************************************/
-
-
-/************************************* 新已确认样式 icon btn start **************************************/
-
-.double-left-btn {
-    background: url("./icon/angleDoubleLeft.png") center no-repeat;
-}
-
-.left-btn {
-    background: url("./icon/angleLeft.png") center no-repeat;
-}
-
-.right-btn {
-    background: url("./icon/angleRight.png") center no-repeat;
-}
-
-.double-right-btn {
-    background: url("./icon/angleDoubleRight.png") center no-repeat;
-}
-
-.double-left-btn,
-.left-btn,
-.right-btn,
-.double-right-btn {
-    display: block;
-    width: 20px;
-    height: 20px;
-    background-size: 10px 10px;
-    cursor: pointer;
-}
-
-.double-left-btn:hover,
-.left-btn:hover,
-.right-btn:hover,
-.double-right-btn:hover {
-    border-radius: 50%;
-    background-color: #f7f7f7;
-}
-/************************************* 新已确认样式 icon btn end **************************************/
 
 </style>
