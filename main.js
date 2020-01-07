@@ -1,6 +1,7 @@
 // 打 npm 包入口文件 
 
 import PCDatePicker from './src/datepicker/index.vue';
+export { DATE_TYPE } from './src/datepicker/lib/config'
 
 PCDatePicker.install = Vue => Vue.component(PCDatePicker.name, PCDatePicker);
 
