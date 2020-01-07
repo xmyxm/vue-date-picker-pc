@@ -26,6 +26,7 @@
 import { weekConverters } from './lib/custom-converters';
 import { getLastMonthDay, getYesterday, getTodayDate } from './lib/tools-date';
 import updateTime from './lib/update-time';
+import { DATE_TYPE } from "./lib/config";
 import Calendar from './calendar.vue';
 
 export default {
@@ -159,16 +160,17 @@ export default {
       const { year, month, day, date, disabled } = dayInfo;
       if (!disabled) {
         if (this.mouseStart) {
+          const type = DATE_TYPE.CUSTOM
           if (this.mouseStart >= date) {
-            this.onSus({ start: date, end: this.mouseStart });
+            this.onSus({type, year, month, day, start: date, end: this.mouseStart });
           } else {
-            this.onSus({ start: this.mouseStart, end: date });
+            this.onSus({type, year, month, day, start: this.mouseStart, end: date });
           }
           this.mouseStart = null;
         } else {
           this.mouseStart = date;
         }
-        console.log('clickDay', `${year}/${month}/${day}`);
+        // console.log('clickDay', `${year}/${month}/${day}`);
       }
     },
     enter(dayInfo) {
@@ -177,8 +179,7 @@ export default {
         if (this.mouseStart) {
           this.mouseEnd = date;
         }
-        // this.mouseHitDate = new Date(`${year}/${month}/${day}/`);
-        console.log('enter', `${year}/${month}/${day}`);
+        // console.log('enter', `${year}/${month}/${day}`);
       }
     },
     leave() {

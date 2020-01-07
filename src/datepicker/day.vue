@@ -9,6 +9,7 @@
 <script>
 import { dayConverters } from './lib/day-converters';
 import updateTime from './lib/update-time';
+import { DATE_TYPE } from "./lib/config";
 import Calendar from './calendar.vue';
 
 export default {
@@ -78,10 +79,11 @@ export default {
     clickDay(dayInfo) {
       this.mouseHitDate = null;
       const { year, month, day, date, disabled } = dayInfo;
+      const type = DATE_TYPE.DAY;
       const { onSus } = this;
       if (!disabled) {
-        console.log('clickDay', `${year}/${month}/${day}`);
-        onSus({ date });
+        // console.log('clickDay', `${year}/${month}/${day}`);
+        onSus({type, year, month, day, date });
       }
     },
   },

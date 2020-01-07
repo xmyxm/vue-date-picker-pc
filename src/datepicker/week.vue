@@ -10,8 +10,8 @@
 
 <script>
 import { weekConverters } from './lib/week-converters';
-import { weekInfoByDate } from './lib/tools-date';
 import updateTime from './lib/update-time';
+import { DATE_TYPE } from "./lib/config";
 import Calendar from './calendar.vue';
 
 export default {
@@ -79,23 +79,23 @@ export default {
     // 选中某个日期
     clickDay(dayInfo) {
       this.mouseHitDate = null;
-      const { year, month, day, date } = dayInfo;
+      const { year, month, day, week, start, end, date } = dayInfo;
       const { startDate, endDate, onSus } = this;
-      const { currentWeek: { start, end } } = weekInfoByDate(date);
       if (!(startDate && end < startDate) && end < endDate) {
-        console.log('clickDay', `${year}/${month}/${day}`);
-        onSus({ start, end });
+        // console.log('clickDay', `${year}/${month}/${day}`);
+        const type = DATE_TYPE.WEEK;
+        onSus({type, year, month, day, week, start, end });
       }
     },
     enter(dayInfo) {
       const { year, month, day } = dayInfo;
       this.mouseHitDate = new Date(`${year}/${month}/${day}/`);
-      console.log('enter', `${year}/${month}/${day}`);
+      // console.log('enter', `${year}/${month}/${day}`);
     },
     leave(dayInfo) {
       this.mouseHitDate = null;
       const { year, month, day } = dayInfo;
-      console.log('leave', `${year}/${month}/${day}`);
+      // console.log('leave', `${year}/${month}/${day}`);
     },
   },
 };

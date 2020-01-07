@@ -29,6 +29,7 @@
 <script>
 import { monthConverters } from './lib/month-converters';
 import updateTime from './lib/update-time';
+import { DATE_TYPE } from "./lib/config";
 
 export default {
   name: 'Month',
@@ -93,8 +94,9 @@ export default {
       const { year, month, date, disabled } = dayInfo;
       const { onSus } = this;
       if (!disabled) {
-        console.log('clickDay', `${year}/${month}`);
-        onSus(dayInfo);
+        // console.log('clickDay', `${year}/${month}`);
+        const type = DATE_TYPE.DAY;
+        onSus({type, year, month, date});
       }
     },
   },

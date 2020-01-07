@@ -11,6 +11,10 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
   // 显示日历所属的月份
   const endYearMonthNum = getYearMonthNum(displayDate);
   dayList.forEach((item) => {
+    const { currentWeek: { start, end, week } } = weekInfoByDate(item.date);
+    item.start = start;
+    item.end = end;
+    item.week = week;
     if (!item.disabled) {
       // 当前时间对应的月
       const currentYearMonthNum = getYearMonthNum(item.date);
@@ -37,7 +41,7 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
     const { start, end } = weekInfo.currentWeek;
     if (end < todayDate) {
       dayList.forEach((item) => {
-        if (!item.disabled && item.year <= weekInfo.year && item.month <= weekInfo.month && item.date >= start && item.date <= end) {
+        if (!item.disabled && item.date >= start && item.date <= end) {
           if (item.date.getTime() === start.getTime() || item.date.getTime() === end.getTime()) {
             // 自然周第一天或最后一天
             item.status = DAY_STYLE.ACTIVE;

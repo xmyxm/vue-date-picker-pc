@@ -1,10 +1,10 @@
 <template>
   <CMask v-if="open" :type="type" >
-    <Day v-if="type == 'day'" v-bind="bindData"></Day>
-    <Week v-if="type == 'week'" v-bind="bindData"></Week>
-    <Month v-if="type == 'month'" v-bind="bindData"></Month>
-    <Cycle v-if="type == 'cycle'" v-bind="bindData"></Cycle>
-    <Custom v-if="type == 'custom'" v-bind="bindData"></Custom>
+    <Day v-if="type == DATE_TYPE.DAY" v-bind="bindData"></Day>
+    <Week v-if="type == DATE_TYPE.WEEK" v-bind="bindData"></Week>
+    <Month v-if="type == DATE_TYPE.MONTH" v-bind="bindData"></Month>
+    <Cycle v-if="type == DATE_TYPE.CYCLE" v-bind="bindData"></Cycle>
+    <Custom v-if="type == DATE_TYPE.CUSTOM" v-bind="bindData"></Custom>
   </CMask>
 </template>
 
@@ -15,6 +15,7 @@ import Week from './week.vue';
 import Month from "./month.vue";
 import Custom from './custom.vue';
 import CMask from './mask.vue';
+import { DATE_TYPE } from "./lib/config";
 import { dateByDate, getYesterday, getRegionDay } from './lib/tools-date';
 
 export default {
@@ -36,7 +37,7 @@ export default {
     // 展示的日历组件类型
     type: {
       type: String,
-      default: 'day',
+      default: DATE_TYPE.DAY,
     },
     // 选择日期（day or week）
     value: {
@@ -65,6 +66,11 @@ export default {
       type: Function,
       default() {},
     },
+  },
+  data() {
+    return {
+      DATE_TYPE,
+    };
   },
   computed: {
     bindData() {

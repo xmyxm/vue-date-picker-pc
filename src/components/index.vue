@@ -152,39 +152,39 @@ export default {
       });
     },
     onSusDayFun(data) {
-      const { date } = data;
+      const {type, date } = data;
       this.dayText = this.getDateText(date);
       this.dateConfig.open = false;
       this.dateConfig.value = date;
-      console.log('day: ', this.dayText);
+      console.log(type, this.dayText);
     },
     onSusWeekFun(data) {
-      const { start, end } = data;
+      const {type, start, end } = data;
       this.weekText = `${this.getDateText(start)} ~ ${this.getDateText(end)}`;
       this.weekConfig.open = false;
       this.weekConfig.value = end;
-      console.log('week', data.fetchDate);
+      console.log(type, data.fetchDate);
     },
     onSusCycleFun(data) {
-      const { start, end } = data;
+      const {type, start, end } = data;
       this.cycleText = `${this.getDateText(start)} ~ ${this.getDateText(end)}`;
       this.cycleConfig.open = false;
       this.cycleConfig.value = end;
-      console.log('Cycle', this.cycleText);
+      console.log(type, this.cycleText);
     },
     onSusCustomFun(data) {
-      const { start, end } = data;
+      const {type, start, end } = data;
       this.customText = `${this.getDateText(start)} ~ ${this.getDateText(end)}`;
       this.customConfig.open = false;
       this.customConfig.dateRegion = data;
-      console.log('customWeek', this.customText);
+      console.log(type, this.customText);
     },
     onSusMonthFun(data) {
-      const { date, year, month } = data;
+      const {type, date, year, month } = data;
       this.monthText = `${year} - ${month >= 10 ? month : '0' + month}`;
       this.monthConfig.open = false;
       this.monthConfig.value = date;
-      console.log('customWeek', this.customText);
+      console.log(type, this.customText);
     }
   },
 };

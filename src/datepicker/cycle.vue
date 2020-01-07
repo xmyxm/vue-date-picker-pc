@@ -24,6 +24,7 @@
 import { cycleConverters } from './lib/cycle-converters';
 import { getLastMonthDay, getYesterday, getTodayDate } from './lib/tools-date';
 import updateTime from './lib/update-time';
+import { DATE_TYPE } from "./lib/config";
 import Calendar from './calendar.vue';
 
 export default {
@@ -120,7 +121,7 @@ export default {
       const start = updateTime.updateDay(date, -limit);
       const startMonth = start.getMonth();
       if(startMonth === endMonth) {
-        startDate = updateTime.updateMonth(endDate, -1);
+        startDate = updateTime.updateMonth(start, -1);
       } else {
         startDate = start;
       }
@@ -135,16 +136,17 @@ export default {
       const { year, month, day, date, disabled } = dayInfo;
       if (!disabled) {
         this.mouseDay = null;
+        const type = DATE_TYPE.CYCLE;
         const start = updateTime.updateDay(date, -this.limit);
-        this.onSus({ start, end: date });
-        console.log('clickDay', `${year}/${month}/${day}`);
+        this.onSus({type, year, month, day, start, end: date });
+        // console.log('clickDay', `${year}/${month}/${day}`);
       }
     },
     enter(dayInfo) {
       const { year, month, day, date, disabled } = dayInfo;
       if (!disabled) {
         this.mouseDay = date;
-        console.log('enter', `${year}/${month}/${day}`);
+        // console.log('enter', `${year}/${month}/${day}`);
       }
     },
     leave(dayInfo, event) {
