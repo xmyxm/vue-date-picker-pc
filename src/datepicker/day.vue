@@ -9,7 +9,7 @@
 <script>
 import { dayConverters } from './lib/day-converters';
 import updateTime from './lib/update-time';
-import Calendar from './calendar';
+import Calendar from './calendar.vue';
 
 export default {
   name: 'Day',

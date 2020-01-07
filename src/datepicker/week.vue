@@ -12,7 +12,7 @@
 import { weekConverters } from './lib/week-converters';
 import { weekInfoByDate } from './lib/tools-date';
 import updateTime from './lib/update-time';
-import Calendar from './calendar';
+import Calendar from './calendar.vue';
 
 export default {
   name: 'Week',

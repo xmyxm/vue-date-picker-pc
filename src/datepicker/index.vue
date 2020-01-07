@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import Day from './day';
-import Cycle from './cycle';
-import Week from './week';
-import Month from "./month";
-import Custom from './custom';
-import CMask from './mask';
+import Day from './day.vue';
+import Cycle from './cycle.vue';
+import Week from './week.vue';
+import Month from "./month.vue";
+import Custom from './custom.vue';
+import CMask from './mask.vue';
 import { dateByDate, getYesterday, getRegionDay } from './lib/tools-date';
 
 export default {

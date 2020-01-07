@@ -26,7 +26,7 @@
 import { weekConverters } from './lib/custom-converters';
 import { getLastMonthDay, getYesterday, getTodayDate } from './lib/tools-date';
 import updateTime from './lib/update-time';
-import Calendar from './calendar';
+import Calendar from './calendar.vue';
 
 export default {
   name: 'Custom',

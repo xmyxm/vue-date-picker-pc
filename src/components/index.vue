@@ -62,13 +62,13 @@
 </template>
 
 <script>
-import DatePicker from '../datepicker/index';
-// import DatePicker from "@dp/date-picker"
+import PCDatePicker from '../datepicker/index.vue';
+// import PCDatePicker from "@dp/date-picker-pc"
 
 export default {
   name: 'calendar',
   components: {
-    'date-picker': DatePicker,
+    'date-picker': PCDatePicker,
   },
   data() {
     return {
