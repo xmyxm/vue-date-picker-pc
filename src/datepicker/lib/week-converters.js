@@ -13,9 +13,6 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
   dayList.forEach((item) => {
     const weekInfo = weekInfoByDate(item.date);
     const { currentWeek: { start, end }, week } = weekInfo;
-    if (!week) {
-      throw new Error(weekInfo);
-    }
     item.start = start;
     item.end = end;
     item.week = week;
