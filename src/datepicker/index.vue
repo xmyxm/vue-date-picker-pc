@@ -110,19 +110,19 @@ export default {
 }
 
 .double-left-btn {
-    background: url("./icon/angleDoubleLeft.png") center no-repeat;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAFVBMVEUAAAArKystLS0tLS0sLCwsLCwsLCyJa7inAAAABnRSTlMAKtRVqoCfxiXiAAAAK0lEQVQoz2MYZMAYiEWR+MwpDAyMSgIIATMHBgYhRXoqQKigsxJEeAwcAABT0woAAQzQhAAAAABJRU5ErkJggg==") center no-repeat;
 }
 
 .left-btn {
-    background: url("./icon/angleLeft.png") center no-repeat;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAJFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACmWAJHAAAAC3RSTlMAqtQqmoDMv44dD7a7c/cAAAA6SURBVCjPY6AxaEXjM25HE5BWRlOwyWDAFTB4IwQQWtD0aGIoWYCuRAFDCQMZShLQlWxBV+LKQDMAABLEDDk9kYMXAAAAAElFTkSuQmCC") center no-repeat;
 }
 
 .right-btn {
-    background: url("./icon/angleRight.png") center no-repeat;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAALVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADBoCg+AAAADnRSTlMAjoCjnGZfqpaGeHNtWNtJK2AAAABFSURBVCjPYxhIwKeAJsD0El3JOgE0Ae6H6ErONaAJsD5BVxJngCbA9hhdyb0CDAECWvIcCFh7roGA09cJoHsfM4AGGAAAkw8PnyR4bVcAAAAASUVORK5CYII=") center no-repeat;
 }
 
 .double-right-btn {
-    background: url("./icon/angleDoubleRight.png") center no-repeat;
+    background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAFVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAASAQCkAAAABnRSTlMAKtRVqoCfxiXiAAAAK0lEQVQoz2MYQBAIxMZIfEYlAQYGNwMkESFFBgaWZHorQaignwJEeAwuAACA5wqHf23WEAAAAABJRU5ErkJggg==") center no-repeat;
 }
 
 .double-left-btn,
