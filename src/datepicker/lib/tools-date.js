@@ -197,6 +197,28 @@ export function weekInfoByDate(date) {
       end: startTime,
     };
   }
+  // 处理周跨年的特殊场景
+  const { start, end } = weekInfo.currentWeek;
+  const startYear = start.getFullYear();
+  const endYeadr = end.getFullYear();
+  if (startYear !== endYeadr) {
+      // const startDay = start.getDate();
+      // const startDayCount = dayCountByMonth(start)
+      // const startDayEffective = startDayCount - startDay;
+      // const endDay = end.getDate();
+      // const endDayCount = dayCountByMonth(end)
+      // const endDayEffective = endDayCount - endDay;
+      // if (startDayEffective > endDayEffective) {
+        
+      // } else {
+
+      // }
+    weekInfo.year = endYeadr;
+    weekInfo.week = 1;
+    weekInfo.month = 1;
+    weekInfo.weekIndex = end.getDay();
+  }
+
   return weekInfo;
 }
 

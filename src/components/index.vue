@@ -159,11 +159,11 @@ export default {
       console.log(type, this.dayText);
     },
     onSusWeekFun(data) {
-      const {type, start, end } = data;
-      this.weekText = `${this.getDateText(start)} ~ ${this.getDateText(end)}`;
+      const {type, year, month, day, week, start, end } = data;
+      this.weekText = `${year}-${week}周: ${this.getDateText(start)} ~ ${this.getDateText(end)}`;
       this.weekConfig.open = false;
       this.weekConfig.value = end;
-      console.log(type, data.fetchDate);
+      console.log(type, this.weekText);
     },
     onSusCycleFun(data) {
       const {type, start, end } = data;
@@ -267,7 +267,7 @@ export default {
 
 .date-box-item .ipt {
   position: relative;
-  width: 180px;
+  width: 250px;
   margin-left: 5px;
   height: 24px;
   line-height: 24px;

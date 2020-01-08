@@ -11,7 +11,11 @@ export function weekConverters(selectDate, displayDate, disabledCheck, mouseHitD
   // 显示日历所属的月份
   const endYearMonthNum = getYearMonthNum(displayDate);
   dayList.forEach((item) => {
-    const { currentWeek: { start, end, week } } = weekInfoByDate(item.date);
+    const weekInfo = weekInfoByDate(item.date);
+    const { currentWeek: { start, end }, week } = weekInfo;
+    if (!week) {
+      throw new Error(weekInfo);
+    }
     item.start = start;
     item.end = end;
     item.week = week;
