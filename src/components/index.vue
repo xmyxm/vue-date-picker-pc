@@ -181,10 +181,10 @@ export default {
     },
     onSusMonthFun(data) {
       const {type, date, year, month } = data;
-      this.monthText = `${year} - ${month >= 10 ? month : '0' + month}`;
+      this.monthText = `${year}-${month >= 10 ? month : '0' + month}`;
       this.monthConfig.open = false;
       this.monthConfig.value = date;
-      console.log(type, this.customText);
+      console.log(type, this.monthText);
     }
   },
 };

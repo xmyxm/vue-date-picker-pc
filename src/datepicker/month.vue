@@ -95,7 +95,7 @@ export default {
       const { onSus } = this;
       if (!disabled) {
         // console.log('clickDay', `${year}/${month}`);
-        const type = DATE_TYPE.DAY;
+        const type = DATE_TYPE.MONTH;
         onSus({type, year, month, date});
       }
     },
