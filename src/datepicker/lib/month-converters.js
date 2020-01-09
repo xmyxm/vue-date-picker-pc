@@ -14,7 +14,7 @@ export function monthConverters(selectDate, displayDate, disabledCheck) {
     let _status;
     let _dateNum;
     for (let m = 1; m <= 12; m++) {
-        _date = new Date(year, m, 0);
+        _date = new Date(year, m - 1, 1);
         _dateNum = getYearMonthNum(_date);
         _disabled = disabledCheck(_date);
         if (_disabled) {
