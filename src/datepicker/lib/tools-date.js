@@ -190,7 +190,7 @@ export function weekInfoByDate(date) {
       end: endTime,
     };
     const oldTime = new Date(dateText);
-    oldTime.setDate(oldTime.getDate() - weekIndex - 7);
+    oldTime.setDate(oldTime.getDate() - weekIndex);
     // 当前日期生效周
     weekInfo.validTime = {
       start: oldTime,
