@@ -195,8 +195,8 @@ export function weekInfoByDate(date) {
     validstartTime.setDate(validstartTime.getDate() - weekIndex - 7 + 1);
     // 当前日期生效周
     weekInfo.validTime = {
-      start: oldTime,
-      end: startTime,
+      start: validstartTime,
+      end: validEndTime,
     };
   }
   // 处理周跨年的特殊场景

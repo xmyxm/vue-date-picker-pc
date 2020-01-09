@@ -63,6 +63,8 @@
 
 <script>
 import PCDatePicker from '../datepicker/index.vue';
+import { weekInfoByDate } from '../datepicker/lib/tools-date';
+
 // import PCDatePicker from "@dp/date-picker-pc"
 
 export default {
@@ -90,8 +92,8 @@ export default {
         open: false,
         type: 'week',
         startDate: null,
-        endDate: new Date(),
-        value: this.getDateNow(-1),
+        endDate: this.getDateNow(-1),
+        value: weekInfoByDate(this.getDateNow(-1)).validTime.end,
         onSus: this.onSusWeekFun,
       },
       cycleConfig: {
