@@ -26,6 +26,7 @@ import { getLastMonthDay, getYesterday, getTodayDate } from './lib/tools-date';
 import updateTime from './lib/update-time';
 import { DATE_TYPE } from "./lib/config";
 import Calendar from './calendar.vue';
+const cacheData = {};
 
 export default {
   name: 'Cycle',
@@ -57,15 +58,9 @@ export default {
   data() {
     return {
       mouseDay: null, // 鼠标移入的天数
-      displayStart: this.getDisplayStart(this.value),
-      displayEnd: this.value,
+      displayStart: cacheData.displayStart ? cacheData.displayStart : this.getDisplayStart(this.value),
+      displayEnd: cacheData.displayEnd ? cacheData.displayEnd : this.getDisplayEnd(this.value),
     };
-  },
-  watch: {
-    dateRegion(newValue) {
-      this.displayStart = this.getDisplayStart(newValue);
-      this.displayEnd = this.value;
-    },
   },
   computed: {
     startDayList() {
@@ -125,11 +120,16 @@ export default {
       } else {
         startDate = start;
       }
+      cacheData.displayStart = startDate;
       return startDate;
     },
+    getDisplayEnd(date) {
+      cacheData.displayEnd = date;
+      return date;
+    },
     updateDisplayDate(type, num) {
-      this.displayStart = updateTime[type](this.displayStart, num);
-      this.displayEnd = updateTime[type](this.displayEnd, num);
+      cacheData.displayStart = this.displayStart = updateTime[type](this.displayStart, num);
+      cacheData.displayEnd = this.displayEnd = updateTime[type](this.displayEnd, num);
     },
     // 选中某个日期
     clickDay(dayInfo) {

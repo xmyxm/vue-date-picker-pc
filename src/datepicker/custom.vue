@@ -24,10 +24,11 @@
 
 <script>
 import { weekConverters } from './lib/custom-converters';
-import { getLastMonthDay, getYesterday, getTodayDate } from './lib/tools-date';
+import { getLastMonthDay, getYesterday, getTodayDate, getYearMonthNum } from './lib/tools-date';
 import updateTime from './lib/update-time';
 import { DATE_TYPE } from "./lib/config";
 import Calendar from './calendar.vue';
+const cacheData = {};
 
 export default {
   name: 'Custom',
@@ -57,16 +58,16 @@ export default {
     return {
       mouseStart: null, // 鼠标点击的第一个点
       mouseEnd: null, // 鼠标点击的第一个点
-      displayStart: this.getDisplayStart(this.dateRegion),
-      displayEnd: this.getDisplayEnd(this.dateRegion),
+      displayStart: cacheData.displayStart ? cacheData.displayStart : this.getDisplayStart(this.dateRegion),
+      displayEnd: cacheData.displayEnd ? cacheData.displayEnd : this.getDisplayEnd(this.dateRegion),
     };
   },
-  watch: {
-    dateRegion(newDateRegion) {
-      this.displayStart = this.getDisplayStart(newDateRegion);
-      this.displayEnd = this.getDisplayEnd(newDateRegion);
-    },
-  },
+  // watch: {
+  //   dateRegion(newDateRegion) {
+  //     this.displayStart = this.getDisplayStart(newDateRegion);
+  //     this.displayEnd = this.getDisplayEnd(newDateRegion);
+  //   },
+  // },
   computed: {
     startDayList() {
       const {
@@ -130,6 +131,7 @@ export default {
           startDate = start;
         }
       }
+      cacheData.displayStart = startDate;
       return startDate;
     },
     getDisplayEnd(dateRegion) {
@@ -149,11 +151,12 @@ export default {
           endDate = end;
         }
       }
+      cacheData.displayEnd = endDate;
       return endDate;
     },
     updateDisplayDate(type, num) {
-      this.displayStart = updateTime[type](this.displayStart, num);
-      this.displayEnd = updateTime[type](this.displayEnd, num);
+      cacheData.displayStart = this.displayStart = updateTime[type](this.displayStart, num);
+      cacheData.displayEnd = this.displayEnd = updateTime[type](this.displayEnd, num);
     },
     // 选中某个日期
     clickDay(dayInfo) {
